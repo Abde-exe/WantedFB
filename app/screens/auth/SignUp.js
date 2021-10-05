@@ -6,8 +6,8 @@ import colors from "../../../config/colors"
 import Screen from "../../components/Screen"
 import Firebase from "../../../config/firebase"
 import ErrorMessage from "../../components/ErrorMessage"
+import firebase from "firebase"
 const auth = Firebase.auth()
-
 export default SignUp = ({ navigation }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -24,10 +24,23 @@ export default SignUp = ({ navigation }) => {
       setPasswordVisibility(!passwordVisibility)
     }
   }
-  const onHandleSignup = async () => {
+  const onHandleSignup = () => {
     try {
       if (email !== "" && password !== "") {
-        await auth.createUserWithEmailAndPassword(email, password)
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then((result) => {
+            console.log(`result`, result)
+            firebase
+              .firestore()
+              .collection("users")
+              .doc(auth.currentUser.uid)
+              .set({
+                email,
+                name: email.split("@")[0],
+              })
+          })
       }
     } catch (error) {
       setSignupError(error.message)
@@ -36,8 +49,10 @@ export default SignUp = ({ navigation }) => {
 
   return (
     <Screen style2={styles.container}>
-      <Text style={styles.title}>Welcome to Wanted app</Text>
-      <Text style={styles.subtitle}>Please register</Text>
+      <Text style={styles.title}>Bonjour</Text>
+      <Text style={styles.subtitle}>
+        Veuillez créer un compte pour entrer sur Wanted
+      </Text>
 
       <AppTextInput
         value={email}
@@ -55,7 +70,7 @@ export default SignUp = ({ navigation }) => {
         value={password}
         onChangeText={(text) => setPassword(text)}
         icon="lock"
-        placeholder="Password"
+        placeholder="Mot de passe"
         autoCapitalize="none"
         autoCorrect={false}
         secureTextEntry={passwordVisibility}
@@ -65,12 +80,12 @@ export default SignUp = ({ navigation }) => {
       />
       {signupError ? <ErrorMessage error={signupError} visible={true} /> : null}
 
-      <AppButton title="Register" onPress={onHandleSignup} />
+      <AppButton title="S'inscrire" onPress={onHandleSignup} />
 
       <View style={styles.footerButtonContainer}>
         <Pressable onPress={() => navigation.navigate("Login")}>
           <Text style={styles.forgotPasswordButtonText}>
-            Already have an account ? Sign in
+            Déjà un compte ? Se connecter
           </Text>
         </Pressable>
       </View>
@@ -88,16 +103,20 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: colors.primary,
     fontWeight: "500",
-    marginVertical: 24,
+    marginTop: 24,
   },
   subtitle: {
-    alignSelf: "flex-start",
-    marginLeft: 16,
-    fontSize: 24,
+    alignSelf: "center",
+    fontSize: 16,
     color: colors.black,
-    fontWeight: "500",
-    marginBottom: 8,
-    marginTop: 24,
+    fontWeight: "100",
+    marginBottom: 32,
+  },
+
+  footerButtonContainer: {
+    marginVertical: 15,
+    justifyContent: "center",
+    alignItems: "center",
   },
   footerButtonContainer: {
     marginVertical: 15,

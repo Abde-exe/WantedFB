@@ -10,7 +10,7 @@ import Firebase from "../../../config/firebase"
 
 const auth = Firebase.auth()
 
-const Login = ({ navigation, updateAuthState }) => {
+const Login = ({ navigation }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [passwordVisibility, setPasswordVisibility] = useState(true)
@@ -38,14 +38,16 @@ const Login = ({ navigation, updateAuthState }) => {
 
   return (
     <Screen style2={styles.container}>
-      <Text style={styles.title}>Welcome on Wanted app</Text>
-      <Text style={styles.subtitle}>Please login to your account</Text>
+      <Text style={styles.title}>Bonjour</Text>
+      <Text style={styles.subtitle}>
+        Veuillez vous connecter pour entrer sur Wanted
+      </Text>
 
       <AppTextInput
         value={email}
         onChangeText={(text) => setEmail(text)}
         icon="email"
-        placeholder="Enter email"
+        placeholder="Email"
         autoCapitalize="none"
         autoCorrect={false}
         autoFocus
@@ -57,7 +59,7 @@ const Login = ({ navigation, updateAuthState }) => {
         value={password}
         onChangeText={(text) => setPassword(text)}
         icon="lock"
-        placeholder="Enter password"
+        placeholder="Mot de passe"
         autoCapitalize="none"
         autoCorrect={false}
         rightIcon={rightIcon}
@@ -66,21 +68,22 @@ const Login = ({ navigation, updateAuthState }) => {
         handlePasswordVisibility={handlePasswordVisibility}
       />
       {loginError ? <ErrorMessage error={loginError} visible={true} /> : null}
-
-      <AppButton title="Log in" onPress={onLogin} />
+      <Pressable
+        style={{ width: "100%", paddingHorizontal: 16, marginBottom: 32 }}
+        onPress={() => navigation.navigate("ForgotPassword")}
+      >
+        <Text style={styles.forgotPasswordButtonText}>Mot de passe oublié</Text>
+      </Pressable>
+      <AppButton title="Connexion" onPress={onLogin} />
 
       <View style={styles.footerButtonContainer}>
         <Pressable onPress={() => navigation.navigate("SignUp")}>
-          <Text style={styles.forgotPasswordButtonText}>
-            Not registered ? Sign Up
+          <Text style={{ color: colors.secondary, fontSize: 16 }}>
+            Pas de compte ? S'inscrire
           </Text>
         </Pressable>
       </View>
-      <View style={styles.footerButtonContainer}>
-        <Pressable onPress={() => navigation.navigate("ForgotPassword")}>
-          <Text style={styles.forgotPasswordButtonText}>Forgot password</Text>
-        </Pressable>
-      </View>
+
       {/*
       <Button
         title="testFB"
@@ -109,16 +112,14 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: colors.primary,
     fontWeight: "500",
-    marginVertical: 24,
+    marginTop: 24,
   },
   subtitle: {
-    alignSelf: "flex-start",
-    marginLeft: 16,
-    fontSize: 24,
+    alignSelf: "center",
+    fontSize: 16,
     color: colors.black,
-    fontWeight: "500",
-    marginBottom: 8,
-    marginTop: 24,
+    fontWeight: "100",
+    marginBottom: 32,
   },
 
   footerButtonContainer: {
@@ -128,8 +129,8 @@ const styles = StyleSheet.create({
   },
 
   forgotPasswordButtonText: {
-    color: colors.secondary,
-    fontSize: 16,
+    color: colors.danger,
+    fontSize: 14,
     fontWeight: "600",
   },
 })

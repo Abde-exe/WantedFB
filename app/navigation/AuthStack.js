@@ -10,11 +10,27 @@ const Stack = createStackNavigator()
 
 export default AuthStack = () => {
   return (
-    <Stack.Navigator headerMode="none">
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="ConfirmSignUp" component={ConfirmSignUp} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerTitleAlign: "center", headerTitle: "Wanted" }}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{ headerTitleAlign: "center", headerTitle: "Wanted" }}
+      />
+      <Stack.Screen
+        name="ConfirmSignUp"
+        component={ConfirmSignUp}
+        options={{ headerTitleAlign: "center", headerTitle: "Wanted" }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{ headerTitleAlign: "center", headerTitle: "Wanted" }}
+      />
     </Stack.Navigator>
   )
 }
