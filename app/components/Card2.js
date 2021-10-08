@@ -5,20 +5,20 @@ import moment from "moment"
 import "moment/locale/fr"
 moment.locale("fr")
 
-import colors from "../config/colors"
+import colors from "../../config/colors"
 import AppText from "./AppText"
-import routes from "../navigation/routes"
 
 const Card2 = ({ item }) => {
   //state
   const navigation = useNavigation()
   const { id, name, age, images, location, createdAt } = item
   const [image, setImage] = useState()
-
   useEffect(() => {
     if (images) {
-      if (images[0].startsWith("http")) setImage(images[0])
-      else {
+      console.log("image", images)
+      if (images[0].startsWith("http")) {
+        setImage(images[0])
+      } else {
         //Storage.get(images[0]).then(setImage)
       }
     }
@@ -27,7 +27,7 @@ const Card2 = ({ item }) => {
     <Pressable
       style={styles.card}
       onPress={() =>
-        navigation.navigate(routes.CARD_DETAIL, {
+        navigation.navigate("CardDetail", {
           item: item,
         })
       }

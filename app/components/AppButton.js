@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Platform } from "react-native"
 import colors from "../../config/colors"
 import AppText from "./AppText"
 
-export default AppButton = ({
+const AppButton = ({
   title,
   color = "primary",
   text = "white",
@@ -22,6 +22,7 @@ export default AppButton = ({
     </Pressable>
   )
 }
+export default AppButton
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,

@@ -6,14 +6,10 @@ import Account from "../screens/Account"
 import Messages from "../screens/Messages"
 
 const Stack = createStackNavigator()
-export default function AccountNavigator({ updateAuthState }) {
+export default function AccountNavigator({}) {
   return (
     <Stack.Navigator headerMode="none" mode="modal">
-      <Stack.Screen name="Account">
-        {(screenProps) => (
-          <Account {...screenProps} updateAuthState={updateAuthState} />
-        )}
-      </Stack.Screen>
+      <Stack.Screen name="Account" component={Account} />
       <Stack.Screen name="Messages" component={Messages} />
     </Stack.Navigator>
   )

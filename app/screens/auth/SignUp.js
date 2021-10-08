@@ -35,7 +35,7 @@ export default SignUp = ({ navigation }) => {
             firebase
               .firestore()
               .collection("users")
-              .doc(auth.currentUser.uid)
+              .doc(firebase.auth().currentUser.uid)
               .set({
                 email,
                 name: email.split("@")[0],

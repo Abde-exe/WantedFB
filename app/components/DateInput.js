@@ -14,7 +14,7 @@ import "moment/locale/fr"
 moment.locale("fr")
 
 import AppText from "./AppText"
-import colors from "../config/colors"
+import colors from "../../config/colors"
 
 const DateInput = ({ placeholder, name }) => {
   const { setFieldTouched, setFieldValue, errors, touched } = useFormikContext()

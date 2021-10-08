@@ -12,11 +12,12 @@
     "@react-native-community/datetimepicker": "3.0.4",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-community/netinfo": "5.9.7",
-    "@react-navigation/bottom-tabs": "^5.11.10",
+    "@react-navigation/bottom-tabs": "^5.11.15",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
     "dotenv": "^10.0.0",
     "expo": "~40.0.0",
+    "expo-constants": "~9.3.3",
     "expo-image-picker": "~9.2.0",
     "expo-permissions": "~10.0.0",
     "expo-status-bar": "~1.0.3",
@@ -36,9 +37,11 @@
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "~2.15.2",
     "react-native-web": "~0.13.12",
+    "react-redux": "^7.2.5",
+    "redux": "^4.1.1",
+    "redux-thunk": "^2.3.0",
     "uuid": "^8.3.2",
-    "yup": "^0.32.9",
-    "expo-constants": "~9.3.3"
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

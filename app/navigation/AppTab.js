@@ -2,17 +2,17 @@ import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
-import colors from "../config/colors"
+import colors from "../../config/colors"
 import NewPostButton from "./NewPostButton"
 import PostEdit from "../screens/PostEdit"
-import FeedNavigator from "./FeedNavigator"
+import FeedStack from "./FeedStack"
 import AccountNavigator from "./AccountNavigator"
 
 import Icon from "../components/Icon"
 
 const Tab = createBottomTabNavigator()
 
-const AppNavigator = () => (
+const AppTab = () => (
   <Tab.Navigator
     tabBarOptions={{
       activeBackgroundColor: "white",
@@ -22,8 +22,8 @@ const AppNavigator = () => (
     }}
   >
     <Tab.Screen
-      name={"FeedNavigator"}
-      component={FeedNavigator}
+      name={"FeedStack"}
+      component={FeedStack}
       options={{
         tabBarIcon: ({ size, color }) => (
           <MaterialCommunityIcons name="home" size={size} color={color} />
@@ -40,7 +40,6 @@ const AppNavigator = () => (
         ),
       })}
     />
-
     <Tab.Screen
       name="AccountNavigator"
       options={{
@@ -58,10 +57,9 @@ const AppNavigator = () => (
           </View>
         ),
       }}
-    >
-      <AccountNavigator />
-    </Tab.Screen>
+      component={AccountNavigator}
+    />
   </Tab.Navigator>
 )
 
-export default AppNavigator
+export default AppTab

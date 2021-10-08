@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableHighlight } from "react-native"
 import Swipeable from "react-native-gesture-handler/Swipeable"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
-import colors from "../../config/colors"
+import colors from "../../../config/colors"
 import AppText from "../AppText"
 
 import AppButton from "../AppButton"

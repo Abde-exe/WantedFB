@@ -1,42 +1,26 @@
-import React, { useContext, useEffect, useState } from "react"
+import React from "react"
+import { createStackNavigator } from "@react-navigation/stack"
 import { NavigationContainer } from "@react-navigation/native"
-import { View, ActivityIndicator } from "react-native"
 
-import Firebase from "../../config/firebase"
-import { AuthenticatedUserContext } from "./AuthenticatedUserProvider"
-import AuthStack from "./AuthStack"
-import HomeStack from "./HomeStack"
+import navigationTheme from "./navigationTheme"
+import Main from "../screens/Main"
+import FeedStack from "./FeedStack"
+import AppTab from "./AppTab"
+const Stack = createStackNavigator()
 
-const auth = Firebase.auth()
-
-export default function RootNavigator() {
-  const { user, setUser } = useContext(AuthenticatedUserContext)
-  const [isLoading, setIsLoading] = useState(true)
-  useEffect(() => {
-    // onAuthStateChanged returns an unsubscriber
-    const unsubscribeAuth = auth.onAuthStateChanged(
-      async (authenticatedUser) => {
-        try {
-          await (authenticatedUser ? setUser(authenticatedUser) : setUser(null))
-          setIsLoading(false)
-        } catch (error) {
-          console.log(error)
-        }
-      }
-    )
-    // unsubscribe auth listener on unmount
-    return unsubscribeAuth
-  }, [])
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" />
-      </View>
-    )
-  }
+const RootNavigator = ({ navigation }) => {
   return (
-    <NavigationContainer>
-      {user ? <HomeStack /> : <AuthStack />}
+    <NavigationContainer theme={navigationTheme}>
+      <Stack.Navigator initialRouteName="Main">
+        <Stack.Screen name="Main" component={Main} navigation={navigation} />
+        <Stack.Screen
+          name="AppTab"
+          component={AppTab}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   )
 }
+
+export default RootNavigator
