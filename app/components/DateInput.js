@@ -24,17 +24,12 @@ const DateInput = ({ placeholder, name }) => {
   const [show, setShow] = useState(ios)
   const formattedDate = moment(date).format("LL")
 
-  useEffect(() => {
-    setFieldValue(name, date)
-  }, [])
-
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date
+    const currentDate = selectedDate
     setShow(ios)
     setDate(currentDate)
     setFieldValue(name, currentDate)
   }
-
   return (
     <View
       style={{

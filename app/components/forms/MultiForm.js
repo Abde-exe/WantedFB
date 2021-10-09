@@ -3,7 +3,6 @@ import { Formik } from "formik"
 import AppButton from "../AppButton"
 import { View } from "react-native"
 import SubmitButton from "./SubmitButton"
-import { useNavigation } from "@react-navigation/core"
 
 function MultiForm({
   initialValues,
@@ -16,7 +15,6 @@ function MultiForm({
   const oneStep = 1 / childrenArray.length //part of one step progress in the form
   const [step, setstep] = useState(0)
   const currentChild = childrenArray[step]
-  const navigation = useNavigation()
   return (
     <View style={{ paddingBottom: 32 }}>
       <Formik

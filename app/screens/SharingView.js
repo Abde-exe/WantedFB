@@ -5,11 +5,16 @@ import { captureRef } from "react-native-view-shot"
 import * as Permissions from "expo-permissions"
 import * as MediaLibrary from "expo-media-library"
 import * as Sharing from "expo-sharing"
+import "moment/locale/fr"
+import moment from "moment"
+moment.locale("fr")
 
 const SharingView = ({ route }) => {
   const viewRef = useRef()
   const [post, setpost] = useState(route.params)
+
   useEffect(() => {
+    console.log(`route.params`, route.params)
     setpost(route.params)
   }, [route.params])
 
@@ -46,6 +51,20 @@ const SharingView = ({ route }) => {
   }
 
   if (post) {
+    const {
+      name,
+      age,
+      date,
+      location,
+      corpulence,
+      height,
+      hair,
+      eyes,
+      outfit,
+      other,
+      tel,
+      email,
+    } = post
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.container} ref={viewRef}>
@@ -60,8 +79,7 @@ const SharingView = ({ route }) => {
           >
             <Image
               source={{
-                uri:
-                  "https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(jpeg):focal(1238x372:1240x370)/origin-imgresizer.eurosport.com/2021/08/20/3204106-65637388-2560-1440.jpg",
+                uri: post.images[0],
               }}
               style={{ width: "50%", resizeMode: "cover" }}
             />
@@ -72,13 +90,18 @@ const SharingView = ({ route }) => {
                 borderColor: "red",
                 width: "50%",
                 height: "100%",
-                justifyContent: "space-between",
               }}
             >
               <Text>Identité</Text>
-              <Text>Name</Text>
-              <Text>Age</Text>
-              <Text>Disparu(e) le 00/00 à Amsterdam</Text>
+              {name != "" ? <Text>Nom : {name}</Text> : null}
+              {age != "" ? <Text>Age : {age} ans</Text> : null}
+              <View style={{ flexDirection: "row" }}>
+                <Text>Disparu(e)</Text>
+                {date != "" ? (
+                  <Text> le {moment(date).format("L")}</Text>
+                ) : null}
+                {location != "" ? <Text> à {location}</Text> : null}
+              </View>
             </View>
           </View>
           <View
@@ -90,12 +113,14 @@ const SharingView = ({ route }) => {
             }}
           >
             <Text>Description Physique</Text>
-            <Text>Corpulence</Text>
-            <Text>Taille</Text>
-            <Text>Cheveux</Text>
-            <Text>Yeux</Text>
-            <Text>Tenue Vestimentaire</Text>
-            <Text>Signe Particulier, Autre</Text>
+            {corpulence != "" ? <Text>Corpulence : {corpulence}</Text> : null}
+            {height != "" ? <Text>Taille : {height} cm</Text> : null}
+            {hair != "" ? <Text>Cheveux : {hair}</Text> : null}
+            {eyes != "" ? <Text>Yeux : {eyes}</Text> : null}
+            {outfit != "" ? <Text>Tenue Vestimentaire : {outfit}</Text> : null}
+            {other != "" ? (
+              <Text>Signe Particulier, Autre : {other}</Text>
+            ) : null}
           </View>
           <View
             style={{
@@ -105,8 +130,8 @@ const SharingView = ({ route }) => {
             }}
           >
             <Text>Contact</Text>
-            <Text>Email</Text>
-            <Text>Telephone</Text>
+            {email != "" ? <Text>Email : {email}</Text> : null}
+            {tel != "" ? <Text>Telephone : {tel}</Text> : null}
             <Text>Facebook</Text>
           </View>
         </View>
