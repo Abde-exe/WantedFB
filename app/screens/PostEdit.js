@@ -31,7 +31,7 @@ const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(3, "Entrer un nom").label("Nom"),
   age: Yup.number().min(0).max(120).label("Age"),
   date: Yup.date().required().label("Date"),
-  location: Yup.string().required().label("Localisation"),
+  location: Yup.string().label("Localisation"),
 
   corpulence: Yup.string().label("Corpulence"),
   height: Yup.number().min(100).max(220).label("Taille"),
@@ -40,7 +40,7 @@ const validationSchema = Yup.object().shape({
   outfit: Yup.string().label("Tenue"),
   other: Yup.string().label("Autre"),
 
-  tel: Yup.string().required().label("Téléphone"),
+  tel: Yup.string().label("Téléphone"),
   email: Yup.string().email().label("Email"),
 })
 const categories = [
@@ -158,6 +158,7 @@ const PostEdit = ({ navigation }) => {
         style={{ flex: 1 }}
       >
         <ScrollView
+          showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           ref={scrollView}
           onContentSizeChange={() =>
@@ -183,8 +184,10 @@ const PostEdit = ({ navigation }) => {
               tel: "",
             }}
             onSubmit={(values) => {
-              handleSubmit(values)
+              //handleSubmit(values)
               console.log(`values`, values)
+              navigation.navigate("SharingView", values)
+
               // resetForm({ values: initialValues })
             }}
           >

@@ -7,7 +7,7 @@ import NewPostButton from "./NewPostButton"
 import PostEdit from "../screens/PostEdit"
 import FeedStack from "./FeedStack"
 import AccountNavigator from "./AccountNavigator"
-
+import PostEditStack from "./PostEditStack"
 import Icon from "../components/Icon"
 
 const Tab = createBottomTabNavigator()
@@ -31,12 +31,12 @@ const AppTab = () => (
       }}
     />
     <Tab.Screen
-      name={"PostEdit"}
-      component={PostEdit}
+      name={"PostEditStack"}
+      component={PostEditStack}
       options={({ navigation }) => ({
         tabBarVisible: false,
         tabBarButton: () => (
-          <NewPostButton onPress={() => navigation.navigate("PostEdit")} />
+          <NewPostButton onPress={() => navigation.navigate("PostEditStack")} />
         ),
       })}
     />
