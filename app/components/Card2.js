@@ -10,17 +10,13 @@ import AppText from "./AppText"
 
 const Card2 = ({ item }) => {
   //state
+  const [image, setImage] = useState()
   const navigation = useNavigation()
   const { id, name, age, images, location, createdAt } = item
-  const [image, setImage] = useState()
+
   useEffect(() => {
     if (images) {
-      console.log("image", images)
-      if (images[0].startsWith("http")) {
-        setImage(images[0])
-      } else {
-        //Storage.get(images[0]).then(setImage)
-      }
+      setImage(images)
     }
   }, [item])
   return (

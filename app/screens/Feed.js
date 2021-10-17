@@ -6,7 +6,6 @@ import Screen from "../components/Screen"
 import AppText from "../components/AppText"
 import AppButton from "../components/AppButton"
 import ActivityIndicator from "../components/ActivityIndicator"
-import { set } from "react-native-reanimated"
 
 const Feed = ({ navigation }) => {
   const [posts, setPosts] = useState([])
@@ -24,6 +23,8 @@ const Feed = ({ navigation }) => {
   const fetchPosts = async () => {
     Firebase.firestore()
       .collection("posts")
+      .doc(Firebase.auth().currentUser.uid)
+      .collection("userPosts")
       .get()
       .then((querySnapshot) => {
         let postsArray = querySnapshot.docs.map((doc) => {

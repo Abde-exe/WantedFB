@@ -10,9 +10,15 @@ import {
   View,
   FlatList,
 } from "react-native"
+import { LogBox } from "react-native"
+LogBox.ignoreLogs(["Setting a timer for a long period of time"])
 import * as Yup from "yup"
 import ProgressBar from "react-native-progress/Bar"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { v4 as uuidv4 } from "uuid"
+import firebase from "firebase"
+require("firebase/firestore")
+require("firebase/storage")
 
 import ActivityIndicator from "../components/ActivityIndicator"
 import "react-native-get-random-values"
@@ -30,7 +36,7 @@ const validationSchema = Yup.object().shape({
   images: Yup.array().min(1, "Sélectionner au moins 1 image"),
   name: Yup.string().required().min(3, "Entrer un nom").label("Nom"),
   age: Yup.number().min(0).max(120).label("Age"),
-  date: Yup.date().required().label("Date"),
+  date: Yup.date().label("Date"),
   location: Yup.string().label("Localisation"),
 
   corpulence: Yup.string().label("Corpulence"),
@@ -74,6 +80,7 @@ const PostEdit = ({ navigation }) => {
 
   const [loading, setLoading] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
+  const [storedImages, setstoredImages] = useState([])
 
   //progress bar and steps gestion
   const [step, setStep] = useState(0)
@@ -81,8 +88,7 @@ const PostEdit = ({ navigation }) => {
     setStep(step + i)
   }
 
-  //post data
-  const handleSubmit = async (post) => {
+  const submit = async (post) => {
     console.log(`post`, post)
     setLoading(true)
 
@@ -98,7 +104,7 @@ const PostEdit = ({ navigation }) => {
     var imageKeys = []
     const max = post.images.length
     for (let i = 0; i < max; i++) {
-      const formattedImg = await uploadImage(post.images[i])
+      const formattedImg = await uploadImages(post.images[i])
       imageKeys.push(formattedImg)
     }
     ///////
@@ -109,15 +115,62 @@ const PostEdit = ({ navigation }) => {
     setStep(0)
     setLoading(false)
   }
-  //upload images in Storage
-  const uploadImage = async (image) => {
-    if (!image) return
-    try {
-      return fileKey
-    } catch (err) {
-      console.log("(PostEdit.uploadImage)Error uploading file:", err)
-      return null
+  const uploadImages = async (post) => {
+    const image = post.images[0]
+    if (!image) return null
+    const response = await fetch(image)
+    const blob = await response.blob()
+    const fileKey = uuidv4()
+    const childPath = `post/${firebase.auth().currentUser.uid}/${fileKey}`
+    const task = firebase.storage().ref().child(childPath).put(blob)
+    const taskProgress = (snapshot) => {
+      // console.log(`transferred:${snapshot.bytesTransferred}`)
     }
+    const taskCompleted = async () => {
+      task.snapshot.ref.getDownloadURL().then((snapshot) => {
+        savePost(post, snapshot)
+      })
+    }
+    const taskError = (snapshot) => {
+      console.log(`snapshot`, snapshot)
+    }
+    task.on("state_changed", taskProgress, taskError, taskCompleted)
+  }
+
+  //upload images in Storage
+  const handleSubmit = async (post) => {
+    if (!post.images) return
+    const strdimgs = await uploadImages(post)
+  }
+
+  const savePost = (post, images) => {
+    firebase
+      .firestore()
+      .collection("posts")
+      .doc(firebase.auth().currentUser.uid)
+      .collection("userPosts")
+      .add({
+        //creation: firebase.firestore().FieldValue.serverTimestamp(),
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+        images: images,
+        name: post.name,
+        age: post.age,
+        date: post.date,
+        location: post.location,
+        corpulence: post.corpulence,
+        height: post.height,
+        hair: post.hair,
+        eyes: post.eyes,
+        outfit: post.outfit,
+        other: post.other,
+        tel: post.tel,
+        email: post.email,
+        userID: firebase.auth().currentUser.uid,
+      })
+      .then(function () {
+        navigation.popToTop()
+        setstoredImages([])
+      })
   }
   return (
     <Screen>
@@ -184,9 +237,11 @@ const PostEdit = ({ navigation }) => {
               tel: "",
             }}
             onSubmit={(values) => {
-              //handleSubmit(values)
-              console.log(`values`, values)
-              navigation.navigate("SharingView", values)
+              if (values) {
+                handleSubmit(values)
+                //console.log(`values`, values)
+                navigation.navigate("SharingView", values)
+              }
 
               // resetForm({ values: initialValues })
             }}

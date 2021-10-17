@@ -14,7 +14,6 @@ const SharingView = ({ route }) => {
   const [post, setpost] = useState(route.params)
 
   useEffect(() => {
-    console.log(`route.params`, route.params)
     setpost(route.params)
   }, [route.params])
 
@@ -52,6 +51,7 @@ const SharingView = ({ route }) => {
 
   if (post) {
     const {
+      images,
       name,
       age,
       date,
@@ -77,12 +77,14 @@ const SharingView = ({ route }) => {
               height: "40%",
             }}
           >
-            <Image
-              source={{
-                uri: post.images[0],
-              }}
-              style={{ width: "50%", resizeMode: "cover" }}
-            />
+            {images && (
+              <Image
+                source={{
+                  uri: post.images[0],
+                }}
+                style={{ width: "50%", resizeMode: "cover" }}
+              />
+            )}
 
             <View
               style={{
@@ -96,7 +98,7 @@ const SharingView = ({ route }) => {
               {name != "" ? <Text>Nom : {name}</Text> : null}
               {age != "" ? <Text>Age : {age} ans</Text> : null}
               <View style={{ flexDirection: "row" }}>
-                <Text>Disparu(e)</Text>
+                <Text>Recherché(e) depuis</Text>
                 {date != "" ? (
                   <Text> le {moment(date).format("L")}</Text>
                 ) : null}

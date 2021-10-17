@@ -30,7 +30,6 @@ function MultiForm({
                 <SubmitButton
                   title="Valider"
                   onPress={() => {
-                    setstep(0)
                     onSubmit()
                   }}
                 />

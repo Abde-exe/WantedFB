@@ -216,31 +216,43 @@ const CardDetail = ({ route, navigation }) => {
           <AppText style={styles.sectionTitle}>Identité</AppText>
           <View style={styles.section}>
             <DetailsText text={name} subText={"Nom"} />
-            {age && <DetailsText text={age} subText={"Age"} other={" ans"} />}
-            {location && (
+            {age != "" ? (
+              <DetailsText text={age} subText={"Age"} other={" ans"} />
+            ) : null}
+            {location != "" ? (
               <DetailsText text={location} subText={"Lieu de disparition"} />
-            )}
+            ) : null}
           </View>
           <Separator />
           <AppText style={styles.sectionTitle}>Description physique</AppText>
           <View style={styles.section}>
-            {corpulence && (
+            {corpulence != "" ? (
               <DetailsText text={corpulence} subText={"Corpulence"} />
-            )}
-            {height && (
+            ) : null}
+            {height != "" ? (
               <DetailsText text={height} subText={"Taille"} other=" cm" />
-            )}
-            {hair && <DetailsText text={hair} subText={"Cheveux"} />}
-            {eyes && <DetailsText text={eyes} subText={"Yeux"} />}
-            {outfit && <DetailsText text={outfit} subText={"Tenue"} />}
-            {other && <DetailsText text={other} subText={"Autre"} />}
+            ) : null}
+            {hair != "" ? (
+              <DetailsText text={hair} subText={"Cheveux"} />
+            ) : null}
+            {eyes != "" ? <DetailsText text={eyes} subText={"Yeux"} /> : null}
+            {outfit != "" ? (
+              <DetailsText text={outfit} subText={"Tenue"} />
+            ) : null}
+            {other != "" ? (
+              <DetailsText text={other} subText={"Autre"} />
+            ) : null}
           </View>
           <Separator />
 
           <AppText style={styles.sectionTitle}>Contact</AppText>
           <View style={styles.section}>
-            {tel && <DetailsText text={tel} subText={"Téléphone"} />}
-            {email && <DetailsText text={email} subText={"Email"} />}
+            {tel != "" ? (
+              <DetailsText text={tel} subText={"Téléphone"} />
+            ) : null}
+            {email != "" ? (
+              <DetailsText text={email} subText={"Email"} />
+            ) : null}
           </View>
         </View>
       </View>
