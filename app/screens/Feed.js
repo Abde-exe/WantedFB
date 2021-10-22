@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { StyleSheet, FlatList } from "react-native"
+import { StyleSheet, FlatList, Pressable, Text } from "react-native"
 import Firebase from "../../config/firebase"
 import Card2 from "../components/Card2"
 import Screen from "../components/Screen"
@@ -49,14 +49,20 @@ const Feed = ({ navigation }) => {
           <AppButton title="Réessayer" onPress={request} />
         </>
       ) : (
-        <FlatList
-          refreshing={refresh}
-          onRefresh={() => fetchPosts()}
-          numColumns={2}
-          data={posts}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Card2 item={item} />}
-        />
+        <>
+          <Pressable onPress={() => navigation.navigate("Search")}>
+            <Text>Search</Text>
+          </Pressable>
+
+          <FlatList
+            refreshing={refresh}
+            onRefresh={() => fetchPosts()}
+            numColumns={2}
+            data={posts}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => <Card2 item={item} />}
+          />
+        </>
       )}
       {/* <AppButton title="Delete" onPress={deleteF} />
        */}

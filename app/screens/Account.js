@@ -7,8 +7,9 @@ import {
   Text,
   Pressable,
 } from "react-native"
-
 import firebase from "firebase"
+import { connect } from "react-redux"
+
 import Icon from "../components/Icon"
 import ListItem from "../components/lists/ListItem"
 import Screen from "../components/Screen"
@@ -16,28 +17,33 @@ import Separator from "../components/Separator"
 import ProfileComponent from "../components/ProfileComponent"
 import UpdateProfile from "./UpdateProfile"
 
-const menuItems = [
-  {
-    title: "Mes Posts",
-    icon: {
-      name: "format-list-bulleted",
-      iconColor: "white",
-      backgroundColor: "blue",
-    },
-  },
-  {
-    title: "Mes Messages",
-    icon: {
-      name: "email",
-      iconColor: "white",
-      backgroundColor: "red",
-    },
-    navigate: "Messages",
-  },
-]
-const Account = ({ navigation }) => {
+const Account = (props) => {
   const [modal, setModal] = useState(false)
+  const [userPosts, setUserPosts] = useState([])
+  const [user, setUser] = useState(null)
+  const { currentUser, posts } = props
 
+  const menuItems = [
+    {
+      title: "Mes Posts",
+      icon: {
+        name: "format-list-bulleted",
+        iconColor: "white",
+        backgroundColor: "blue",
+      },
+      navigate: "UserPosts",
+      params: posts,
+    },
+    {
+      title: "Mes Messages",
+      icon: {
+        name: "email",
+        iconColor: "white",
+        backgroundColor: "red",
+      },
+      navigate: "Messages",
+    },
+  ]
   const onSignOut = () => {
     firebase
       .auth()
@@ -53,6 +59,8 @@ const Account = ({ navigation }) => {
     <>
       <Screen>
         <ProfileComponent
+          title={currentUser.name}
+          subTitle={currentUser.email}
           buttonTitle="Modifier"
           buttonAction={() => setModal(true)}
         />
@@ -65,7 +73,9 @@ const Account = ({ navigation }) => {
             renderItem={({ item }) => (
               <ListItem
                 title={item.title}
-                onPress={() => navigation.navigate(item.navigate)}
+                onPress={() =>
+                  props.navigation.navigate(item.navigate, item.params)
+                }
                 ImageComponent={
                   <Icon
                     name={item.icon.name}
@@ -90,8 +100,11 @@ const Account = ({ navigation }) => {
   )
 }
 
-export default Account
-
+const mapStateToProps = (store) => ({
+  currentUser: store.userState.currentUser,
+  posts: store.userState.posts,
+})
+export default connect(mapStateToProps, null)(Account)
 const styles = StyleSheet.create({
   container: {
     marginVertical: 40,

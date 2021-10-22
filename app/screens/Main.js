@@ -3,11 +3,13 @@ import { Text, StyleSheet, View } from "react-native"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import firebase from "firebase"
-import { fetchUser } from "../../redux/actions/index"
+import { fetchUser, fetchUserPosts } from "../../redux/actions/index"
 import AppButton from "../components/AppButton"
+
 export class Main extends Component {
   componentDidMount() {
     this.props.fetchUser()
+    this.props.fetchUserPosts()
   }
   onSignOut() {
     firebase
@@ -43,6 +45,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       fetchUser,
+      fetchUserPosts,
     },
     dispatch
   )
