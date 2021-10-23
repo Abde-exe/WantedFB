@@ -55,6 +55,9 @@ const Account = (props) => {
         console.log(`error`, error)
       })
   }
+  if (!currentUser) {
+    return <View></View>
+  }
   return (
     <>
       <Screen>
