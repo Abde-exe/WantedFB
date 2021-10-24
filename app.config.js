@@ -2,6 +2,7 @@ import "dotenv/config"
 
 export default {
   expo: {
+    scheme: "wantedapp",
     name: "expo-firebase-auth-example",
     slug: "expo-firebase-auth-example",
     version: "1.0.0",
@@ -20,6 +21,7 @@ export default {
       supportsTablet: true,
     },
     android: {
+      package: "com.abdeebda.expofirebaseauthexample",
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#FFFFFF",
