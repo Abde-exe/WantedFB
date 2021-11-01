@@ -39,14 +39,9 @@ const CardDetail = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(true)
 
-  const fetchPostUser = async () => {
-    //await DataStore.query(User, post.userID).then(setPostUser)
-  }
-
   //fetch post with postId
   useEffect(() => {
     //post item passed from Card
-
     try {
       setLoading(true)
       if (!("item" in route.params)) {
@@ -54,8 +49,6 @@ const CardDetail = ({ route, navigation }) => {
         firebase
           .firestore()
           .collection("posts")
-          .doc(route.params.uid)
-          .collection("userPosts")
           .doc(route.params.id)
           .get()
           .then((snapshot) => {
@@ -66,7 +59,6 @@ const CardDetail = ({ route, navigation }) => {
       } else {
         setPost(route.params.item)
       }
-      fetchPostUser()
       setLoading(false)
       setError(false)
     } catch (e) {
@@ -75,28 +67,30 @@ const CardDetail = ({ route, navigation }) => {
       setLoading(false)
     }
   }, [])
-  const fetchPost = (id) => {}
   //Fetching the images and make them an url if their just a key
   useEffect(() => {
+    setCarousel([])
+
+    /*
     const fetchImages = async () => {
       const imagesArray = []
       if (post) {
-        for (let i = 0; i < post.images.length; i++)
-          //the image is already an url
-          if (post.images[i].startsWith("http")) {
-            imagesArray.push(post.images[i])
-          } else {
-            //the image is a key, making it an url
-            const img = await Storage.get(post.images[i])
-            imagesArray.push(img)
-          }
+        //the image is already an url
+
+        console.log(`check`, post.images)
       }
       //the first image become the main image like the thumbnail on the feed
       setImage(imagesArray[0])
       return imagesArray
     }
-    fetchImages().then((data) => imagesMap(data))
-  }, [post])
+    */
+    if (post) {
+      const arrayofImages = []
+      arrayofImages.push(post.images)
+      setImage(arrayofImages[0])
+      imagesMap(arrayofImages)
+    }
+  }, [])
 
   //save the post images into state and map them into a formatted array
   //to display the images in imageView(carousel)
@@ -160,7 +154,7 @@ const CardDetail = ({ route, navigation }) => {
             <AppText
               style={{ marginRight: 8, fontSize: 18, color: colors.medium }}
             >
-              {post.images.length}
+              {carousel.length}
             </AppText>
             <FontAwesome5 name="images" size={18} color={colors.medium} />
           </View>
@@ -188,7 +182,6 @@ const CardDetail = ({ route, navigation }) => {
             <Image source={{ uri: image }} style={styles.image} />
           </TouchableOpacity>
           <ImageView
-            useNativeDriver={true}
             backgroundColor={"white"}
             animationType="slide"
             images={carousel}
@@ -230,7 +223,7 @@ const CardDetail = ({ route, navigation }) => {
               color: colors.danger,
             }}
           >
-            {`Disparu le ${moment(date).format("LL")} à ${location}`}
+            {`Disparu le ${moment(date.toDate()).format("LL")} à ${location}`}
           </AppText>
           <View style={{ padding: 20 }}>
             <AppText style={styles.sectionTitle}>Identité</AppText>

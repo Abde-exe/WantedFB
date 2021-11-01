@@ -17,7 +17,7 @@ const Login = ({ navigation }) => {
   const [rightIcon, setRightIcon] = useState("eye")
   const [loginError, setLoginError] = useState("")
 
-  const handlePasswordVisibility = () => {
+  const OnPressRightIcon = () => {
     if (rightIcon === "eye") {
       setRightIcon("eye-off")
       setPasswordVisibility(!passwordVisibility)
@@ -65,7 +65,7 @@ const Login = ({ navigation }) => {
         rightIcon={rightIcon}
         secureTextEntry={passwordVisibility}
         textContentType="password"
-        handlePasswordVisibility={handlePasswordVisibility}
+        OnPressRightIcon={OnPressRightIcon}
       />
       {loginError ? <ErrorMessage error={loginError} visible={true} /> : null}
       <Pressable

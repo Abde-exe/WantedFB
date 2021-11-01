@@ -72,7 +72,7 @@ const Card2 = ({ item }) => {
           }}
         >
           <AppText style2={styles.description}>
-            {moment(createdAt).startOf("day").fromNow()}
+            {moment(createdAt.toDate()).startOf("day").fromNow()}
           </AppText>
           <AppText style2={styles.description}>DISPARITION</AppText>
         </View>

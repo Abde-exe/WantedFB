@@ -4,6 +4,7 @@ import Firebase from "../../config/firebase"
 import Card2 from "../components/Card2"
 import Screen from "../components/Screen"
 import AppText from "../components/AppText"
+import AppTextInput from "../components/AppTextInput"
 import AppButton from "../components/AppButton"
 import ActivityIndicator from "../components/ActivityIndicator"
 
@@ -12,6 +13,7 @@ const Feed = ({ navigation }) => {
   const [refresh, setRefresh] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
+  const [searchText, setSearchText] = useState("")
 
   useEffect(() => {
     setLoading(true)
@@ -23,8 +25,6 @@ const Feed = ({ navigation }) => {
   const fetchPosts = async () => {
     Firebase.firestore()
       .collection("posts")
-      .doc(Firebase.auth().currentUser.uid)
-      .collection("userPosts")
       .get()
       .then((querySnapshot) => {
         let postsArray = querySnapshot.docs.map((doc) => {
@@ -50,9 +50,16 @@ const Feed = ({ navigation }) => {
         </>
       ) : (
         <>
-          <Pressable onPress={() => navigation.navigate("Search")}>
-            <Text>Search</Text>
-          </Pressable>
+          <AppTextInput
+            onSubmitEditing={() =>
+              navigation.navigate("Search", { searchText })
+            }
+            value={searchText}
+            placeholder="Rechercher..."
+            rightIcon="close-circle"
+            onChangeText={(value) => setSearchText(value)}
+            OnPressRightIcon={() => setSearchText("")}
+          />
 
           <FlatList
             refreshing={refresh}

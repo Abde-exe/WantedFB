@@ -100,7 +100,7 @@ const SharingView = ({ route }) => {
               <View style={{ flexDirection: "row" }}>
                 <Text>Recherché(e) depuis</Text>
                 {date != "" ? (
-                  <Text> le {moment(date).format("L")}</Text>
+                  <Text> le {moment(date.toDate()).format("L")}</Text>
                 ) : null}
                 {location != "" ? <Text> à {location}</Text> : null}
               </View>

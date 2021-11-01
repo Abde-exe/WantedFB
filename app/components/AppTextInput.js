@@ -8,11 +8,12 @@ import {
 } from "react-native"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import defaultStyles from "../../config/styles"
+import colors from "../../config/colors"
 export default function AppTextInput({
   style2,
   icon,
   rightIcon,
-  handlePasswordVisibility,
+  OnPressRightIcon,
   width = Dimensions.get("window").width - 32,
   ...otherProps
 }) {
@@ -32,7 +33,7 @@ export default function AppTextInput({
         {...otherProps}
       />
       {rightIcon ? (
-        <Pressable onPress={handlePasswordVisibility}>
+        <Pressable onPress={OnPressRightIcon}>
           <MaterialCommunityIcons
             name={rightIcon}
             size={20}
@@ -47,7 +48,7 @@ export default function AppTextInput({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: defaultStyles.colors.light,
+    backgroundColor: colors.light,
     borderRadius: 10,
     flexDirection: "row",
     padding: 15,
@@ -63,6 +64,5 @@ const styles = StyleSheet.create({
   },
   rightIcon: {
     alignSelf: "center",
-    marginLeft: 10,
   },
 })

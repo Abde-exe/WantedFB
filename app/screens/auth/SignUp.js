@@ -15,7 +15,7 @@ export default SignUp = ({ navigation }) => {
   const [rightIcon, setRightIcon] = useState("eye")
   const [signupError, setSignupError] = useState("")
 
-  const handlePasswordVisibility = () => {
+  const OnPressRightIcon = () => {
     if (rightIcon === "eye") {
       setRightIcon("eye-off")
       setPasswordVisibility(!passwordVisibility)
@@ -76,7 +76,7 @@ export default SignUp = ({ navigation }) => {
         secureTextEntry={passwordVisibility}
         rightIcon={rightIcon}
         textContentType="password"
-        handlePasswordVisibility={handlePasswordVisibility}
+        OnPressRightIcon={OnPressRightIcon}
       />
       {signupError ? <ErrorMessage error={signupError} visible={true} /> : null}
 

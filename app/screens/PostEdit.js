@@ -147,15 +147,12 @@ const PostEdit = ({ navigation }) => {
     firebase
       .firestore()
       .collection("posts")
-      .doc(firebase.auth().currentUser.uid)
-      .collection("userPosts")
       .add({
-        //creation: firebase.firestore().FieldValue.serverTimestamp(),
         createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
         images: images,
         name: post.name,
         age: post.age,
-        date: post.date,
+        date: post.date ? post.date : new Date(),
         location: post.location,
         corpulence: post.corpulence,
         height: post.height,
