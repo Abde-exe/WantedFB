@@ -1,5 +1,4 @@
-PostEdit > ne stock qu'une image dans le Storage, il faut améliorer en stockant un array d'images
 
-date ne fonctionne pas
 
-mettre en place le formulaire pour recherche de stage, alternance etc
+mettre en place un formulaire pour recherche de stage, alternance etc teès centré pour
+un besoin spécifique

@@ -2,9 +2,9 @@ import "dotenv/config"
 
 export default {
   expo: {
-    scheme: "wantedapp",
-    name: "expo-firebase-auth-example",
-    slug: "expo-firebase-auth-example",
+    scheme: "https",
+    name: "WantedApp",
+    slug: "WantedApp",
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/icon.png",
@@ -21,11 +21,24 @@ export default {
       supportsTablet: true,
     },
     android: {
-      package: "com.abdeebda.expofirebaseauthexample",
+      package: "com.abdeebda.wantedapp",
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#FFFFFF",
       },
+      intentFilters: [
+        {
+          action: "VIEW",
+          data: [
+            {
+              scheme: "https",
+              host: "*.missagora.com",
+              pathPrefix: "/Feed",
+            },
+          ],
+          category: ["BROWSABLE", "DEFAULT"],
+        },
+      ],
     },
     web: {
       favicon: "./assets/favicon.png",

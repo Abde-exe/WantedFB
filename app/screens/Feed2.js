@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react"
 import { StyleSheet, FlatList, Pressable, Text } from "react-native"
 import Firebase from "../../config/firebase"
-import Card2 from "../components/Card2"
+import Card from "../components/Card"
 import Screen from "../components/Screen"
 import AppText from "../components/AppText"
 import AppTextInput from "../components/AppTextInput"
 import AppButton from "../components/AppButton"
 import ActivityIndicator from "../components/ActivityIndicator"
 
-const Feed = ({ navigation }) => {
+const Feed2 = ({ navigation }) => {
   const [posts, setPosts] = useState([])
   const [refresh, setRefresh] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -24,7 +24,7 @@ const Feed = ({ navigation }) => {
   }
   const fetchPosts = async () => {
     Firebase.firestore()
-      .collection("posts")
+      .collection("students")
       .get()
       .then((querySnapshot) => {
         let postsArray = querySnapshot.docs.map((doc) => {
@@ -51,10 +51,6 @@ const Feed = ({ navigation }) => {
         </>
       ) : (
         <>
-          <AppButton
-            title="Feed2"
-            onPress={() => navigation.navigate("Feed2")}
-          />
           <AppTextInput
             onSubmitEditing={() =>
               navigation.navigate("Search", { searchText })
@@ -69,10 +65,10 @@ const Feed = ({ navigation }) => {
           <FlatList
             refreshing={refresh}
             onRefresh={() => fetchPosts()}
-            numColumns={2}
+            numColumns={1}
             data={posts}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <Card2 item={item} />}
+            renderItem={({ item }) => <Card item={item} />}
           />
         </>
       )}
@@ -82,7 +78,7 @@ const Feed = ({ navigation }) => {
   )
 }
 
-export default Feed
+export default Feed2
 
 const styles = StyleSheet.create({
   container: {

@@ -19,7 +19,11 @@
     "expo": "~40.0.0",
     "expo-constants": "~9.3.3",
     "expo-image-picker": "~9.2.0",
+    "expo-linking": "~2.0.1",
+    "expo-media-library": "~10.0.0",
     "expo-permissions": "~10.0.0",
+    "expo-radio-button": "^1.0.8",
+    "expo-sharing": "~8.5.0",
     "expo-status-bar": "~1.0.3",
     "firebase": "8.2.3",
     "formik": "^2.2.6",
@@ -43,10 +47,7 @@
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0",
     "uuid": "^8.3.2",
-    "yup": "^0.32.9",
-    "expo-media-library": "~10.0.0",
-    "expo-sharing": "~8.5.0",
-    "expo-linking": "~2.0.1"
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

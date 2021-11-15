@@ -9,7 +9,7 @@ import FeedStack from "./FeedStack"
 import AppTab from "./AppTab"
 const Stack = createStackNavigator()
 
-const prefix = Linking.makeUrl("/")
+const prefix = Linking.makeUrl("https://missagora.com")
 const linking = {
   prefixes: [prefix],
   config: {
@@ -18,7 +18,7 @@ const linking = {
         screens: {
           FeedStack: {
             screens: {
-              CardDetail: "user/:uid/posts/:id",
+              CardDetail: "posts/:id",
               Feed: "Feed",
             },
           },

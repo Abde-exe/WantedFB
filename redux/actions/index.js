@@ -25,16 +25,26 @@ export function fetchUserPosts() {
     firebase
       .firestore()
       .collection("posts")
-      .doc(firebase.auth().currentUser.uid)
-      .collection("userPosts")
       .orderBy("createdAt","asc")
       .get()
       .then((snapshot) => {
-        let posts= snapshot.docs.map(doc=>{
+       
+        let posts =[]
+        snapshot.docs.map(doc=>{
           const data=doc.data()
-          const id=doc.id
-          return {id,...data}
+           const id=doc.id
+         if(  data.userID==firebase.auth().currentUser.uid )
+         {
+           posts.push({id,...data})
+         } 
         })
+          
+        //console.log(`userPosts`, posts)
+        // let posts= snapshot.docs.map(doc=>{
+        //   const data=doc.data()
+        //   const id=doc.id
+        //   return {id,...data}
+        // })
         dispatch({ type: USER_POSTS_STATE_CHANGE, posts })
       })
   })

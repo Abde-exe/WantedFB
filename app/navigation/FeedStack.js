@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native"
 import { createStackNavigator } from "@react-navigation/stack"
 import CardDetail from "../screens/CardDetail"
 import Feed from "../screens/Feed"
+import Feed2 from "../screens/Feed2"
 
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 import Search from "../screens/Search"
@@ -29,6 +30,11 @@ export default function FeedStack({ navigation, route }) {
       <Stack.Screen
         name={"Feed"}
         component={Feed}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={"Feed2"}
+        component={Feed2}
         options={{ headerShown: false }}
       />
 

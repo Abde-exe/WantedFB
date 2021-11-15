@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Text, StyleSheet, View } from "react-native"
+import { Text, Linking, View } from "react-native"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import firebase from "firebase"
@@ -21,6 +21,9 @@ export class Main extends Component {
       .catch((error) => {
         // An error happened.
       })
+  }
+  _handleOpenWithLinking = () => {
+    Linking.openURL("exp://gk-wc9.abdeebda.wantedfb.exp.direct:80/Feed")
   }
   render() {
     return (
