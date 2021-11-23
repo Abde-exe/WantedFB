@@ -4,8 +4,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import * as Linking from "expo-linking"
 
 import navigationTheme from "./navigationTheme"
-import Main from "../screens/Main"
-import FeedStack from "./FeedStack"
+import Test from "../screens/Test"
 import AppTab from "./AppTab"
 const Stack = createStackNavigator()
 
@@ -30,11 +29,11 @@ const linking = {
 const RootNavigator = ({ navigation }) => {
   return (
     <NavigationContainer theme={navigationTheme} linking={linking}>
-      <Stack.Navigator initialRouteName="Main">
-        <Stack.Screen name="Main" component={Main} navigation={navigation} />
+      <Stack.Navigator initialRouteName="AppTab" headerMode="none">
+        <Stack.Screen name="AppTab" component={AppTab} />
         <Stack.Screen
-          name="AppTab"
-          component={AppTab}
+          name="Test"
+          component={Test}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

@@ -23,7 +23,7 @@ const Card = ({ item }) => {
     <Pressable
       style={styles.card}
       onPress={() =>
-        navigation.navigate("CardDetail", {
+        navigation.navigate("PostDetail", {
           item: item,
         })
       }

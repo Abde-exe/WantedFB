@@ -6,7 +6,11 @@ import colors from "../../config/colors"
 export default function Screen({ children, style2 }) {
   return (
     <SafeAreaView style={[styles.screen, style2]}>
-      <StatusBar animated={true} backgroundColor={colors.primary} />
+      <StatusBar
+        animated={true}
+        backgroundColor={colors.primary}
+        translucent={false}
+      />
       <View style={[style2, styles.view]}>{children}</View>
     </SafeAreaView>
   )

@@ -19,10 +19,10 @@ export default function ProfileComponent({
   style2,
 }) {
   return (
-    <View style={style2}>
+    <View>
       <Swipeable renderRightActions={renderRightActions}>
         <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
-          <View style={styles.container}>
+          <View style={[styles.container, style2]}>
             {ImageComponent}
             {image && <Image source={{ uri: image }} style={styles.image} />}
             <View style={{ marginLeft: 10, alignItems: "flex-start", flex: 1 }}>
@@ -44,7 +44,6 @@ export default function ProfileComponent({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: colors.white,
     width: "100%",
     padding: 10,
     alignItems: "center",

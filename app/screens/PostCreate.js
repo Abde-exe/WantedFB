@@ -49,9 +49,9 @@ const categories = [
   },
 ]
 
-const PostEdit = ({ navigation, route }) => {
+const PostCreate = ({ navigation, route }) => {
   const scrollView = useRef()
-  const post = route.params
+
   const [loading, setLoading] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   //manage progress bar and steps
@@ -59,6 +59,7 @@ const PostEdit = ({ navigation, route }) => {
   const changeProgress = (i) => {
     setStep(step + i)
   }
+
   return (
     <Screen>
       <View style={styles.container}>
@@ -110,10 +111,10 @@ const PostEdit = ({ navigation, route }) => {
             scrollView.current.scrollTo({ x: 0, y: 0, animated: true })
           }
         >
-          {post.postType == "missings" ? (
-            <Missings changeProgress={changeProgress} post={post} />
+          {route.params.postType == "missings" ? (
+            <Missings changeProgress={changeProgress} />
           ) : (
-            <Students changeProgress={changeProgress} post={post} />
+            <Students changeProgress={changeProgress} />
           )}
         </ScrollView>
       </KeyboardAvoidingView>
@@ -158,7 +159,7 @@ const PostEdit = ({ navigation, route }) => {
   )
 }
 
-export default PostEdit
+export default PostCreate
 
 const styles = StyleSheet.create({
   container: {

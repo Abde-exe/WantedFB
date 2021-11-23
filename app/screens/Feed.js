@@ -24,13 +24,12 @@ const Feed = ({ navigation }) => {
   }
   const fetchPosts = async () => {
     Firebase.firestore()
-      .collection("posts")
+      .collection("missings")
       .get()
       .then((querySnapshot) => {
         let postsArray = querySnapshot.docs.map((doc) => {
           const id = doc.id
           const data = doc.data()
-
           return { id, ...data }
         })
 
@@ -39,6 +38,7 @@ const Feed = ({ navigation }) => {
 
     setLoading(false)
   }
+
   return (
     <Screen>
       <ActivityIndicator visible={loading} />
@@ -51,10 +51,6 @@ const Feed = ({ navigation }) => {
         </>
       ) : (
         <>
-          <AppButton
-            title="Feed2"
-            onPress={() => navigation.navigate("Feed2")}
-          />
           <AppTextInput
             onSubmitEditing={() =>
               navigation.navigate("Search", { searchText })

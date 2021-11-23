@@ -25,6 +25,16 @@ export default SignUp = ({ navigation }) => {
     }
   }
   const onHandleSignup = () => {
+    //get the default profile picture
+    const pp = ""
+    const storageRef = Firebase.storage().ref()
+    storageRef
+      .child("assets/pp.png")
+      .getDownloadURL()
+      .then((url) => {
+        pp = url
+      })
+    //////
     try {
       if (email !== "" && password !== "") {
         firebase
@@ -39,6 +49,8 @@ export default SignUp = ({ navigation }) => {
               .set({
                 email,
                 name: email.split("@")[0],
+                image: pp,
+                createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
               })
           })
       }

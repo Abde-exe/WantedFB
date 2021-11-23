@@ -1,6 +1,6 @@
 import React from "react"
 import { Pressable, StyleSheet } from "react-native"
-import { AntDesign } from "@expo/vector-icons"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 const IconButton = ({ color, size, onPress, name }) => {
   return (
@@ -20,7 +20,7 @@ const IconButton = ({ color, size, onPress, name }) => {
       }}
       onPress={onPress}
     >
-      <AntDesign name={name} size={size} color={color} />
+      <MaterialCommunityIcons name={name} size={size} color={color} />
     </Pressable>
   )
 }

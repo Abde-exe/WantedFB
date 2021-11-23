@@ -17,10 +17,16 @@ import AppText from "./AppText"
 import colors from "../../config/colors"
 
 const DateInput = ({ placeholder, name }) => {
-  const { setFieldTouched, setFieldValue, errors, touched } = useFormikContext()
+  const {
+    setFieldTouched,
+    setFieldValue,
+    errors,
+    touched,
+    values,
+  } = useFormikContext()
 
   const ios = Platform.OS == "ios" ? true : false
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState(values["date"])
   const [show, setShow] = useState(ios)
   const formattedDate = moment(date).format("LL")
 

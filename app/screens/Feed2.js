@@ -30,7 +30,6 @@ const Feed2 = ({ navigation }) => {
         let postsArray = querySnapshot.docs.map((doc) => {
           const id = doc.id
           const data = doc.data()
-
           return { id, ...data }
         })
 

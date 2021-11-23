@@ -32,11 +32,15 @@ export class Main extends Component {
           <Text> Bonjour {this.props.currentUser.name} !</Text>
         )}
 
-        <AppButton title="Deconnect" onPress={this.onSignOut} />
         <AppButton
-          title="Feed"
-          onPress={() => this.props.navigation.navigate("AppTab")}
+          title="Missings"
+          onPress={() => this.props.navigation.navigate("Feed")}
         />
+        <AppButton
+          title="Students"
+          onPress={() => this.props.navigation.navigate("Feed2")}
+        />
+        <AppButton title="Deconnect" onPress={this.onSignOut} />
       </View>
     )
   }

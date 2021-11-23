@@ -31,6 +31,7 @@ function MultiForm({
                   title="Valider"
                   onPress={() => {
                     onSubmit()
+                    progress(oneStep)
                   }}
                 />
               ) : null}

@@ -62,6 +62,7 @@ const Account = (props) => {
     <>
       <Screen>
         <ProfileComponent
+          image={currentUser.image}
           title={currentUser.name}
           subTitle={currentUser.email}
           buttonTitle="Modifier"

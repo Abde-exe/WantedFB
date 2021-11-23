@@ -1,6 +1,6 @@
 import React from "react"
 import { StyleSheet, Text, View } from "react-native"
-import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 const Icon = ({
   name,
   backgroundColor = "black",

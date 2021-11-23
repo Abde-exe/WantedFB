@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: colors.danger,
     fontSize: 20,
+    marginLeft: 16,
     marginBottom: 10,
     fontWeight: "600",
   },

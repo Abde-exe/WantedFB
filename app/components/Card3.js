@@ -7,18 +7,20 @@ moment.locale("fr")
 
 import colors from "../../config/colors"
 import AppText from "./AppText"
+import IconButton from "./IconButton"
 
-const Card2 = ({ item }) => {
+const Card3 = ({ item, onIconPress }) => {
   //state
   const [image, setImage] = useState()
   const navigation = useNavigation()
-  const { id, name, age, images, location, createdAt } = item
+  const { id, title, age, type, images, createdAt, place } = item
 
   useEffect(() => {
     if (images) {
       setImage(images[0])
     }
   }, [item])
+
   return (
     <Pressable
       style={styles.card}
@@ -42,14 +44,14 @@ const Card2 = ({ item }) => {
           }),
         }}
       >
-        {image ? (
+        {images[0] && (
           <Image
             style={styles.image}
             source={{
-              uri: image,
+              uri: images[0],
             }}
           />
-        ) : null}
+        )}
       </View>
       <View style={styles.details}>
         <View
@@ -60,8 +62,13 @@ const Card2 = ({ item }) => {
             justifyContent: "space-between",
           }}
         >
-          <AppText style2={styles.title}>{name}</AppText>
-          <AppText style2={styles.title}>{age}</AppText>
+          <AppText style2={styles.title}>{title}</AppText>
+          <IconButton
+            name="close-circle"
+            size={24}
+            color={colors.danger}
+            onPress={() => onIconPress()}
+          />
         </View>
         <View
           style={{
@@ -72,48 +79,49 @@ const Card2 = ({ item }) => {
           }}
         >
           <AppText style2={styles.description}>
-            {moment(createdAt.toDate()).startOf("day").fromNow()}
+            {moment(createdAt.toDate()).format("L")}
           </AppText>
-          <AppText style2={styles.description}>DISPARITION</AppText>
+          <AppText style2={styles.description}>{type}</AppText>
         </View>
       </View>
     </Pressable>
   )
 }
 
-export default Card2
+export default Card3
 
 const styles = StyleSheet.create({
   card: {
-    flexWrap: "nowrap",
-    backgroundColor: colors.white,
-    borderRadius: 10,
-    height: 203,
-    width: "45%",
-    marginVertical: 8,
-    marginHorizontal: 8,
+    flexDirection: "row",
+    backgroundColor: colors.light,
+    borderRadius: 15,
+    height: 100,
+    width: "95%",
+    alignSelf: "center",
+    marginTop: 10,
   },
   details: {
-    padding: 3,
     flex: 1,
-    height: 32,
     justifyContent: "space-between",
+    padding: 10,
   },
   image: {
-    width: "100%",
-    height: 150,
-    resizeMode: "cover",
-    borderRadius: 10,
+    flex: 1,
+    aspectRatio: 1 / 1,
+    borderTopLeftRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderWidth: 1,
   },
   title: {
     fontSize: 14,
-    fontWeight: "600",
+    fontWeight: "bold",
     color: colors.black,
   },
 
   description: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: "normal",
-    color: colors.secondary,
+    opacity: 0.6,
+    color: "red",
   },
 })

@@ -1,12 +1,13 @@
 import React from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { createStackNavigator } from "@react-navigation/stack"
-import CardDetail from "../screens/CardDetail"
 import Feed from "../screens/Feed"
 import Feed2 from "../screens/Feed2"
 
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 import Search from "../screens/Search"
+import PostDetail from "../screens/PostDetail"
+import Main from "../screens/Main"
 
 const Stack = createStackNavigator()
 export default function FeedStack({ navigation, route }) {
@@ -23,10 +24,15 @@ export default function FeedStack({ navigation, route }) {
 
   return (
     <Stack.Navigator
-      mode="modal"
       headerMode="none"
       screenOptions={{ animationEnabled: true }}
+      initialRouteName="Main"
     >
+      <Stack.Screen
+        name={"Main"}
+        component={Main}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name={"Feed"}
         component={Feed}
@@ -39,8 +45,8 @@ export default function FeedStack({ navigation, route }) {
       />
 
       <Stack.Screen
-        name={"CardDetail"}
-        component={CardDetail}
+        name={"PostDetail"}
+        component={PostDetail}
         options={{ headerShown: false }}
       />
       <Stack.Screen
