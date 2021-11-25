@@ -67,7 +67,7 @@ const Feed2 = ({ navigation }) => {
             numColumns={1}
             data={posts}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <Card item={item} />}
+            renderItem={({ item }) => <Card post={item} />}
           />
         </>
       )}

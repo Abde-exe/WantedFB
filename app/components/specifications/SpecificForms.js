@@ -1,6 +1,7 @@
 import React from "react"
 import { View, StyleSheet } from "react-native"
 import * as Yup from "yup"
+import { useNavigation } from "@react-navigation/core"
 
 import AppButton from "../AppButton"
 import AppText from "../AppText"
@@ -11,7 +12,7 @@ import DateInput from "../DateInput"
 import SelectRadio from "../forms/SelectRadio"
 import colors from "../../../config/colors"
 import useSavePost from "../../../hooks/useSavePost"
-
+import { updateUserPost } from "../../../redux/actions/index"
 const validationSchema = {
   missings: Yup.object().shape({
     images: Yup.array().min(1, "Sélectionner au moins 1 image"),
@@ -74,43 +75,55 @@ const initialValues = {
     images: [],
   },
 }
-const Missings = ({ changeProgress, post }) => {
+
+const Missings = ({ changeProgress, post, edit }) => {
   const { savePost, uploadImages } = useSavePost()
+  const navigation = useNavigation()
+
+  let postValues = {}
   //existing values ready to be modfied
-  const postValues = {
-    images: post.images,
-    name: post.name,
-    age: post.age,
-    date: post.date.toDate(),
-    location: post.location,
-    corpulence: post.corpulence,
-    height: post.height,
-    hair: post.hair,
-    eyes: post.eyes,
-    outfit: post.outfit,
-    other: post.other,
-    email: post.email,
-    tel: post.tel,
+  if (post) {
+    postValues = {
+      images: post.images,
+      name: post.name,
+      age: post.age,
+      date: post.date.toDate(),
+      location: post.location,
+      corpulence: post.corpulence,
+      height: post.height,
+      hair: post.hair,
+      eyes: post.eyes,
+      outfit: post.outfit,
+      other: post.other,
+      email: post.email,
+      tel: post.tel,
+    }
   }
   return (
     <MultiForm
       validationSchema={validationSchema.missings}
       progress={changeProgress}
       initialValues={post ? postValues : initialValues.missings}
-      onSubmit={(values) => {
-        if (values) {
-          navigation.navigate("Test")
-
-          //with images picked
-          if (values.images.length > 0) uploadImages(values)
-          else {
-            //no images in the post
-            savePost(values, [])
+      onSubmit={
+        (values) => {
+          try {
+            //with images picked
+            if (values) {
+              if (values.images && values.images.length > 0)
+                edit ? updateUserPost(post, values) : uploadImages(values)
+              else {
+                //no images in the post
+                edit ? updateUserPost(post, values) : savePost(values, [])
+              }
+              navigation.navigate("Test")
+            }
+          } catch (error) {
+            console.log(`error`, error)
           }
         }
 
         // resetForm({ values: initialValues })
-      }}
+      }
     >
       {
         //Form 1
@@ -200,19 +213,25 @@ const Missings = ({ changeProgress, post }) => {
   )
 }
 
-const Students = ({ changeProgress, post }) => {
+const Students = ({ changeProgress, post, edit }) => {
   const { savePost2, uploadImages2 } = useSavePost()
-  const postValues = {
-    name: post.name,
-    age: post.age,
-    location: post.location,
-    type: post.type,
-    domain: post.domain,
-    place: post.place,
-    length: post.length,
-    title: post.title,
-    description: post.description,
-    images: post.images,
+  const navigation = useNavigation()
+
+  let postValues = {}
+  //existing values ready to be modfied
+  if (post) {
+    postValues = {
+      name: post.name,
+      age: post.age,
+      location: post.location,
+      type: post.type,
+      domain: post.domain,
+      place: post.place,
+      length: post.length,
+      title: post.title,
+      description: post.description,
+      images: post.images,
+    }
   }
   return (
     <MultiForm
@@ -224,10 +243,11 @@ const Students = ({ changeProgress, post }) => {
           navigation.navigate("Test")
 
           //with images picked
-          if (values.images.length > 0) uploadImages2(values)
-          else {
+          if (values.images.length > 0) {
+            edit ? updateUserPost(post, values) : uploadImages2(values)
+          } else {
             //no images in the post
-            savePost2(values, [])
+            edit ? updateUserPost(post, values) : savePost2(values, [])
           }
         }
 
@@ -295,6 +315,7 @@ const Students = ({ changeProgress, post }) => {
     </MultiForm>
   )
 }
+
 export { Missings, Students }
 const styles = StyleSheet.create({
   title: {

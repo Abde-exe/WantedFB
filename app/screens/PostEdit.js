@@ -59,103 +59,116 @@ const PostEdit = ({ navigation, route }) => {
   const changeProgress = (i) => {
     setStep(step + i)
   }
-  return (
-    <Screen>
-      <View style={styles.container}>
-        {
-          //<ActivityIndicator visible={loading}/>
-        }
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            paddingHorizontal: 8,
-          }}
-        >
-          <IconButton
-            onPress={() => navigation.goBack()}
-            name="arrow-left"
-            size={30}
-            color={colors.medium}
-          />
-          <IconButton
-            onPress={() => navigation.navigate("FeedStack")}
-            name="close-circle"
-            size={30}
-            color={colors.medium}
-          />
-        </View>
-        <ProgressBar
-          animated={true}
-          animationType="spring"
-          width={Dimensions.get("window").width}
-          progress={step}
-          color={colors.secondary}
-          unfilledColor={colors.light}
-          borderColor={colors.background}
-          height={8}
-          borderRadius={0}
-          useNativeDriver={true}
-        />
-      </View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "position" : "height"}
-        style={{ flex: 1 }}
-      >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          ref={scrollView}
-          onContentSizeChange={() =>
-            scrollView.current.scrollTo({ x: 0, y: 0, animated: true })
+  if (false) {
+    console.log(`route.params`, route.params)
+    return <View></View>
+  } else {
+    return (
+      <Screen>
+        <View style={styles.container}>
+          {
+            //<ActivityIndicator visible={loading}/>
           }
-        >
-          {post.postType == "missings" ? (
-            <Missings changeProgress={changeProgress} post={post} />
-          ) : (
-            <Students changeProgress={changeProgress} post={post} />
-          )}
-        </ScrollView>
-      </KeyboardAvoidingView>
-      <Modal visible={modalVisible} transparent={true} animationType="slide">
-        <View
-          style={{
-            position: "absolute",
-            bottom: 0,
-            width: "100%",
-            height: "30%",
-            backgroundColor: colors.medium,
-            borderTopStartRadius: 25,
-            borderTopEndRadius: 25,
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              setModalVisible(false)
-            }}
+          <View
             style={{
-              marginLeft: 16,
-              marginVertical: 8,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              paddingHorizontal: 8,
             }}
           >
-            <MaterialCommunityIcons
+            <IconButton
+              onPress={() => navigation.goBack()}
+              name="arrow-left"
+              size={30}
+              color={colors.medium}
+            />
+            <IconButton
+              onPress={() => navigation.goBack()}
               name="close-circle"
               size={30}
-              color={colors.white}
+              color={colors.medium}
             />
-          </TouchableOpacity>
-          <FlatList
-            horizontal
-            data={categories}
-            keyExtractor={(item) => item.value.toString()}
-            numColumns={1}
-            renderItem={({ item }) => <AppText>{item.label}</AppText>}
+          </View>
+          <ProgressBar
+            animated={true}
+            animationType="spring"
+            width={Dimensions.get("window").width}
+            progress={step}
+            color={colors.secondary}
+            unfilledColor={colors.light}
+            borderColor={colors.background}
+            height={8}
+            borderRadius={0}
+            useNativeDriver={true}
           />
         </View>
-        )
-      </Modal>
-    </Screen>
-  )
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "position" : "height"}
+          style={{ flex: 1 }}
+        >
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            ref={scrollView}
+            onContentSizeChange={() =>
+              scrollView.current.scrollTo({ x: 0, y: 0, animated: true })
+            }
+          >
+            {post.postType == "missings" ? (
+              <Missings
+                changeProgress={changeProgress}
+                post={post}
+                edit={true}
+              />
+            ) : (
+              <Students
+                changeProgress={changeProgress}
+                post={post}
+                edit={true}
+              />
+            )}
+          </ScrollView>
+        </KeyboardAvoidingView>
+        <Modal visible={modalVisible} transparent={true} animationType="slide">
+          <View
+            style={{
+              position: "absolute",
+              bottom: 0,
+              width: "100%",
+              height: "30%",
+              backgroundColor: colors.medium,
+              borderTopStartRadius: 25,
+              borderTopEndRadius: 25,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false)
+              }}
+              style={{
+                marginLeft: 16,
+                marginVertical: 8,
+              }}
+            >
+              <MaterialCommunityIcons
+                name="close-circle"
+                size={30}
+                color={colors.white}
+              />
+            </TouchableOpacity>
+            <FlatList
+              horizontal
+              data={categories}
+              keyExtractor={(item) => item.value.toString()}
+              numColumns={1}
+              renderItem={({ item }) => <AppText>{item.label}</AppText>}
+            />
+          </View>
+          )
+        </Modal>
+      </Screen>
+    )
+  }
 }
 
 export default PostEdit

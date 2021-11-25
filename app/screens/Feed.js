@@ -25,6 +25,7 @@ const Feed = ({ navigation }) => {
   const fetchPosts = async () => {
     Firebase.firestore()
       .collection("missings")
+      .orderBy("createdAt", "desc")
       .get()
       .then((querySnapshot) => {
         let postsArray = querySnapshot.docs.map((doc) => {
@@ -68,7 +69,7 @@ const Feed = ({ navigation }) => {
             numColumns={2}
             data={posts}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <Card2 item={item} />}
+            renderItem={({ item }) => <Card2 post={item} />}
           />
         </>
       )}

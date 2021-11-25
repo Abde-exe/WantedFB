@@ -14,7 +14,7 @@ import { LogBox } from "react-native"
 LogBox.ignoreLogs(["Setting a timer for a long period of time"])
 import ProgressBar from "react-native-progress/Bar"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
-
+import "react-native-get-random-values"
 import ActivityIndicator from "../components/ActivityIndicator"
 import AppText from "../components/AppText"
 import Screen from "../components/Screen"

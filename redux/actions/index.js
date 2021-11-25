@@ -34,7 +34,7 @@ export function fetchUserPosts() {
     firebase
       .firestore()
       .collection(element)
-      .orderBy("createdAt","asc")
+      .orderBy("createdAt","desc")
       .get()
       .then((snapshot) => {
        
@@ -67,8 +67,6 @@ export function deleteUserPost({ id, postType }) {
       .delete()
       .then(() => {
         console.log(postType)
-        //delete from the redux store
-        //delete from the array of posts in this screen
       })
       .catch((error) => {
         console.error("Error removing document: ", error)
@@ -79,6 +77,28 @@ export function deleteUserPost({ id, postType }) {
   }
 }
 
-export function updateUserPost(post) {
-  dispatch({ type: UPDATE_USER_POST, post })
+export function updateUserPost(post, values) {
+  if (post) {
+    //delete from the database
+    console.log(`post.postType`, values)
+    firebase
+      .firestore()
+      .collection(post.postType)
+      .doc(post.id)
+      .set({
+        ...values,
+        postType: post.postType,
+        createdAt: post.createdAt,
+        userID: post.userID,
+      })
+      .then(() => {
+        console.log(post.postType)
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error)
+      })
+  }
+  return (dispatch) => {
+    dispatch({ type: UPDATE_USER_POST, post })
+  }
 }

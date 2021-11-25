@@ -29,7 +29,7 @@ export const user = (state = initialState, action) => {
       }
       break
     case UPDATE_USER_POST:
-      const index = state.posts.findIndex((post) => post.id == action.post.id)
+      const index = state.posts.findIndex((post) => post.id !== action.post.id)
       const newArray = [...state.posts]
       newArray[index] = action.post
       return {

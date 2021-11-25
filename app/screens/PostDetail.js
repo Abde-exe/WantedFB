@@ -24,9 +24,8 @@ import DetailSection from "../components/specifications/DetailSection"
 
 const PostDetail = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false)
-
   //state---------//
-  const [post, setPost] = useState(route.params.item)
+  const [post, setPost] = useState(route.params)
   const [postUser, setPostUser] = useState(null)
   const currentUser = firebase.auth().currentUser
   //Main image
@@ -52,22 +51,10 @@ const PostDetail = ({ route, navigation }) => {
   const fetchPost = () => {
     try {
       setLoading(true)
-      //when only have the id not the post itself
-      if (!("item" in route.params)) {
-        firebase
-          .firestore()
-          .collection("missings")
-          .doc(route.params.id)
-          .get()
-          .then((snapshot) => {
-            if (snapshot.exists) {
-              setPost(snapshot.data())
-            }
-          })
-      } else {
-        //post item passed from Card component (entire post)
-        setPost(route.params.item)
-      }
+
+      //post item passed from Card component (entire post)
+      setPost(route.params)
+
       setLoading(false)
       setError(false)
     } catch (e) {
@@ -105,10 +92,7 @@ const PostDetail = ({ route, navigation }) => {
         <AppText style2={{ textAlign: "center" }}>
           Erreur lors du chargement du post
         </AppText>
-        <AppButton
-          title="Réessayer"
-          onPress={() => setPost(route.params.item)}
-        />
+        <AppButton title="Réessayer" onPress={() => setPost(route.params)} />
       </View>
     )
   }
@@ -227,7 +211,12 @@ const PostDetail = ({ route, navigation }) => {
         ) : (
           <AppButton
             title="Modifier"
-            onPress={() => navigation.navigate("PostEdit", post)}
+            onPress={() =>
+              navigation.navigate("AccountNavigator", {
+                screen: "PostEdit",
+                params: post,
+              })
+            }
           />
         )}
       </>

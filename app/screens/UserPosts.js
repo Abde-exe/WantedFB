@@ -3,26 +3,22 @@ import { StyleSheet, Text, View, FlatList } from "react-native"
 import firebase from "firebase"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
-import { deleteUserPost } from "../../redux/actions/index"
+import { deleteUserPost, fetchUserPosts } from "../../redux/actions/index"
 
 import Card3 from "../components/Card3"
 import AppModal2 from "../components/AppModal2"
 
-const UserPosts = (props) => {
-  const [userPosts, setuserPosts] = useState([])
+const UserPosts = ({ posts }) => {
+  const [userPosts, setuserPosts] = useState(posts)
   const [modalVisible, setModalVisible] = useState(false)
   const [itemToDelete, setitemToDelete] = useState(null)
-  //state from redux store
-  const { posts } = props
-
-  useEffect(() => {
-    setuserPosts(posts)
-  }, [posts])
 
   const onDeletePost = () => {
     if (itemToDelete.id) {
+      //delete from the list of post in this screen
       setuserPosts(userPosts.filter((i) => i.id != itemToDelete.id))
       setModalVisible(false)
+      //delete from the database and the store
       deleteUserPost(itemToDelete)
 
       // //delete from the database
@@ -57,7 +53,7 @@ const UserPosts = (props) => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Card3
-              item={item}
+              post={item}
               onIconPress={() => {
                 setModalVisible(true)
                 setitemToDelete({ id: item.id, postType: item.postType })
@@ -83,6 +79,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       deleteUserPost,
+      fetchUserPosts,
     },
     dispatch
   )

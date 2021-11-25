@@ -17,11 +17,10 @@ import Separator from "../components/Separator"
 import ProfileComponent from "../components/ProfileComponent"
 import UpdateProfile from "./UpdateProfile"
 
-const Account = (props) => {
+const Account = ({ currentUser, navigation }) => {
   const [modal, setModal] = useState(false)
   const [userPosts, setUserPosts] = useState([])
   const [user, setUser] = useState(null)
-  const { currentUser, posts } = props
 
   const menuItems = [
     {
@@ -32,7 +31,6 @@ const Account = (props) => {
         backgroundColor: "blue",
       },
       navigate: "UserPosts",
-      params: posts,
     },
     {
       title: "Mes Messages",
@@ -77,9 +75,7 @@ const Account = (props) => {
             renderItem={({ item }) => (
               <ListItem
                 title={item.title}
-                onPress={() =>
-                  props.navigation.navigate(item.navigate, item.params)
-                }
+                onPress={() => navigation.navigate(item.navigate)}
                 ImageComponent={
                   <Icon
                     name={item.icon.name}
@@ -106,7 +102,6 @@ const Account = (props) => {
 
 const mapStateToProps = (store) => ({
   currentUser: store.userState.currentUser,
-  posts: store.userState.posts,
 })
 export default connect(mapStateToProps, null)(Account)
 const styles = StyleSheet.create({

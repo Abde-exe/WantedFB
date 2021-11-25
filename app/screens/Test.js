@@ -1,5 +1,5 @@
-import React, { useEffect } from "react"
-import { StyleSheet, Button, View } from "react-native"
+import React from "react"
+import { StyleSheet, View } from "react-native"
 import LottieView from "lottie-react-native"
 import navigationTheme from "../navigation/navigationTheme"
 
@@ -15,7 +15,7 @@ const Test = ({ navigation, post }) => {
         }}
         loop={false}
         source={require("../../assets/done.json")}
-        onAnimationFinish={() => navigation.navigate("SharingView", post)}
+        onAnimationFinish={() => navigation.navigate("FeedStack")}
         // OR find more Lottie files @ https://lottiefiles.com/featured
         // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
       />

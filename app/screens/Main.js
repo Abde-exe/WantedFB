@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import { Text, Linking, View } from "react-native"
 import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
 import firebase from "firebase"
+import { bindActionCreators } from "redux"
 import { fetchUser, fetchUserPosts } from "../../redux/actions/index"
 import AppButton from "../components/AppButton"
 

@@ -8,25 +8,21 @@ moment.locale("fr")
 import colors from "../../config/colors"
 import AppText from "./AppText"
 
-const Card2 = ({ item }) => {
+const Card2 = ({ post }) => {
   //state
   const [image, setImage] = useState()
   const navigation = useNavigation()
-  const { id, name, age, images, location, createdAt } = item
+  const { id, name, age, images, location, createdAt } = post
 
   useEffect(() => {
     if (images) {
       setImage(images[0])
     }
-  }, [item])
+  }, [post])
   return (
     <Pressable
       style={styles.card}
-      onPress={() =>
-        navigation.navigate("PostDetail", {
-          item: item,
-        })
-      }
+      onPress={() => navigation.navigate("PostDetail", post)}
     >
       <View
         style={{
@@ -72,7 +68,7 @@ const Card2 = ({ item }) => {
           }}
         >
           <AppText style2={styles.description}>
-            {moment(createdAt.toDate()).startOf("day").fromNow()}
+            {moment(createdAt.toDate()).startOf("hour").fromNow()}
           </AppText>
           <AppText style2={styles.description}>DISPARITION</AppText>
         </View>

@@ -9,26 +9,22 @@ import colors from "../../config/colors"
 import AppText from "./AppText"
 import IconButton from "./IconButton"
 
-const Card3 = ({ item, onIconPress }) => {
+const Card3 = ({ post, onIconPress }) => {
   //state
   const [image, setImage] = useState()
   const navigation = useNavigation()
-  const { id, title, age, type, images, createdAt, place } = item
+  const { id, title, age, type, images, createdAt, place } = post
 
   useEffect(() => {
     if (images) {
       setImage(images[0])
     }
-  }, [item])
+  }, [post])
 
   return (
     <Pressable
       style={styles.card}
-      onPress={() =>
-        navigation.navigate("PostDetail", {
-          item: item,
-        })
-      }
+      onPress={() => navigation.navigate("PostDetail", post)}
     >
       <View
         style={{
