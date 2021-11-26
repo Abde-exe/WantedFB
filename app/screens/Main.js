@@ -11,17 +11,7 @@ export class Main extends Component {
     this.props.fetchUser()
     this.props.fetchUserPosts()
   }
-  onSignOut() {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        // Sign-out successful.
-      })
-      .catch((error) => {
-        // An error happened.
-      })
-  }
+
   _handleOpenWithLinking = () => {
     Linking.openURL("exp://gk-wc9.abdeebda.wantedfb.exp.direct:80/Feed")
   }
@@ -40,7 +30,6 @@ export class Main extends Component {
           title="Students"
           onPress={() => this.props.navigation.navigate("Feed2")}
         />
-        <AppButton title="Deconnect" onPress={this.onSignOut} />
       </View>
     )
   }
