@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import {
   StyleSheet,
   Modal,
@@ -7,7 +7,6 @@ import {
   Pressable,
   Text,
 } from "react-native"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 import colors from "../../config/colors"
 import Icon from "./Icon"

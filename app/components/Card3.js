@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { Image, StyleSheet, View, Pressable } from "react-native"
 import { useNavigation } from "@react-navigation/core"
-import moment from "moment"
-import "moment/locale/fr"
-moment.locale("fr")
+import dayjs from "dayjs"
+import "dayjs/locale/fr"
 
 import colors from "../../config/colors"
 import AppText from "./AppText"
@@ -75,7 +74,7 @@ const Card3 = ({ post, onIconPress }) => {
           }}
         >
           <AppText style2={styles.description}>
-            {moment(createdAt.toDate()).format("L")}
+            {dayjs(createdAt.toDate()).format("DD/MM/YYYY")}
           </AppText>
           <AppText style2={styles.description}>{type}</AppText>
         </View>

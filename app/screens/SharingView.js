@@ -5,9 +5,7 @@ import { captureRef } from "react-native-view-shot"
 import * as Permissions from "expo-permissions"
 import * as MediaLibrary from "expo-media-library"
 import * as Sharing from "expo-sharing"
-import "moment/locale/fr"
-import moment from "moment"
-moment.locale("fr")
+import dayjs from "dayjs"
 
 const SharingView = ({ route }) => {
   const viewRef = useRef()
@@ -100,7 +98,7 @@ const SharingView = ({ route }) => {
               <View style={{ flexDirection: "row" }}>
                 <Text>Recherché(e) depuis</Text>
                 {date != "" ? (
-                  <Text> le {moment(date.toDate()).format("L")}</Text>
+                  <Text> le {dayjs(date.toDate()).format("D/M/YYYY")}</Text>
                 ) : null}
                 {location != "" ? <Text> à {location}</Text> : null}
               </View>

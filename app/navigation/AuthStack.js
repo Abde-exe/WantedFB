@@ -8,7 +8,7 @@ import ConfirmSignUp from "../screens/auth/ConfirmSignUp"
 import ForgotPassword from "../screens/auth/ForgotPassword"
 const Stack = createStackNavigator()
 
-export default AuthStack = () => {
+const AuthStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -36,3 +36,4 @@ export default AuthStack = () => {
     </NavigationContainer>
   )
 }
+export default AuthStack

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { Image, StyleSheet, View, Pressable } from "react-native"
 import { useNavigation } from "@react-navigation/core"
-import moment from "moment"
-import "moment/locale/fr"
-moment.locale("fr")
+
+import dayjs from "dayjs"
+import "dayjs/locale/fr"
+import relativeTime from "dayjs/plugin/relativeTime"
+dayjs.extend(relativeTime)
+dayjs.locale("fr")
 
 import colors from "../../config/colors"
 import AppText from "./AppText"
@@ -19,6 +22,7 @@ const Card = ({ post }) => {
       setImage(images[0])
     }
   }, [post])
+
   return (
     <Pressable
       style={styles.card}
@@ -66,7 +70,7 @@ const Card = ({ post }) => {
           }}
         >
           <AppText style2={styles.description}>
-            {moment(createdAt.toDate()).startOf("hour").fromNow()}
+            {dayjs(createdAt.toDate()).fromNow()}
           </AppText>
           <AppText style2={styles.description}>DISPARITION</AppText>
         </View>

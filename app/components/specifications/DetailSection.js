@@ -1,8 +1,7 @@
 import React from "react"
-import moment from "moment"
-import "moment/locale/fr"
-moment.locale("fr")
-
+import dayjs from "dayjs"
+import "dayjs/locale/fr"
+dayjs.locale("fr")
 import { StyleSheet, View } from "react-native"
 import colors from "../../../config/colors"
 import AppText from "../AppText"
@@ -24,7 +23,8 @@ const DetailSection = ({ post }) => {
           color: colors.danger,
         }}
       >
-        {`Disparu le ${moment(date.toDate()).format("LL")} à ${location}`}
+        {date && `Disparu(e) le ${dayjs(date.toDate()).format("D/M")}`}
+        {location && ` à ${location}`}
       </AppText>
       <View style={{ padding: 20 }}>
         <AppText style={styles.sectionTitle}>Identité</AppText>

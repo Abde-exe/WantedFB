@@ -1,5 +1,5 @@
 import React from "react"
-import { Text, StyleSheet, Platform } from "react-native"
+import { Text } from "react-native"
 import global from "../../config/styles"
 
 const AppText = ({ children, style2, ...otherProps }) => {

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native"
-import * as Linking from "expo-linking"
+import { openURL } from "expo-linking"
 import firebase from "firebase"
 import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons"
 import ImageView from "react-native-image-view"
@@ -25,7 +25,7 @@ import DetailSection from "../components/specifications/DetailSection"
 const PostDetail = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false)
   //state---------//
-  const [post, setPost] = useState(route.params)
+  const [post, setPost] = useState(null)
   const [postUser, setPostUser] = useState(null)
   const currentUser = firebase.auth().currentUser
   //Main image
@@ -38,22 +38,32 @@ const PostDetail = ({ route, navigation }) => {
   const [error, setError] = useState(true)
   //fetch post with postId
   useEffect(() => {
-    fetchPost()
-    fetchPostUser()
-    //Fetching the images and make them an url if their just a key
-    setCarousel([])
-    if (post && post.images) {
-      setImage(post.images[0])
-      imagesMap(post.images)
+    //when only have the id not the post itself
+    if (!("name" in route.params)) fetchPost()
+    else {
+      setPost(route.params)
+      setImage(route.params.images[0])
+      imagesMap(route.params.images)
+      setError(false)
     }
-  }, [])
 
+    fetchPostUser()
+  }, [])
   const fetchPost = () => {
     try {
       setLoading(true)
-
-      //post item passed from Card component (entire post)
-      setPost(route.params)
+      firebase
+        .firestore()
+        .collection("missings")
+        .doc(route.params.id)
+        .get()
+        .then((snapshot) => {
+          if (snapshot.exists) {
+            setPost(snapshot.data())
+            setImage(snapshot.data().images[0])
+            imagesMap(snapshot.data().images)
+          }
+        })
 
       setLoading(false)
       setError(false)
@@ -98,9 +108,9 @@ const PostDetail = ({ route, navigation }) => {
   }
   const contact = (input) => {
     if (input === "email") {
-      Linking.openURL(`mailto:${post.email}`)
+      openURL(`mailto:${post.email}`)
     } else {
-      Linking.openURL(`tel:${post.tel}`)
+      openURL(`tel:${post.tel}`)
     }
   }
 

@@ -8,7 +8,7 @@ import Firebase from "../../../config/firebase"
 import ErrorMessage from "../../components/ErrorMessage"
 import firebase from "firebase"
 const auth = Firebase.auth()
-export default SignUp = ({ navigation }) => {
+const SignUp = ({ navigation }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [passwordVisibility, setPasswordVisibility] = useState(true)
@@ -104,6 +104,7 @@ export default SignUp = ({ navigation }) => {
     </Screen>
   )
 }
+export default SignUp
 const styles = StyleSheet.create({
   container: {
     flex: 1,

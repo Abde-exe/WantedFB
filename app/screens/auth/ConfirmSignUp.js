@@ -6,7 +6,7 @@ import AppButton from "../../components/AppButton"
 import colors from "../../../config/colors"
 import AppText from "../../components/AppText"
 
-export default ConfirmSignUp = ({ navigation, route }) => {
+const ConfirmSignUp = ({ navigation, route }) => {
   const [username, setUsername] = useState(route.params.username)
   const [authCode, setAuthCode] = useState("")
   async function confirmSignUp() {
@@ -51,6 +51,7 @@ export default ConfirmSignUp = ({ navigation, route }) => {
     </SafeAreaView>
   )
 }
+export default ConfirmSignUp
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,

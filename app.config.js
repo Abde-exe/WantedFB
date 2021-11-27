@@ -2,7 +2,7 @@ import "dotenv/config"
 
 export default {
   expo: {
-    scheme: "https",
+    scheme: "wantedapp",
     name: "WantedApp",
     slug: "WantedApp",
     version: "1.0.0",
@@ -18,10 +18,14 @@ export default {
     },
     assetBundlePatterns: ["**/*"],
     ios: {
+      associatedDomains: ["applinks:www.abdedev.fr", "applinks:abdedev.fr"],
+      //schema: "wantedapp",
       supportsTablet: true,
+      bundleIdentifier: "fr.wantedapp",
     },
     android: {
-      package: "com.abdeebda.wantedapp",
+      package: "fr.wantedapp",
+      versionCode: 1,
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#FFFFFF",
@@ -31,8 +35,8 @@ export default {
           action: "VIEW",
           data: [
             {
-              scheme: "https",
-              host: "*.missagora.com",
+              scheme: "http",
+              host: "*.abdedev.fr/",
               pathPrefix: "/Feed",
             },
           ],
