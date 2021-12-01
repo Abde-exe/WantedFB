@@ -1,6 +1,5 @@
 # Wanted - Avis de recherche
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Introduction
 
@@ -10,13 +9,13 @@ Ce qui peut être compréhensible puisque les posts sonts parfois baclés et pas
 Si on rajoute à cela le fait que la situation de la personne disparue n'est pas forcément à jour, on peut pas vraiment savoir si la personne a été retrouvée ou non au moment ou le post apparait dans notre feed Twitter, Facebook etc...
 J'ai alors eu l'idée d'une application qui permettrait de faciliter la création de ces avis de recherche et de les réunir à un seul endroit pour les rendre plus efficaces.
 
-### Principe
+## Principe
 
 Utilisation de base : Wanted est une application mobile qui permet de créer un avis de recherche pour personnes disparues sous un format universel qui peut être partagé sur n'importe quel réseau social et donc accessible au maximum de personnes. La situation de la personne disparue peut donc être mise à jour sur le même post si elle a été retrouvée.
 
 Utilisation secondaire : L'appli permet également de mettre des recherches de stage, alternance, job pour les étudiants.
 
-### Fonctionnalités
+## Fonctionnalités
 
 
 
@@ -28,7 +27,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### Techno
+## Techno
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
