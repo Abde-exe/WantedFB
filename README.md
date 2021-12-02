@@ -6,7 +6,7 @@
 Les réseaux sociaux permettent de partager quasiment n'importe quel type de contenu. On retrouve parfois même des avis de recherche pour personnes disparues, et on peut profiter de cette facilité à partager les posts pour diffuser au maximum un message de détresse.
 Malheureusement, j'ai remarqué que la plupart du temps, les gens n'y prêtent pas toujours attention lorsqu'ils consultent leur réseau social préféré.
 Ce qui peut être compréhensible puisque les posts sonts parfois baclés et pas très lisibles.
-Si on rajoute à cela le fait que la situation de la personne disparue n'est pas forcément à jour, on peut pas vraiment savoir si la personne a été retrouvée ou non au moment ou le post apparait dans notre feed Twitter, Facebook etc...
+Si on rajoute à cela le fait que la situation de la personne disparue n'est pas forcément mise à jour, on peut pas vraiment savoir si la personne a été retrouvée ou non au moment ou le post apparait dans notre feed Twitter, Facebook etc...
 J'ai alors eu l'idée d'une application qui permettrait de faciliter la création de ces avis de recherche et de les réunir à un seul endroit pour les rendre plus efficaces.
 
 ## Principe
@@ -20,20 +20,18 @@ Utilisation secondaire : L'appli permet également de mettre des recherches de s
 * Feed des posts crées
 * Partage d'un post sur les réseaux via un lien
 * Authentification
-* 
+* Prise de contact avec l'auteur du posts
 
 ## Techno
 
-* React Native
-* Expo
-* Firebase
+* React Native 0.64
+* Expo SDK 43
+* Firebase 8 (Authentification, Stockage d'images, base de données)
+* Redux 
 
 ## A venir
+* Authentification via google/twitter/facebook/apple
+* Map avec les differents avis de recherche autour de la localisation actuelle
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Test
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Test
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
