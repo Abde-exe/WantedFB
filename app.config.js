@@ -2,30 +2,33 @@ import "dotenv/config"
 
 export default {
   expo: {
+    description: "description",
+    primaryColor: "#015EFF",
+    privacy: "unlisted",
     scheme: "wantedapp",
     name: "WantedApp",
     slug: "WantedApp",
-    version: "1.0.0",
+    version: "1.0.6",
     orientation: "portrait",
     icon: "./assets/icon.png",
     splash: {
       image: "./assets/splash.png",
       resizeMode: "contain",
-      backgroundColor: "#ffffff",
+      backgroundColor: "#015EFF",
     },
     updates: {
       fallbackToCacheTimeout: 0,
     },
     assetBundlePatterns: ["**/*"],
     ios: {
-      associatedDomains: ["applinks:www.abdedev.fr", "applinks:abdedev.fr"],
+      associatedDomains: ["applinks:abdedev.fr"],
       //schema: "wantedapp",
       supportsTablet: true,
       bundleIdentifier: "fr.wantedapp",
     },
     android: {
       package: "fr.wantedapp",
-      versionCode: 1,
+      versionCode: 6,
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#FFFFFF",
@@ -35,9 +38,9 @@ export default {
           action: "VIEW",
           data: [
             {
-              scheme: "http",
-              host: "*.abdedev.fr/",
-              pathPrefix: "/Feed",
+              scheme: "https",
+              host: "abdedev.fr",
+              pathPrefix: "/posts",
             },
           ],
           category: ["BROWSABLE", "DEFAULT"],

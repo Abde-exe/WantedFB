@@ -1,12 +1,5 @@
-import React, { useContext, useState, useEffect } from "react"
-import {
-  FlatList,
-  Modal,
-  StyleSheet,
-  View,
-  Text,
-  Pressable,
-} from "react-native"
+import React, { useState } from "react"
+import { FlatList, StyleSheet, View } from "react-native"
 import firebase from "firebase"
 import { connect } from "react-redux"
 
@@ -16,11 +9,9 @@ import Screen from "../components/Screen"
 import Separator from "../components/Separator"
 import ProfileComponent from "../components/ProfileComponent"
 import UpdateProfile from "./UpdateProfile"
-
+import colors from "../../config/colors"
 const Account = ({ currentUser, navigation }) => {
   const [modal, setModal] = useState(false)
-  const [userPosts, setUserPosts] = useState([])
-  const [user, setUser] = useState(null)
 
   const menuItems = [
     {
@@ -28,19 +19,19 @@ const Account = ({ currentUser, navigation }) => {
       icon: {
         name: "format-list-bulleted",
         iconColor: "white",
-        backgroundColor: "blue",
+        backgroundColor: colors.primary,
       },
       navigate: "UserPosts",
     },
-    {
-      title: "Mes Messages",
-      icon: {
-        name: "email",
-        iconColor: "white",
-        backgroundColor: "red",
-      },
-      navigate: "Messages",
-    },
+    // {
+    //   title: "Mes Messages",
+    //   icon: {
+    //     name: "email",
+    //     iconColor: "white",
+    //     backgroundColor: "red",
+    //   },
+    //   navigate: "Messages",
+    // },
   ]
   const onSignOut = () => {
     firebase
@@ -90,7 +81,9 @@ const Account = ({ currentUser, navigation }) => {
         <ListItem
           onPress={onSignOut}
           title="Déconnexion"
-          ImageComponent={<Icon backgroundColor="yellow" name="logout" />}
+          ImageComponent={
+            <Icon backgroundColor={colors.danger} name="logout" />
+          }
         />
       </Screen>
       <View style={styles.centeredView}>

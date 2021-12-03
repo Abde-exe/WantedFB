@@ -15,7 +15,6 @@ LogBox.ignoreLogs(["Setting a timer for a long period of time"])
 import ProgressBar from "react-native-progress/Bar"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import "react-native-get-random-values"
-import ActivityIndicator from "../components/ActivityIndicator"
 import AppText from "../components/AppText"
 import Screen from "../components/Screen"
 import colors from "../../config/colors"
@@ -52,7 +51,6 @@ const categories = [
 const PostCreate = ({ navigation, route }) => {
   const scrollView = useRef()
 
-  const [loading, setLoading] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   //manage progress bar and steps
   const [step, setStep] = useState(0)
@@ -63,9 +61,6 @@ const PostCreate = ({ navigation, route }) => {
   return (
     <Screen>
       <View style={styles.container}>
-        {
-          //<ActivityIndicator visible={loading}/>
-        }
         <View
           style={{
             flexDirection: "row",

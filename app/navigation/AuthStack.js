@@ -11,26 +11,32 @@ const Stack = createStackNavigator()
 const AuthStack = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{ headerTitleAlign: "center", headerTitle: "Wanted" }}
+          options={{ headerTitle: "Se connecter" }}
         />
         <Stack.Screen
           name="SignUp"
           component={SignUp}
-          options={{ headerTitleAlign: "center", headerTitle: "Wanted" }}
+          options={{ headerTitleAlign: "center", headerTitle: "S'inscrire" }}
         />
         <Stack.Screen
           name="ConfirmSignUp"
           component={ConfirmSignUp}
-          options={{ headerTitleAlign: "center", headerTitle: "Wanted" }}
+          options={{
+            headerTitleAlign: "center",
+            headerTitle: "Confirmer l'inscription",
+          }}
         />
         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPassword}
-          options={{ headerTitleAlign: "center", headerTitle: "Wanted" }}
+          options={{
+            headerTitleAlign: "center",
+            headerTitle: "Réinitialiser le mot de passe",
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -25,7 +25,12 @@ function MultiForm({
         {() => (
           <>
             {currentChild}
-            <View>
+            <View
+              style={{
+                flexDirection: "row-reverse",
+                justifyContent: "space-evenly",
+              }}
+            >
               {step === childrenArray.length - 1 ? (
                 <SubmitButton
                   title="Valider"

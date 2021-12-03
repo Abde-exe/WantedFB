@@ -1,27 +1,19 @@
-import React, { useState } from "react"
+import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 import colors from "../../config/colors"
 import NewPostButton from "./NewPostButton"
-import PostCreate from "../screens/PostCreate"
 import FeedStack from "./FeedStack"
 import AccountNavigator from "./AccountNavigator"
 import PostCreateStack from "./PostCreateStack"
 import Icon from "../components/Icon"
-import AppModal3 from "../components/AppModal3"
 
 const Tab = createBottomTabNavigator()
 
 const AppTab = ({ navigation }) => {
-  const [modal, setmodal] = useState(false)
   return (
     <>
-      <AppModal3
-        modalVisible={modal}
-        setModalVisible={setmodal}
-        action={navigation}
-      />
       <Tab.Navigator
         headerMode="none"
         tabBarOptions={{

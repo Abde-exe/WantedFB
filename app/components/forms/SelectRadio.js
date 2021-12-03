@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { StyleSheet, Text, View } from "react-native"
+import React from "react"
+import { StyleSheet } from "react-native"
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button"
 import { useFormikContext } from "formik"
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { Alert, Modal, StyleSheet, Pressable, View } from "react-native"
 import colors from "../../config/colors"
 import AppText from "./AppText"

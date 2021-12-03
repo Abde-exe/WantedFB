@@ -15,7 +15,6 @@ LogBox.ignoreLogs(["Setting a timer for a long period of time"])
 import ProgressBar from "react-native-progress/Bar"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
-import ActivityIndicator from "../components/ActivityIndicator"
 import AppText from "../components/AppText"
 import Screen from "../components/Screen"
 import colors from "../../config/colors"
@@ -66,9 +65,6 @@ const PostEdit = ({ navigation, route }) => {
     return (
       <Screen>
         <View style={styles.container}>
-          {
-            //<ActivityIndicator visible={loading}/>
-          }
           <View
             style={{
               flexDirection: "row",
@@ -83,7 +79,7 @@ const PostEdit = ({ navigation, route }) => {
               color={colors.medium}
             />
             <IconButton
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate("Account")}
               name="close-circle"
               size={30}
               color={colors.medium}

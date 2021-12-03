@@ -8,15 +8,28 @@ const AppButton = ({
   color = "primary",
   text = "white",
   onPress,
-  width = "90%",
+  width,
 }) => {
   return (
     <Pressable
+      style={(args) => {
+        if (args.pressed) {
+          return [
+            styles.container,
+            {
+              opacity: 0.3,
+              width: width,
+              backgroundColor: colors[color],
+            },
+          ]
+        }
+
+        return [
+          styles.container,
+          { backgroundColor: colors[color], width: width },
+        ]
+      }}
       onPress={onPress}
-      style={[
-        styles.container,
-        { backgroundColor: colors[color], width: width },
-      ]}
     >
       <AppText style2={[styles.text, { color: colors[text] }]}>{title}</AppText>
     </Pressable>
@@ -34,6 +47,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     marginTop: 8,
+    paddingHorizontal: 40,
   },
   text: {
     fontSize: 18,

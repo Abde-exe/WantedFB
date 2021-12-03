@@ -1,13 +1,13 @@
 import React, { useState } from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete"
-import { MaterialIcons } from "@expo/vector-icons"
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons"
 import { useFormikContext } from "formik"
 
 import defaultStyles from "../../../config/styles"
 import ErrorMessage from "./ErrorMessage"
 
-const LocalisationSearchBar = ({ placeholder, name }) => {
+const LocationSearchBar = ({ placeholder, name }) => {
   const {
     setFieldTouched,
     setFieldValue,
@@ -16,12 +16,17 @@ const LocalisationSearchBar = ({ placeholder, name }) => {
     touched,
   } = useFormikContext()
 
-  const [text, setText] = useState()
+  const [location, setLocation] = useState(values["location"])
+  console.log(`values["location"]`, values["location"])
 
+  const onChange = (newLocation) => {
+    setLocation(newLocation)
+    setFieldValue(name, newLocation)
+  }
   return (
     <View style={styles.container}>
-      <MaterialIcons
-        name={"location"}
+      <MaterialCommunityIcons
+        name="map-marker"
         size={20}
         color={defaultStyles.colors.black}
         style={styles.icon}
@@ -31,12 +36,11 @@ const LocalisationSearchBar = ({ placeholder, name }) => {
         disableScroll
         placeholder={placeholder}
         onPress={(data) => {
-          setText(data.description)
-          setFieldValue(name, data.description)
+          onChange(data.description)
         }}
         textInputProps={{
-          onChangeText: (text) => setText(text),
-          value: text,
+          onChangeText: (text) => setLocation(text),
+          value: location,
         }}
         query={{
           key: "AIzaSyCeoQjaosVPYf8xS0QxiqIOL_od4exQf8s",
@@ -56,7 +60,7 @@ const LocalisationSearchBar = ({ placeholder, name }) => {
   )
 }
 
-export default LocalisationSearchBar
+export default LocationSearchBar
 
 const styles = StyleSheet.create({
   container: {

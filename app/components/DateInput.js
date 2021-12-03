@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import {
   Platform,
   StyleSheet,
@@ -36,6 +36,7 @@ const DateInput = ({ placeholder, name }) => {
     setDate(currentDate)
     setFieldValue(name, currentDate)
   }
+
   return (
     <View
       style={{

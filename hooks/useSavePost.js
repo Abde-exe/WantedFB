@@ -114,7 +114,7 @@ export default useSavePost = () => {
         //navigation.navigate("SharingView", )
         addUserPost(doc)
 
-        //navigation.navigate("Test", post)
+        //navigation.navigate("DoneAnimation", post)
       })
   }
 

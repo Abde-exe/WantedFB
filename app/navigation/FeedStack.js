@@ -7,7 +7,7 @@ import Feed2 from "../screens/Feed2"
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 import Search from "../screens/Search"
 import PostDetail from "../screens/PostDetail"
-import Main from "../screens/Main"
+import Home from "../screens/Home"
 
 const Stack = createStackNavigator()
 export default function FeedStack({ navigation, route }) {
@@ -26,11 +26,11 @@ export default function FeedStack({ navigation, route }) {
     <Stack.Navigator
       headerMode="none"
       screenOptions={{ animationEnabled: true }}
-      initialRouteName="Main"
+      initialRouteName="Home"
     >
       <Stack.Screen
-        name={"Main"}
-        component={Main}
+        name={"Home"}
+        component={Home}
         options={{ headerShown: false }}
       />
       <Stack.Screen

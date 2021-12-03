@@ -1,5 +1,5 @@
 import React, { useRef } from "react"
-import { ScrollView, StyleSheet, Text, View } from "react-native"
+import { ScrollView, StyleSheet, View } from "react-native"
 import AppText from "../AppText"
 import ImageInput from "./ImageInput"
 

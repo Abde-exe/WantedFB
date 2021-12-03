@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { StyleSheet, FlatList, Pressable, Text } from "react-native"
+import { StyleSheet, FlatList } from "react-native"
 import Firebase from "../../config/firebase"
 import Card from "../components/Card"
 import Screen from "../components/Screen"
@@ -19,9 +19,7 @@ const Feed2 = ({ navigation }) => {
     setLoading(true)
     fetchPosts()
   }, [])
-  const deleteF = async () => {
-    //delete
-  }
+
   const fetchPosts = async () => {
     Firebase.firestore()
       .collection("students")
@@ -52,7 +50,10 @@ const Feed2 = ({ navigation }) => {
         <>
           <AppTextInput
             onSubmitEditing={() =>
-              navigation.navigate("Search", { searchText })
+              navigation.navigate("Search", {
+                searchText,
+                postType: "students",
+              })
             }
             value={searchText}
             placeholder="Rechercher..."
@@ -71,8 +72,6 @@ const Feed2 = ({ navigation }) => {
           />
         </>
       )}
-      {/* <AppButton title="Delete" onPress={deleteF} />
-       */}
     </Screen>
   )
 }

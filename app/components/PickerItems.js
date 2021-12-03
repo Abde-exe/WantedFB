@@ -1,5 +1,5 @@
 import React from "react"
-import { StyleSheet, Text, Pressable, View } from "react-native"
+import { StyleSheet, Pressable } from "react-native"
 import AppText from "./AppText"
 
 const PickerItems = ({ label, onPress }) => {

@@ -4,13 +4,13 @@ import { NavigationContainer } from "@react-navigation/native"
 import * as Linking from "expo-linking"
 
 import navigationTheme from "./navigationTheme"
-import Test from "../screens/Test"
+import DoneAnimation from "../screens/DoneAnimation"
 import AppTab from "./AppTab"
 const Stack = createStackNavigator()
 
 const prefix = Linking.makeUrl("/")
 const linking = {
-  prefixes: [prefix],
+  prefixes: ["https://abdedev.fr", "https://*.abdedev.fr", prefix],
   config: {
     screens: {
       AppTab: {
@@ -32,8 +32,8 @@ const RootNavigator = ({ navigation }) => {
       <Stack.Navigator initialRouteName="AppTab" headerMode="none">
         <Stack.Screen name="AppTab" component={AppTab} />
         <Stack.Screen
-          name="Test"
-          component={Test}
+          name="DoneAnimation"
+          component={DoneAnimation}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

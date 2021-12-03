@@ -12,7 +12,7 @@ const Card3 = ({ post, onIconPress }) => {
   //state
   const [image, setImage] = useState()
   const navigation = useNavigation()
-  const { id, title, age, type, images, createdAt, place } = post
+  const { name, type, images, createdAt, postType } = post
 
   useEffect(() => {
     if (images) {
@@ -57,7 +57,7 @@ const Card3 = ({ post, onIconPress }) => {
             justifyContent: "space-between",
           }}
         >
-          <AppText style2={styles.title}>{title}</AppText>
+          <AppText style2={styles.title}>{name}</AppText>
           <IconButton
             name="close-circle"
             size={24}
@@ -76,7 +76,9 @@ const Card3 = ({ post, onIconPress }) => {
           <AppText style2={styles.description}>
             {dayjs(createdAt.toDate()).format("DD/MM/YYYY")}
           </AppText>
-          <AppText style2={styles.description}>{type}</AppText>
+          <AppText style2={styles.description}>
+            {postType == "students" ? type : "Disparu(e)"}
+          </AppText>
         </View>
       </View>
     </Pressable>

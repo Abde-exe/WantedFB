@@ -1,17 +1,7 @@
 import React, { useState } from "react"
-import {
-  Modal,
-  Image,
-  TouchableWithoutFeedback,
-  Pressable,
-  Text,
-  StyleSheet,
-  Button,
-  View,
-} from "react-native"
+import { Modal, Pressable, Text, StyleSheet, View } from "react-native"
 
 import * as ImagePicker from "expo-image-picker"
-import Screen from "../components/Screen"
 
 const UpdateProfile = ({ modal, setModal }) => {
   const [image, setImage] = useState(

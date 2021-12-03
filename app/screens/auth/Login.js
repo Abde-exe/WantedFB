@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View, Text, Pressable, StyleSheet, Button } from "react-native"
+import { View, Text, Pressable, StyleSheet, Image } from "react-native"
 
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
@@ -38,6 +38,10 @@ const Login = ({ navigation }) => {
 
   return (
     <Screen style2={styles.container}>
+      <Image
+        style={{ width: 100, height: 100, alignSelf: "center" }}
+        source={require("../../../assets/icon2.png")}
+      />
       <Text style={styles.title}>Bonjour</Text>
       <Text style={styles.subtitle}>
         Veuillez vous connecter pour entrer sur Wanted
@@ -112,7 +116,6 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: colors.primary,
     fontWeight: "500",
-    marginTop: 24,
   },
   subtitle: {
     alignSelf: "center",

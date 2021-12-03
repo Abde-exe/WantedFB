@@ -1,22 +1,40 @@
 import React from "react"
-import { Pressable, StyleSheet } from "react-native"
+import { Pressable, StyleSheet, View } from "react-native"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
-const IconButton = ({ color, size, onPress, name }) => {
+const IconButton = ({
+  color,
+  size,
+  onPress,
+  name,
+  backgroundColor,
+  style2,
+}) => {
   return (
     <Pressable
       style={(args) => {
         if (args.pressed) {
           return [
-            styles.base,
             {
-              opacity: 0.5,
+              width: size,
+              height: size,
+              borderRadius: size,
               backgroundColor: "transparent",
+              justifyContent: "center",
+              alignItems: "center",
+              opacity: 0.5,
             },
+            style2,
           ]
         }
 
-        return [styles.base, { opacity: 1, backgroundColor: "transparent" }]
+        return [
+          {
+            justifyContent: "center",
+            alignItems: "center",
+          },
+          style2,
+        ]
       }}
       onPress={onPress}
     >
@@ -25,11 +43,6 @@ const IconButton = ({ color, size, onPress, name }) => {
   )
 }
 
-const styles = StyleSheet.create({
-  base: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-})
+const styles = StyleSheet.create({})
 
 export default IconButton

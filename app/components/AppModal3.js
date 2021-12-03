@@ -1,12 +1,5 @@
 import React from "react"
-import {
-  StyleSheet,
-  Modal,
-  View,
-  FlatList,
-  Pressable,
-  Text,
-} from "react-native"
+import { StyleSheet, Modal, View, FlatList, Pressable } from "react-native"
 
 import colors from "../../config/colors"
 import Icon from "./Icon"

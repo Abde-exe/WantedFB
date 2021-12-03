@@ -1,9 +1,8 @@
 import React from "react"
 import { StyleSheet, View } from "react-native"
 import LottieView from "lottie-react-native"
-import navigationTheme from "../navigation/navigationTheme"
 
-const Test = ({ navigation, post }) => {
+const DoneAnimation = ({ navigation, post }) => {
   console.log(`post`, post)
   return (
     <View style={styles.animationContainer}>
@@ -23,7 +22,7 @@ const Test = ({ navigation, post }) => {
   )
 }
 
-export default Test
+export default DoneAnimation
 
 const styles = StyleSheet.create({
   animationContainer: {

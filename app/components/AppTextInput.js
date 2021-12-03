@@ -9,6 +9,7 @@ import {
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons"
 import defaultStyles from "../../config/styles"
 import colors from "../../config/colors"
+import IconButton from "./IconButton"
 export default function AppTextInput({
   style2,
   icon,
@@ -20,11 +21,13 @@ export default function AppTextInput({
   return (
     <View style={[styles.container, style2, { width: width }]}>
       {icon ? (
-        <MaterialCommunityIcons
+        <IconButton
           name={icon}
           size={20}
           color={defaultStyles.colors.black}
-          style={styles.icon}
+          style2={{
+            marginRight: 5,
+          }}
         />
       ) : null}
       <TextInput
@@ -33,14 +36,12 @@ export default function AppTextInput({
         {...otherProps}
       />
       {rightIcon ? (
-        <Pressable onPress={OnPressRightIcon}>
-          <MaterialCommunityIcons
-            name={rightIcon}
-            size={20}
-            color={defaultStyles.colors.black}
-            style={styles.rightIcon}
-          />
-        </Pressable>
+        <IconButton
+          onPress={OnPressRightIcon}
+          name={rightIcon}
+          size={20}
+          color={defaultStyles.colors.black}
+        />
       ) : null}
     </View>
   )
@@ -58,11 +59,5 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-  },
-  icon: {
-    marginRight: 10,
-  },
-  rightIcon: {
-    alignSelf: "center",
   },
 })

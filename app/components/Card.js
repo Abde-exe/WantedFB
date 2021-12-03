@@ -59,7 +59,6 @@ const Card = ({ post }) => {
           }}
         >
           <AppText style2={styles.title}>{title}</AppText>
-          <AppText style2={styles.title}>{type}</AppText>
         </View>
         <View
           style={{
@@ -72,7 +71,7 @@ const Card = ({ post }) => {
           <AppText style2={styles.description}>
             {dayjs(createdAt.toDate()).fromNow()}
           </AppText>
-          <AppText style2={styles.description}>DISPARITION</AppText>
+          <AppText style2={styles.description}>{type}</AppText>
         </View>
       </View>
     </Pressable>

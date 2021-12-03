@@ -1,5 +1,5 @@
 import React from "react"
-import { StyleSheet, Text, View } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 const Icon = ({
   name,
@@ -18,7 +18,7 @@ const Icon = ({
         alignItems: "center",
       }}
     >
-      <MaterialCommunityIcons name={name} size={size * 0.5} color={iconColor} />
+      <MaterialCommunityIcons name={name} size={size / 2} color={iconColor} />
     </View>
   )
 }

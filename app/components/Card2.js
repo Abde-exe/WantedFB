@@ -113,5 +113,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "normal",
     color: colors.secondary,
+    flexWrap: "wrap",
   },
 })

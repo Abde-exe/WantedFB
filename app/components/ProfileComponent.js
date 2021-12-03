@@ -1,5 +1,5 @@
 import React from "react"
-import { StyleSheet, Text, View, Image, TouchableHighlight } from "react-native"
+import { StyleSheet, View, Image, TouchableHighlight } from "react-native"
 import Swipeable from "react-native-gesture-handler/Swipeable"
 
 import colors from "../../config/colors"
@@ -31,9 +31,9 @@ export default function ProfileComponent({
                 <AppText style2={styles.subTitle}>{subTitle}</AppText>
               )}
             </View>
-            <View style={{ alignSelf: "flex-end", width: "30%" }}>
+            {/* <View style={{ alignSelf: "flex-end", width: "30%" }}>
               <AppButton title={buttonTitle} onPress={buttonAction} />
-            </View>
+            </View> */}
           </View>
         </TouchableHighlight>
       </Swipeable>
