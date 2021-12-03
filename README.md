@@ -38,7 +38,7 @@ https://apps.apple.com/fr/app/expo-go/id982107779
 https://play.google.com/store/apps/details?id=host.exp.exponent&gl=FR
 # Tester l'appli
 1. Télécharger l'application Expo Go sur [App Store](https://apps.apple.com/fr/app/expo-go/id982107779) ou [Google Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent&gl=FR)
-2. Scanner ce QR Code  ![alt text](https://github.com/Abde-exe/WantedFB/blob/main/qrcode.png?raw=true)
+2. Scanner ce QR Code  ![alt text](https://github.com/Abde-exe/WantedFB/blob/main/qrcode%20.png?raw=true)
 * [OU ICI](https://expo.dev/@abdeebda/WantedApp)
 
 
