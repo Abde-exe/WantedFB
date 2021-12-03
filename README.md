@@ -1,4 +1,4 @@
-# Wanted - Avis de recherche
+# Wanted - Avis de recherche (phase prototype)
 
 
 ## Introduction
@@ -29,9 +29,11 @@ Utilisation secondaire : L'appli permet également de mettre des recherches de s
 * Firebase 8 (Authentification, Stockage d'images, base de données)
 * Redux 
 
-## A venir
+## Améliorationns
 * Authentification via google/twitter/facebook/apple
 * Map avec les differents avis de recherche autour de la localisation actuelle
+* Meilleur UI/UX
+
 
 # Test
 
