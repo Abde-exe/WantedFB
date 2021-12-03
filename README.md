@@ -37,8 +37,7 @@ Utilisation secondaire : L'appli permet également de mettre des recherches de s
 
 # Test
 * 1 Télécharger l'application Expo Go sur App Store ou Google Play Store
-* 2 Scanner ce QR Code
-![alt text](https://github.com/Abde-exe/WantedFB/qrcode.png?raw=true)
-[I'm an inline-style link](https://expo.dev/@abdeebda/WantedApp)
+* 2 Scanner ce QR Code ![alt text](https://github.com/Abde-exe/WantedFB/blob/main/qrcode.png?raw=true)
+[](https://expo.dev/@abdeebda/WantedApp)
 
 
