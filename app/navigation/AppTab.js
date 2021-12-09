@@ -11,7 +11,7 @@ import Icon from "../components/Icon"
 
 const Tab = createBottomTabNavigator()
 
-const AppTab = ({ navigation }) => {
+const AppTab = () => {
   return (
     <>
       <Tab.Navigator
@@ -47,6 +47,7 @@ const AppTab = ({ navigation }) => {
         <Tab.Screen
           name="AccountNavigator"
           options={{
+            tabBarVisible: false,
             tabBarIcon: ({ size, color }) => (
               <MaterialCommunityIcons
                 name="account"
@@ -56,17 +57,6 @@ const AppTab = ({ navigation }) => {
             ),
 
             headerShown: true,
-            // title: 'My home',
-            headerRight: () => (
-              <View>
-                <Button
-                  onPress={() => Auth.signOut({ global: true })}
-                  transparent
-                >
-                  <Icon name="exit-to-app" style={{ iconColor: "black" }} />
-                </Button>
-              </View>
-            ),
           }}
           component={AccountNavigator}
         />

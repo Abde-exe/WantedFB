@@ -5,7 +5,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  Text,
+  Pressable,
 } from "react-native"
 import { openURL } from "expo-linking"
 import firebase from "firebase"
@@ -20,6 +20,8 @@ import AppButton from "../components/AppButton"
 import AppModal from "../components/AppModal"
 import DetailSection2 from "../components/specifications/DetailSection2"
 import DetailSection from "../components/specifications/DetailSection"
+import Icon from "../components/Icon"
+import FloatButton from "../components/FloatButton"
 
 const PostDetail = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false)
@@ -92,6 +94,10 @@ const PostDetail = ({ route, navigation }) => {
     arr = arr.map((uri, index) => ({ source: { uri }, id: index + 1 }))
     setCarousel(arr)
   }
+
+  const onShare = () => {
+    navigation.navigate("SharingView", { post })
+  }
   //Loading
   if (!post) return <ActivityIndicator visible={loading} />
   //Error
@@ -117,6 +123,85 @@ const PostDetail = ({ route, navigation }) => {
   if (post) {
     return (
       <>
+        {/* Header */}
+        <View style2={styles.header}>
+          <View
+            style={{
+              alignItems: "center",
+              backgroundColor: colors.light,
+              borderRadius: 45,
+              bottom: 35,
+              flexDirection: "row",
+              padding: 8,
+              position: "absolute",
+              right: 20,
+              zIndex: 100,
+            }}
+          >
+            <AppText
+              style={{ marginRight: 8, fontSize: 18, color: colors.medium }}
+            >
+              {carousel.length}
+            </AppText>
+            <FontAwesome5 name="images" size={18} color={colors.medium} />
+          </View>
+
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{
+              position: "absolute",
+              zIndex: 100,
+              borderRadius: 12,
+              left: 10,
+              top: 25,
+            }}
+          >
+            <MaterialCommunityIcons
+              name="arrow-left-circle"
+              size={30}
+              color={colors.white}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setCarouselVisible(true)
+            }}
+          >
+            {image && <Image source={{ uri: image }} style={styles.image} />}
+          </TouchableOpacity>
+          <ImageView
+            backgroundColor={"white"}
+            animationType="slide"
+            images={carousel}
+            imageIndex={0}
+            isVisible={carouselVisible}
+            isPinchZoomEnabled={false}
+            isTapZoomEnabled={false}
+            isSwipeCloseEnabled={true}
+            onClose={() => setCarouselVisible(false)}
+            renderFooter={(currentImage) => (
+              <View
+                style={{
+                  alignSelf: "center",
+                  bottom: 50,
+                  backgroundColor: colors.light,
+                  borderRadius: 45,
+                  width: 60,
+                  padding: 8,
+                }}
+              >
+                <AppText
+                  style={{
+                    alignSelf: "center",
+                  }}
+                >
+                  {`${currentImage.id} / ${carousel.length}`}
+                </AppText>
+              </View>
+            )}
+          />
+        </View>
+        {/* Detail section */}
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ backgroundColor: "white" }}
@@ -126,108 +211,49 @@ const PostDetail = ({ route, navigation }) => {
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
           />
-          <View style2={styles.header}>
-            <View
-              style={{
-                alignItems: "center",
-                backgroundColor: colors.light,
-                borderRadius: 45,
-                bottom: 35,
-                flexDirection: "row",
-                padding: 8,
-                position: "absolute",
-                right: 20,
-                zIndex: 100,
-              }}
-            >
-              <AppText
-                style={{ marginRight: 8, fontSize: 18, color: colors.medium }}
-              >
-                {carousel.length}
-              </AppText>
-              <FontAwesome5 name="images" size={18} color={colors.medium} />
-            </View>
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={{
-                position: "absolute",
-                zIndex: 100,
-                borderRadius: 12,
-                left: 10,
-                top: 25,
-              }}
-            >
-              <MaterialCommunityIcons
-                name="arrow-left-circle"
-                size={30}
-                color={colors.white}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setCarouselVisible(true)
-              }}
-            >
-              {image && <Image source={{ uri: image }} style={styles.image} />}
-            </TouchableOpacity>
-            <ImageView
-              backgroundColor={"white"}
-              animationType="slide"
-              images={carousel}
-              imageIndex={0}
-              isVisible={carouselVisible}
-              isPinchZoomEnabled={false}
-              isTapZoomEnabled={false}
-              isSwipeCloseEnabled={true}
-              onClose={() => setCarouselVisible(false)}
-              renderFooter={(currentImage) => (
-                <View
-                  style={{
-                    alignSelf: "center",
-                    bottom: 50,
-                    backgroundColor: colors.light,
-                    borderRadius: 45,
-                    width: 60,
-                    padding: 8,
-                  }}
-                >
-                  <AppText
-                    style={{
-                      alignSelf: "center",
-                    }}
-                  >
-                    {`${currentImage.id} / ${carousel.length}`}
-                  </AppText>
-                </View>
-              )}
-            />
-          </View>
+
           {post.postType == "missings" ? (
             <DetailSection post={post} />
           ) : (
             <DetailSection2 post={post} />
           )}
         </ScrollView>
-        {postUser && post.userID != currentUser.uid ? (
-          <ProfileComponent
-            image={postUser.image}
-            title={postUser.name}
-            subTitle={postUser.email}
-            buttonTitle="Contacter"
-            buttonAction={() => setModalVisible(true)}
-            style2={styles.profileComponent}
-          />
-        ) : (
-          <AppButton
-            title="Modifier"
-            onPress={() =>
-              navigation.navigate("AccountNavigator", {
-                screen: "PostEdit",
-                params: post,
-              })
-            }
-          />
-        )}
+
+        {/* Footer : Edit Button or Profil Component */}
+        <View
+          style={{
+            backgroundColor: colors.light,
+            height: 75,
+            justifyContent: "center",
+          }}
+        >
+          {postUser && post.userID != currentUser.uid ? (
+            <ProfileComponent
+              image={postUser.image}
+              title={postUser.name}
+              subTitle={postUser.email}
+              buttonTitle="Contacter"
+              buttonAction={() => setModalVisible(true)}
+              style2={styles.profileComponent}
+            />
+          ) : (
+            <AppButton
+              title="Modifier"
+              onPress={() =>
+                navigation.navigate("AccountNavigator", {
+                  screen: "PostEdit",
+                  params: post,
+                })
+              }
+            />
+          )}
+        </View>
+        {/* Share Button Floating */}
+        <FloatButton
+          onPress={onShare}
+          icon={"share"}
+          color={colors.secondary}
+        />
       </>
     )
   }

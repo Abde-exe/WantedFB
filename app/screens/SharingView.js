@@ -6,14 +6,12 @@ import * as Permissions from "expo-permissions"
 import * as MediaLibrary from "expo-media-library"
 import * as Sharing from "expo-sharing"
 import dayjs from "dayjs"
+import colors from "../../config/colors"
+import AppButton from "../components/AppButton"
 
 const SharingView = ({ route }) => {
   const viewRef = useRef()
-  const [post, setpost] = useState(route.params)
-
-  useEffect(() => {
-    setpost(route.params)
-  }, [route.params])
+  const [post, setpost] = useState(route.params.post)
 
   const captureViewToImage = async () => {
     try {
@@ -64,12 +62,30 @@ const SharingView = ({ route }) => {
       email,
     } = post
     return (
-      <View style={{ flex: 1 }}>
+      <View
+        style={{
+          flex: 1,
+          paddingHorizontal: 8,
+          paddingBottom: 50,
+          backgroundColor: colors.light,
+        }}
+      >
         <View style={styles.container} ref={viewRef}>
-          <Text>Disparition</Text>
+          <View
+            style={{ flexDirection: "row", width: "100%", flexWrap: "wrap" }}
+          >
+            {date && (
+              <Text style={styles.title}>
+                {`Disparu(e) depuis le ${dayjs(date.toDate()).format("D/M")}`}
+              </Text>
+            )}
+            {location && (
+              <Text style={styles.title}>{` à ${location.split(",")[0]}`}</Text>
+            )}
+          </View>
           <View
             style={{
-              borderWidth: 2,
+              //borderWidth: 2,
               borderColor: "yellow",
               flexDirection: "row",
               height: "40%",
@@ -86,58 +102,100 @@ const SharingView = ({ route }) => {
 
             <View
               style={{
-                borderWidth: 1,
+                //borderWidth: 1,
                 borderColor: "red",
                 width: "50%",
                 height: "100%",
               }}
             >
-              <Text>Identité</Text>
-              {name != "" ? <Text>Nom : {name}</Text> : null}
-              {age != "" ? <Text>Age : {age} ans</Text> : null}
-              <View style={{ flexDirection: "row" }}>
-                <Text>Recherché(e) depuis</Text>
-                {date != "" ? (
-                  <Text> le {dayjs(date.toDate()).format("D/M/YYYY")}</Text>
-                ) : null}
-                {location != "" ? <Text> à {location}</Text> : null}
-              </View>
+              {name != "" ? <Text style={styles.text}>{name}</Text> : null}
+              {age != "" ? (
+                <Text style={styles.subText}>Age : {age} ans</Text>
+              ) : null}
             </View>
           </View>
           <View
             style={{
-              borderWidth: 1,
+              //borderWidth: 1,
               borderColor: "blue",
               width: "100%",
-              height: "30%",
+              height: "40%",
             }}
           >
-            <Text>Description Physique</Text>
-            {corpulence != "" ? <Text>Corpulence : {corpulence}</Text> : null}
-            {height != "" ? <Text>Taille : {height} cm</Text> : null}
-            {hair != "" ? <Text>Cheveux : {hair}</Text> : null}
-            {eyes != "" ? <Text>Yeux : {eyes}</Text> : null}
-            {outfit != "" ? <Text>Tenue Vestimentaire : {outfit}</Text> : null}
+            {corpulence != "" ? (
+              <Text style={styles.subText}>Corpulence : {corpulence}</Text>
+            ) : null}
+            {height != "" ? (
+              <Text style={styles.subText}>Taille : {height} cm</Text>
+            ) : null}
+            {hair != "" ? (
+              <Text style={styles.subText}>Cheveux : {hair}</Text>
+            ) : null}
+            {eyes != "" ? (
+              <Text style={styles.subText}>Yeux : {eyes}</Text>
+            ) : null}
+            {outfit != "" ? (
+              <Text style={styles.subText}>Tenue Vestimentaire : {outfit}</Text>
+            ) : null}
             {other != "" ? (
-              <Text>Signe Particulier, Autre : {other}</Text>
+              <Text style={styles.subText}>Signe Particulier : {other}</Text>
             ) : null}
           </View>
           <View
             style={{
-              borderWidth: 1,
+              //borderWidth: 1,
               borderColor: "green",
               width: "100%",
             }}
           >
             <Text>Contact</Text>
             {email != "" ? <Text>Email : {email}</Text> : null}
-            {tel != "" ? <Text>Telephone : {tel}</Text> : null}
+            {tel != "" ? <Text>Téléphone : {tel}</Text> : null}
             <Text>Facebook</Text>
           </View>
+          <View
+            style={{
+              position: "absolute",
+              zIndex: 100,
+              bottom: 0,
+              right: 0,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={require("../../assets/icon.png")}
+              style={{ height: 50, width: 50 }}
+            />
+            <Text
+              style={{
+                color: colors.secondary,
+                flexWrap: "wrap",
+                width: 80,
+                fontSize: 12,
+              }}
+            >
+              Edité avec l'appli Wanted
+            </Text>
+          </View>
         </View>
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <Button title="Télécharger" onPress={handleSave} />
-          <Button title="Partager" onPress={handleShare} />
+        <View
+          style={{
+            flexDirection: "row",
+            position: "absolute",
+            bottom: 8,
+            alignSelf: "center",
+            width: "100%",
+          }}
+        >
+          <AppButton
+            title="Télécharger"
+            onPress={handleSave}
+            width={"53%"}
+            color="white"
+            text="primary"
+          />
+          <AppButton title="Partager" onPress={handleShare} width={"47%"} />
         </View>
       </View>
     )
@@ -148,9 +206,21 @@ const SharingView = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    borderWidth: 1,
+    //borderWidth: 1,
     padding: 8,
     margin: 8,
+    justifyContent: "space-between",
+  },
+  title: { fontSize: 24, color: colors.danger },
+  text: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginLeft: 4,
+  },
+  subText: {
+    fontSize: 18,
+    marginLeft: 4,
+    marginTop: 4,
   },
 })
 

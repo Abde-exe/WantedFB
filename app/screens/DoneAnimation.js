@@ -14,9 +14,7 @@ const DoneAnimation = ({ navigation, post }) => {
         }}
         loop={false}
         source={require("../../assets/done.json")}
-        onAnimationFinish={() => navigation.navigate("FeedStack")}
-        // OR find more Lottie files @ https://lottiefiles.com/featured
-        // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
+        onAnimationFinish={(() => navigation.navigate("SharingView"), { post })}
       />
     </View>
   )

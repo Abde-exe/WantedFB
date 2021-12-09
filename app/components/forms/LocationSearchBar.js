@@ -17,7 +17,6 @@ const LocationSearchBar = ({ placeholder, name }) => {
   } = useFormikContext()
 
   const [location, setLocation] = useState(values["location"])
-  console.log(`values["location"]`, values["location"])
 
   const onChange = (newLocation) => {
     setLocation(newLocation)
