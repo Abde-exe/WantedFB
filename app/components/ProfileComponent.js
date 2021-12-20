@@ -3,9 +3,8 @@ import { StyleSheet, View, Image, TouchableHighlight } from "react-native"
 import Swipeable from "react-native-gesture-handler/Swipeable"
 
 import colors from "../../config/colors"
-import AppText from "./AppText"
-
 import AppButton from "./AppButton"
+import AppText from "./AppText"
 
 export default function ProfileComponent({
   title,
@@ -15,15 +14,13 @@ export default function ProfileComponent({
   renderRightActions,
   buttonTitle,
   buttonAction,
-  ImageComponent,
   style2,
 }) {
   return (
     <View>
       <Swipeable renderRightActions={renderRightActions}>
-        <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
+        <TouchableHighlight onPress={onPress}>
           <View style={[styles.container, style2]}>
-            {ImageComponent}
             {image && <Image source={{ uri: image }} style={styles.image} />}
             <View style={{ marginLeft: 10, alignItems: "flex-start", flex: 1 }}>
               <AppText style2={styles.title}>{title}</AppText>
@@ -31,9 +28,11 @@ export default function ProfileComponent({
                 <AppText style2={styles.subTitle}>{subTitle}</AppText>
               )}
             </View>
-            {/* <View style={{ alignSelf: "flex-end", width: "30%" }}>
-              <AppButton title={buttonTitle} onPress={buttonAction} />
-            </View> */}
+            {buttonTitle && (
+              <View style={{ alignSelf: "flex-end" }}>
+                <AppButton title={buttonTitle} onPress={buttonAction} />
+              </View>
+            )}
           </View>
         </TouchableHighlight>
       </Swipeable>

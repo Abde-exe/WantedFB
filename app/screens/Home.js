@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Linking, View, Pressable, StyleSheet } from "react-native"
+import { Linking, View, Pressable, StyleSheet, Button } from "react-native"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import colors from "../../config/colors"
@@ -7,16 +7,24 @@ import { fetchUser, fetchUserPosts } from "../../redux/actions/index"
 import AppText from "../components/AppText"
 import Screen from "../components/Screen"
 import Icon from "../components/Icon"
-
+import firebase from "firebase"
 export class Home extends Component {
   componentDidMount() {
     this.props.fetchUser()
     this.props.fetchUserPosts()
   }
-
-  _handleOpenWithLinking = () => {
-    Linking.openURL("exp://gk-wc9.abdeebda.wantedfb.exp.direct:80/Feed")
+  onSignOut() {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        console.log(`error`, error)
+      })
   }
+
   render() {
     return (
       <Screen>
@@ -46,7 +54,7 @@ export class Home extends Component {
               />
               <AppText style2={styles.text}>Disparitions</AppText>
             </Pressable>
-            <Pressable
+            {/* <Pressable
               style={styles.view}
               onPress={() => this.props.navigation.navigate("Feed2")}
             >
@@ -57,7 +65,7 @@ export class Home extends Component {
                 backgroundColor="white"
               />
               <AppText style2={styles.text}>Etudiants</AppText>
-            </Pressable>
+            </Pressable> */}
           </View>
         </View>
       </Screen>

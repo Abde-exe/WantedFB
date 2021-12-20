@@ -2,12 +2,14 @@ import React from "react"
 import { StyleSheet, Text, View } from "react-native"
 import colors from "../../config/colors"
 
-const DetailsText = ({ text, subText, other = "" }) => {
+const DetailsText2 = ({ text, subText, other = "" }) => {
   return (
     <View
       style={{
-        flexDirection: "column",
-        width: "50%",
+        flexDirection: "row",
+        alignItems: "center",
+        marginHorizontal: 8,
+        marginTop: 8,
       }}
     >
       <Text style={styles.subText}>{subText}</Text>
@@ -16,19 +18,18 @@ const DetailsText = ({ text, subText, other = "" }) => {
   )
 }
 
-export default DetailsText
+export default DetailsText2
 
 const styles = StyleSheet.create({
   text: {
     flexWrap: "wrap",
-    width: "90%",
     fontSize: 16,
     color: colors.black,
     fontWeight: "100",
+    marginLeft: 8,
   },
   subText: {
-    marginTop: 8,
-    fontSize: 20,
+    fontSize: 18,
     color: colors.medium,
   },
 })

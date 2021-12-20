@@ -4,7 +4,7 @@ import firebase from "firebase"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import { deleteUserPost, fetchUserPosts } from "../../redux/actions/index"
-
+import Screen from "../components/Screen"
 import Card3 from "../components/Card3"
 import AppModal2 from "../components/AppModal2"
 
@@ -42,26 +42,28 @@ const UserPosts = ({ posts }) => {
   }
   if (posts.length != 0) {
     return (
-      <View>
-        <AppModal2
-          visible={modalVisible}
-          onClose={setModalVisible}
-          onPress={onDeletePost}
-        />
-        <FlatList
-          data={userPosts}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <Card3
-              post={item}
-              onIconPress={() => {
-                setModalVisible(true)
-                setitemToDelete({ id: item.id, postType: item.postType })
-              }}
-            />
-          )}
-        />
-      </View>
+      <Screen>
+        <View>
+          <AppModal2
+            visible={modalVisible}
+            onClose={setModalVisible}
+            onPress={onDeletePost}
+          />
+          <FlatList
+            data={userPosts}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <Card3
+                post={item}
+                onIconPress={() => {
+                  setModalVisible(true)
+                  setitemToDelete({ id: item.id, postType: item.postType })
+                }}
+              />
+            )}
+          />
+        </View>
+      </Screen>
     )
   } else {
     return (

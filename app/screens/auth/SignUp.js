@@ -1,19 +1,24 @@
 import React, { useState } from "react"
-import { View, Text, Pressable, StyleSheet } from "react-native"
+import { View, Text, Pressable, StyleSheet, Image } from "react-native"
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
 import colors from "../../../config/colors"
 import Screen from "../../components/Screen"
-import Firebase from "../../../config/firebase"
 import ErrorMessage from "../../components/ErrorMessage"
 import firebase from "firebase"
-const auth = Firebase.auth()
+import GoogleLogin from "./GoogleLogin"
+import FBLogin from "./FBLogin"
+import Separator from "../../components/Separator"
+import AppText from "../../components/AppText"
 const SignUp = ({ navigation }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [passwordVisibility, setPasswordVisibility] = useState(true)
   const [rightIcon, setRightIcon] = useState("eye")
   const [signupError, setSignupError] = useState("")
+
+  const pp =
+    "https://firebasestorage.googleapis.com/v0/b/wanted-316010.appspot.com/o/assets%2Fpp.png?alt=media&token=f564d417-d3ce-48f8-a211-3589664c0a03"
 
   const OnPressRightIcon = () => {
     if (rightIcon === "eye") {
@@ -25,15 +30,6 @@ const SignUp = ({ navigation }) => {
     }
   }
   const onHandleSignup = () => {
-    //get the default profile picture
-    const pp = ""
-    const storageRef = Firebase.storage().ref()
-    storageRef
-      .child("assets/pp.png")
-      .getDownloadURL()
-      .then((url) => {
-        pp = url
-      })
     //////
     try {
       if (email !== "" && password !== "") {
@@ -41,7 +37,6 @@ const SignUp = ({ navigation }) => {
           .auth()
           .createUserWithEmailAndPassword(email, password)
           .then((result) => {
-            console.log(`result`, result)
             firebase
               .firestore()
               .collection("users")
@@ -61,6 +56,10 @@ const SignUp = ({ navigation }) => {
 
   return (
     <Screen style2={styles.container}>
+      <Image
+        style={{ width: 100, height: 100, alignSelf: "center" }}
+        source={require("../../../assets/icon2.png")}
+      />
       <Text style={styles.title}>Bonjour</Text>
       <Text style={styles.subtitle}>
         Veuillez créer un compte pour entrer sur Wanted
@@ -93,6 +92,21 @@ const SignUp = ({ navigation }) => {
       {signupError ? <ErrorMessage error={signupError} visible={true} /> : null}
 
       <AppButton title="S'inscrire" onPress={onHandleSignup} />
+      <Separator />
+      <View>
+        <AppText style={{ marginVertical: 8 }}>Ou continuer avec</AppText>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-evenly",
+          width: "50%",
+        }}
+      >
+        <GoogleLogin />
+        <FBLogin />
+      </View>
 
       <View style={styles.footerButtonContainer}>
         <Pressable onPress={() => navigation.navigate("Login")}>
@@ -127,15 +141,10 @@ const styles = StyleSheet.create({
   },
 
   footerButtonContainer: {
-    marginVertical: 15,
-    justifyContent: "center",
-    alignItems: "center",
+    marginTop: 150,
+    bottom: 16,
   },
-  footerButtonContainer: {
-    marginVertical: 15,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   forgotPasswordButtonText: {
     color: colors.secondary,
     fontSize: 16,

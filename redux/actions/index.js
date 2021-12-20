@@ -80,7 +80,6 @@ export function deleteUserPost({ id, postType }) {
 export function updateUserPost(post, values) {
   if (post) {
     //delete from the database
-    console.log(`post.postType`, values)
     firebase
       .firestore()
       .collection(post.postType)

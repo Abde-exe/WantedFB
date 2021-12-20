@@ -2,19 +2,24 @@ import React from "react"
 import { StyleSheet, View } from "react-native"
 import LottieView from "lottie-react-native"
 
-const DoneAnimation = ({ navigation, post }) => {
-  console.log(`post`, post)
+const DoneAnimation = ({ navigation, route }) => {
+  console.log(`route.params`, route.params)
   return (
     <View style={styles.animationContainer}>
       <LottieView
         autoPlay
         style={{
-          width: 2000,
-          height: 2000,
+          width: 100,
+          height: 100,
         }}
         loop={false}
         source={require("../../assets/done.json")}
-        onAnimationFinish={(() => navigation.navigate("SharingView"), { post })}
+        onAnimationFinish={() => {
+          navigation.navigate("FeedStack", {
+            screen: "SharingView",
+            params: { post: route.params.values },
+          })
+        }}
       />
     </View>
   )

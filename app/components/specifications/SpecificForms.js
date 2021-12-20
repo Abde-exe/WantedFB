@@ -1,5 +1,5 @@
 import React from "react"
-import { View, StyleSheet } from "react-native"
+import { View, StyleSheet, KeyboardAvoidingView, Platform } from "react-native"
 import * as Yup from "yup"
 import { useNavigation } from "@react-navigation/core"
 
@@ -15,10 +15,11 @@ import { updateUserPost } from "../../../redux/actions/index"
 const validationSchema = {
   missings: Yup.object().shape({
     images: Yup.array().min(1, "Sélectionner au moins 1 image"),
-    name: Yup.string().required().min(3, "Entrer un nom").label("Nom"),
+    title: Yup.string().required().min(3, "Entrer un nom").label("Nom"),
     age: Yup.number().min(0).max(120).label("Age"),
     date: Yup.date().label("Date"),
     location: Yup.string().label("Localisation"),
+    description: Yup.string().label("Description"),
 
     corpulence: Yup.string().label("Corpulence"),
     height: Yup.number().min(100).max(220).label("Taille"),
@@ -48,7 +49,8 @@ const validationSchema = {
 const initialValues = {
   missings: {
     images: [],
-    name: "",
+    title: "",
+    description: "",
     age: "",
     date: new Date(),
     location: "",
@@ -84,7 +86,8 @@ const Missings = ({ changeProgress, post, edit }) => {
   if (post) {
     postValues = {
       images: post.images,
-      name: post.name,
+      title: post.title,
+      description: post.description,
       age: post.age,
       date: post.date.toDate(),
       location: post.location,
@@ -99,109 +102,123 @@ const Missings = ({ changeProgress, post, edit }) => {
     }
   }
   return (
-    <MultiForm
-      validationSchema={validationSchema.missings}
-      progress={changeProgress}
-      initialValues={post ? postValues : initialValues.missings}
-      onSubmit={
-        (values) => {
-          try {
-            //with images picked
-            if (values) {
-              if (values.images && values.images.length > 0)
-                edit ? updateUserPost(post, values) : uploadImages(values)
-              else {
-                //no images in the post
-                edit ? updateUserPost(post, values) : savePost(values, [])
-              }
-              navigation.navigate("DoneAnimation")
-            }
-          } catch (error) {
-            console.log(`error`, error)
-          }
-        }
-
-        // resetForm({ values: initialValues })
-      }
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      {
-        //Form 1
-      }
-      <View>
-        <AppText style2={styles.title}>Identité et Signalement</AppText>
-        <AppText style2={{ marginLeft: 16 }}>
-          Remplissez le plus de champs possible.
-        </AppText>
-        <ImagePicker name="images" />
+      <MultiForm
+        validationSchema={validationSchema.missings}
+        progress={changeProgress}
+        initialValues={post ? postValues : initialValues.missings}
+        onSubmit={
+          (values) => {
+            try {
+              //with images picked
+              if (values) {
+                if (values.images && values.images.length > 0)
+                  edit ? updateUserPost(post, values) : uploadImages(values)
+                else {
+                  //no images in the post
+                  edit ? updateUserPost(post, values) : savePost(values, [])
+                }
+                navigation.navigate("DoneAnimation", { values })
+              }
+            } catch (error) {
+              console.log(`error`, error)
+            }
+          }
 
-        <AppFormField name="name" placeholder="Nom, prénom..." icon="account" />
-        <AppFormField
-          name="age"
-          keyboardType="numeric"
-          maxLength={3}
-          placeholder="Age"
-          width={"22%"}
-        />
-        <LocationSearchBar
-          placeholder="Dernière localisation"
-          name="location"
-        />
-        <DateInput
-          name="date"
-          placeholder="Date de disparition"
-          icon="calendar-today"
-        />
-      </View>
-      {
-        //Form 2
-      }
-      <View>
-        <AppText style2={styles.title}>Description physique</AppText>
-        <AppFormField
-          name="corpulence"
-          placeholder="Corpulence"
-          style2={{ width: "75%" }}
-        />
-        <AppFormField
-          name="height"
-          keyboardType="numeric"
-          maxLength={3}
-          placeholder="Taille (cm)"
-          width={"30%"}
-        />
+          // resetForm({ values: initialValues })
+        }
+      >
+        {
+          //Form 1
+        }
+        <View>
+          <AppText style2={styles.title}>Identité et Signalement</AppText>
+          <AppText style2={{ marginLeft: 16 }}>
+            Remplissez le plus de champs possible.
+          </AppText>
+          <ImagePicker name="images" />
 
-        <AppFormField name="hair" placeholder="Cheveux" />
-        <AppFormField name="eyes" placeholder="Yeux" />
-        <AppFormField
-          name="outfit"
-          placeholder="Tenue vestimentaire"
-          multiline
-          numberOfLines={4}
-        />
-        <AppFormField
-          name="other"
-          placeholder="Signe particulier, autre..."
-          multiline
-          numberOfLines={4}
-        />
-      </View>
-      {
-        //Form 3
-      }
-      <View>
-        <AppText style2={styles.title}>Contact</AppText>
+          <AppFormField
+            name="title"
+            placeholder="Nom, prénom..."
+            icon="account"
+          />
+          <AppFormField
+            name="age"
+            keyboardType="numeric"
+            maxLength={3}
+            placeholder="Age"
+            width={"22%"}
+          />
+          <LocationSearchBar
+            placeholder="Dernière localisation"
+            name="location"
+          />
+          <DateInput
+            name="date"
+            placeholder="Date de disparition"
+            icon="calendar-today"
+          />
+          <AppFormField
+            name="description"
+            placeholder="Description ou message"
+            multiline
+            numberOfLines={4}
+          />
+        </View>
+        {
+          //Form 2
+        }
+        <View>
+          <AppText style2={styles.title}>Description physique</AppText>
+          <AppFormField
+            name="corpulence"
+            placeholder="Corpulence"
+            style2={{ width: "75%" }}
+          />
+          <AppFormField
+            name="height"
+            keyboardType="numeric"
+            maxLength={3}
+            placeholder="Taille(cm)"
+            width={"31%"}
+          />
 
-        <AppFormField
-          width={"40%"}
-          name="tel"
-          placeholder="Téléphone"
-          keyboardType="numeric"
-          maxLength={10}
-        />
+          <AppFormField name="hair" placeholder="Cheveux" />
+          <AppFormField name="eyes" placeholder="Yeux" />
+          <AppFormField
+            name="outfit"
+            placeholder="Tenue vestimentaire"
+            multiline
+            numberOfLines={4}
+          />
+          <AppFormField
+            name="other"
+            placeholder="Signe particulier, autre..."
+            multiline
+            numberOfLines={4}
+          />
+        </View>
+        {
+          //Form 3
+        }
+        <View>
+          <AppText style2={styles.title}>Contact</AppText>
 
-        <AppFormField name="email" placeholder="Email" />
-      </View>
-    </MultiForm>
+          <AppFormField
+            width={"40%"}
+            name="tel"
+            placeholder="Téléphone"
+            keyboardType="numeric"
+            maxLength={10}
+          />
+
+          <AppFormField name="email" placeholder="Email" />
+        </View>
+      </MultiForm>
+    </KeyboardAvoidingView>
   )
 }
 
@@ -226,70 +243,81 @@ const Students = ({ changeProgress, post, edit }) => {
     }
   }
   return (
-    <MultiForm
-      validationSchema={validationSchema.students}
-      initialValues={post ? postValues : initialValues.students}
-      progress={changeProgress}
-      onSubmit={(values) => {
-        if (values) {
-          navigation.navigate("DoneAnimation")
-
-          //with images picked
-          if (values.images.length > 0) {
-            edit ? updateUserPost(post, values) : uploadImages2(values)
-          } else {
-            //no images in the post
-            edit ? updateUserPost(post, values) : savePost2(values, [])
-          }
-        }
-
-        // resetForm({ values: initialValues })
-      }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      {
-        //Form 1
-      }
-      <View>
-        <AppText style2={styles.title}>Identité</AppText>
+      <MultiForm
+        validationSchema={validationSchema.students}
+        initialValues={post ? postValues : initialValues.students}
+        progress={changeProgress}
+        onSubmit={(values) => {
+          if (values) {
+            navigation.navigate("DoneAnimation")
 
-        <AppFormField name="name" placeholder="Nom, prénom..." icon="account" />
-        <AppFormField
-          name="age"
-          keyboardType="numeric"
-          maxLength={3}
-          placeholder="Age"
-          width={"22%"}
-        />
+            //with images picked
+            if (values.images.length > 0) {
+              edit ? updateUserPost(post, values) : uploadImages2(values)
+            } else {
+              //no images in the post
+              edit ? updateUserPost(post, values) : savePost2(values, [])
+            }
+          }
 
-        <LocationSearchBar placeholder="Localisation" name="location" />
-      </View>
-      {
-        //Form 2
-      }
-      <View>
-        <AppText style2={styles.title}>Poste</AppText>
+          // resetForm({ values: initialValues })
+        }}
+      >
+        {
+          //Form 1
+        }
+        <View>
+          <AppText style2={styles.title}>Identité</AppText>
 
-        <SelectRadio name="type" typeValues={["Alternance", "Job", "Stage"]} />
-        <AppFormField name="domain" placeholder="Domaine" />
-        <AppFormField name="length" placeholder="Durée" />
-        <LocationSearchBar placeholder="Lieu" name="place" />
-      </View>
-      {
-        //Form 3
-      }
-      <View>
-        <AppText style2={styles.title}>Détails</AppText>
+          <AppFormField
+            name="name"
+            placeholder="Nom, prénom..."
+            icon="account"
+          />
+          <AppFormField
+            name="age"
+            keyboardType="numeric"
+            maxLength={3}
+            placeholder="Age"
+            width={"22%"}
+          />
 
-        <AppFormField name="title" placeholder="Titre" />
-        <AppFormField
-          name="description"
-          placeholder="Description"
-          multiline
-          numberOfLines={4}
-        />
-        <ImagePicker name="images" />
-      </View>
-    </MultiForm>
+          <LocationSearchBar placeholder="Localisation" name="location" />
+        </View>
+        {
+          //Form 2
+        }
+        <View>
+          <AppText style2={styles.title}>Poste</AppText>
+
+          <SelectRadio
+            name="type"
+            typeValues={["Alternance", "Job", "Stage"]}
+          />
+          <AppFormField name="domain" placeholder="Domaine" />
+          <AppFormField name="length" placeholder="Durée" />
+          <LocationSearchBar placeholder="Lieu" name="place" />
+        </View>
+        {
+          //Form 3
+        }
+        <View>
+          <AppText style2={styles.title}>Détails</AppText>
+
+          <AppFormField name="title" placeholder="Titre" />
+          <AppFormField
+            name="description"
+            placeholder="Description"
+            multiline
+            numberOfLines={4}
+          />
+          <ImagePicker name="images" />
+        </View>
+      </MultiForm>
+    </KeyboardAvoidingView>
   )
 }
 

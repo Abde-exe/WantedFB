@@ -50,7 +50,6 @@ const categories = [
 
 const PostCreate = ({ navigation, route }) => {
   const scrollView = useRef()
-
   const [modalVisible, setModalVisible] = useState(false)
   //manage progress bar and steps
   const [step, setStep] = useState(0)
@@ -106,7 +105,7 @@ const PostCreate = ({ navigation, route }) => {
             scrollView.current.scrollTo({ x: 0, y: 0, animated: true })
           }
         >
-          {route.params.postType == "missings" ? (
+          {true ? (
             <Missings changeProgress={changeProgress} />
           ) : (
             <Students changeProgress={changeProgress} />

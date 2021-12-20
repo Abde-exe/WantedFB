@@ -6,6 +6,7 @@ import { useFormikContext } from "formik"
 
 import defaultStyles from "../../../config/styles"
 import ErrorMessage from "./ErrorMessage"
+import environment from "../../../config/environment"
 
 const LocationSearchBar = ({ placeholder, name }) => {
   const {
@@ -42,7 +43,7 @@ const LocationSearchBar = ({ placeholder, name }) => {
           value: location,
         }}
         query={{
-          key: "AIzaSyCeoQjaosVPYf8xS0QxiqIOL_od4exQf8s",
+          key: environment.GOOGLE_PLACES,
           language: "fr",
           types: "(cities)",
           components: "country:fr",

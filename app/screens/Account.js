@@ -54,8 +54,8 @@ const Account = ({ currentUser, navigation }) => {
           image={currentUser.image}
           title={currentUser.name}
           subTitle={currentUser.email}
-          buttonTitle="Modifier"
-          buttonAction={() => setModal(true)}
+          // buttonTitle="Modifier"
+          // buttonAction={() => setModal(true)}
         />
         <View style={styles.container}>
           <FlatList

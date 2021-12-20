@@ -1,5 +1,5 @@
 import React from "react"
-import { StyleSheet, Modal, View, FlatList, Pressable } from "react-native"
+import { StyleSheet, Modal, View, Pressable } from "react-native"
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons"
 
 import colors from "../../config/colors"
@@ -41,17 +41,15 @@ const AppModal = ({ modalVisible, setModalVisible, action }) => {
               color={colors.white}
             />
           </Pressable>
-          <FlatList
-            contentContainerStyle={{
+          <View
+            style={{
               flex: 1,
               justifyContent: "space-around",
+              flexDirection: "row",
             }}
-            horizontal
-            data={categories}
-            keyExtractor={(item) => item.label.toString()}
-            numColumns={1}
-            renderItem={({ item }) => (
-              <Pressable onPress={() => action(item.label)}>
+          >
+            {categories.map((item) => (
+              <Pressable onPress={() => action(item.label)} key={item.text}>
                 <Icon
                   size={80}
                   name={item.icon}
@@ -59,8 +57,8 @@ const AppModal = ({ modalVisible, setModalVisible, action }) => {
                   backgroundColor={"white"}
                 />
               </Pressable>
-            )}
-          />
+            ))}
+          </View>
         </View>
       </Modal>
     </View>

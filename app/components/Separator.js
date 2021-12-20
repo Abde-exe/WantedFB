@@ -6,6 +6,7 @@ const Separator = () => {
   return (
     <View
       style={{
+        marginVertical: 16,
         height: 0.5,
         width: "100%",
         backgroundColor: colors.light,

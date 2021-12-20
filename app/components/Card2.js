@@ -14,7 +14,7 @@ const Card2 = ({ post }) => {
   //state
   const [image, setImage] = useState()
   const navigation = useNavigation()
-  const { id, name, age, images, location, createdAt } = post
+  const { id, title, age, images, location, createdAt } = post
 
   useEffect(() => {
     if (images) {
@@ -58,7 +58,7 @@ const Card2 = ({ post }) => {
             justifyContent: "space-between",
           }}
         >
-          <AppText style2={styles.title}>{name}</AppText>
+          <AppText style2={styles.title}>{title}</AppText>
           <AppText style2={styles.title}>{age}</AppText>
         </View>
         <View

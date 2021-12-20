@@ -16,7 +16,7 @@ const PostCreateStack = () => {
     <Stack.Navigator
       headerMode="none"
       mode="card"
-      initialRouteName="PostCreateMenu"
+      initialRouteName="PostCreate"
     >
       <Stack.Screen name="PostCreateMenu" component={PostCreateMenu} />
       <Stack.Screen name="PostCreate" component={PostCreate} />

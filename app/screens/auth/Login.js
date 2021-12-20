@@ -1,15 +1,19 @@
-import React, { useState } from "react"
-import { View, Text, Pressable, StyleSheet, Image } from "react-native"
+import React, { useEffect, useState } from "react"
+import { View, Text, Pressable, StyleSheet, Image, Button } from "react-native"
 
+import * as WebBrowser from "expo-web-browser"
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
 import colors from "../../../config/colors"
 import Screen from "../../components/Screen"
 import ErrorMessage from "../../components/ErrorMessage"
 import Firebase from "../../../config/firebase"
-
+import GoogleLogin from "./GoogleLogin"
+import FBLogin from "./FBLogin"
+import Separator from "../../components/Separator"
+import AppText from "../../components/AppText"
 const auth = Firebase.auth()
-
+WebBrowser.maybeCompleteAuthSession()
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -80,6 +84,21 @@ const Login = ({ navigation }) => {
       </Pressable>
       <AppButton title="Connexion" onPress={onLogin} />
 
+      <Separator />
+      <View>
+        <AppText style={{ marginVertical: 8 }}>Ou continuer avec</AppText>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-evenly",
+          width: "50%",
+        }}
+      >
+        <GoogleLogin />
+        <FBLogin />
+      </View>
       <View style={styles.footerButtonContainer}>
         <Pressable onPress={() => navigation.navigate("SignUp")}>
           <Text style={{ color: colors.secondary, fontSize: 16 }}>
@@ -87,7 +106,6 @@ const Login = ({ navigation }) => {
           </Text>
         </Pressable>
       </View>
-
       {/*
       <Button
         title="testFB"
@@ -126,9 +144,8 @@ const styles = StyleSheet.create({
   },
 
   footerButtonContainer: {
-    marginVertical: 15,
-    justifyContent: "center",
-    alignItems: "center",
+    marginTop: 150,
+    bottom: 16,
   },
 
   forgotPasswordButtonText: {

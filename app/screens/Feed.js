@@ -65,6 +65,7 @@ const Feed = ({ navigation }) => {
           />
 
           <FlatList
+            style={{ marginLeft: 8 }}
             refreshing={refresh}
             onRefresh={() => fetchPosts()}
             numColumns={2}

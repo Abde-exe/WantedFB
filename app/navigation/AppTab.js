@@ -7,7 +7,6 @@ import NewPostButton from "./NewPostButton"
 import FeedStack from "./FeedStack"
 import AccountNavigator from "./AccountNavigator"
 import PostCreateStack from "./PostCreateStack"
-import Icon from "../components/Icon"
 
 const Tab = createBottomTabNavigator()
 
@@ -47,7 +46,6 @@ const AppTab = () => {
         <Tab.Screen
           name="AccountNavigator"
           options={{
-            tabBarVisible: false,
             tabBarIcon: ({ size, color }) => (
               <MaterialCommunityIcons
                 name="account"

@@ -12,7 +12,7 @@ const Card3 = ({ post, onIconPress }) => {
   //state
   const [image, setImage] = useState()
   const navigation = useNavigation()
-  const { name, type, images, createdAt, postType } = post
+  const { title, type, images, createdAt, postType } = post
 
   useEffect(() => {
     if (images) {
@@ -57,7 +57,7 @@ const Card3 = ({ post, onIconPress }) => {
             justifyContent: "space-between",
           }}
         >
-          <AppText style2={styles.title}>{name}</AppText>
+          <AppText style2={styles.title}>{title}</AppText>
           <IconButton
             name="close-circle"
             size={24}

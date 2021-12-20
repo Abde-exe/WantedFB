@@ -9,7 +9,7 @@ import DetailsText from "../DetailsText"
 import Separator from "../Separator"
 
 const DetailSection = ({ post }) => {
-  const { name, age, date, location } = post
+  const { title, age, date, location, description } = post
   const { corpulence, height, hair, eyes, outfit, other } = post
   const { tel, email } = post
   return (
@@ -29,7 +29,7 @@ const DetailSection = ({ post }) => {
       <View style={{ padding: 20 }}>
         <AppText style={styles.sectionTitle}>Identité</AppText>
         <View style={styles.section}>
-          <DetailsText text={name} subText={"Nom"} />
+          <DetailsText text={title} subText={"Nom"} />
           {age != "" ? (
             <DetailsText text={age} subText={"Age"} other={" ans"} />
           ) : null}
@@ -37,6 +37,7 @@ const DetailSection = ({ post }) => {
             <DetailsText text={location} subText={"Lieu de disparition"} />
           ) : null}
         </View>
+        {description != "" ? <DetailsText text={description} /> : null}
         <Separator />
         <AppText style={styles.sectionTitle}>Description physique</AppText>
         <View style={styles.section}>
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   section: {
-    marginBottom: 24,
+    marginBottom: 16,
     marginTop: 8,
     flexDirection: "row",
     flexWrap: "wrap",

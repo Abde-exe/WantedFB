@@ -7,8 +7,8 @@ export default function Screen({ children, style2 }) {
     <SafeAreaView style={[styles.screen, style2]}>
       <StatusBar
         animated={true}
-        backgroundColor={colors.primary}
-        translucent={false}
+        //   backgroundColor={colors.primary}
+        // translucent={false}
       />
       <View style={[style2, styles.view]}>{children}</View>
     </SafeAreaView>
@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.white,
-    paddingVertical: 8,
   },
   view: {
     flex: 1,

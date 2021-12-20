@@ -20,14 +20,14 @@ import AppButton from "../components/AppButton"
 import AppModal from "../components/AppModal"
 import DetailSection2 from "../components/specifications/DetailSection2"
 import DetailSection from "../components/specifications/DetailSection"
-import Icon from "../components/Icon"
-import FloatButton from "../components/FloatButton"
+import Screen from "../components/Screen"
 
+import FloatButton from "../components/FloatButton"
 const PostDetail = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false)
   //state---------//
   const [post, setPost] = useState(null)
-  const [postUser, setPostUser] = useState(null)
+  const [postUser, setPostUser] = useState()
   const currentUser = firebase.auth().currentUser
   //Main image
   const [image, setImage] = useState()
@@ -40,15 +40,14 @@ const PostDetail = ({ route, navigation }) => {
   //fetch post with postId
   useEffect(() => {
     //when only have the id not the post itself
-    if (!("name" in route.params)) fetchPost()
+    if (!("title" in route.params)) fetchPost()
     else {
       setPost(route.params)
+      fetchPostUser(route.params.userID)
       setImage(route.params.images[0])
       imagesMap(route.params.images)
       setError(false)
     }
-
-    fetchPostUser()
   }, [])
   const fetchPost = () => {
     try {
@@ -63,9 +62,9 @@ const PostDetail = ({ route, navigation }) => {
             setPost(snapshot.data())
             setImage(snapshot.data().images[0])
             imagesMap(snapshot.data().images)
+            fetchPostUser(snapshot.data().id)
           }
         })
-
       setLoading(false)
       setError(false)
     } catch (e) {
@@ -74,19 +73,17 @@ const PostDetail = ({ route, navigation }) => {
       setLoading(false)
     }
   }
-  const fetchPostUser = () => {
-    if (post) {
-      firebase
-        .firestore()
-        .collection("users")
-        .doc(post.userID)
-        .get()
-        .then((snapshot) => {
-          if (snapshot.exists) {
-            setPostUser(snapshot.data())
-          }
-        })
-    }
+  const fetchPostUser = (id) => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(id)
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists) {
+          setPostUser(snapshot.data())
+        }
+      })
   }
   //save the post images into state and map them into a formatted array
   //to display the images in imageView(carousel)
@@ -118,11 +115,10 @@ const PostDetail = ({ route, navigation }) => {
       openURL(`tel:${post.tel}`)
     }
   }
-
   //Success
   if (post) {
     return (
-      <>
+      <Screen>
         {/* Header */}
         <View style2={styles.header}>
           <View
@@ -222,21 +218,11 @@ const PostDetail = ({ route, navigation }) => {
         {/* Footer : Edit Button or Profil Component */}
         <View
           style={{
-            backgroundColor: colors.light,
             height: 75,
             justifyContent: "center",
           }}
         >
-          {postUser && post.userID != currentUser.uid ? (
-            <ProfileComponent
-              image={postUser.image}
-              title={postUser.name}
-              subTitle={postUser.email}
-              buttonTitle="Contacter"
-              buttonAction={() => setModalVisible(true)}
-              style2={styles.profileComponent}
-            />
-          ) : (
+          {post.userID == currentUser.uid ? (
             <AppButton
               title="Modifier"
               onPress={() =>
@@ -246,6 +232,16 @@ const PostDetail = ({ route, navigation }) => {
                 })
               }
             />
+          ) : (
+            postUser && (
+              <ProfileComponent
+                image={postUser.image}
+                title={postUser.name}
+                buttonTitle="Contacter"
+                buttonAction={() => setModalVisible(true)}
+                style2={styles.profileComponent}
+              />
+            )
           )}
         </View>
         {/* Share Button Floating */}
@@ -254,7 +250,7 @@ const PostDetail = ({ route, navigation }) => {
           icon={"share"}
           color={colors.secondary}
         />
-      </>
+      </Screen>
     )
   }
 }
@@ -277,14 +273,6 @@ const styles = StyleSheet.create({
   profileComponent: {
     borderTopEndRadius: 25,
     borderTopStartRadius: 25,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-
-    elevation: 2,
+    backgroundColor: colors.light,
   },
 })

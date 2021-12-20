@@ -19,7 +19,7 @@ const Search = ({ route }) => {
     firebase
       .firestore()
       .collection(postType)
-      .where("name", "==", value)
+      .where("name", ">=", value)
       .get()
       .then((snapshot) => {
         let posts = snapshot.docs.map((doc) => {
@@ -29,6 +29,14 @@ const Search = ({ route }) => {
         })
         setposts(posts)
       })
+  }
+  const searchPosts2 = (value) => {
+    console.log(`value`, posts)
+    posts.forEach((element) => {
+      console.log(`element.name`, element)
+    })
+    // const filteredList = posts.filter((item) => item.age == 21)
+    // setposts(filteredList)
   }
   return (
     <View>

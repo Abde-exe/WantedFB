@@ -1,1 +1,6 @@
 Prochain release : 
+fonction sharing différente pour android et ios
+
+message confirmation apres deconnexion
+
+post pour objet trouvés et perdus
