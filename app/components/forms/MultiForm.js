@@ -16,55 +16,53 @@ function MultiForm({
   const [step, setstep] = useState(0)
   const currentChild = childrenArray[step]
   return (
-    <View style={{ paddingBottom: 32 }}>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validationSchema={validationSchema}
-      >
-        {() => (
-          <>
-            {currentChild}
-            <View
-              style={{
-                flexDirection: "row-reverse",
-                justifyContent: "space-evenly",
-              }}
-            >
-              {step === childrenArray.length - 1 ? (
-                <SubmitButton
-                  title="Valider"
-                  onPress={() => {
-                    onSubmit()
-                    progress(oneStep)
-                  }}
-                />
-              ) : null}
-              {step < childrenArray.length - 1 ? (
-                <AppButton
-                  title="Suivant"
-                  onPress={() => {
-                    setstep((s) => s + 1)
-                    progress(oneStep)
-                  }}
-                />
-              ) : null}
-              {step > 0 ? (
-                <AppButton
-                  color="white"
-                  text="primary"
-                  onPress={() => {
-                    setstep((s) => s - 1)
-                    progress(-oneStep)
-                  }}
-                  title="Retour"
-                />
-              ) : null}
-            </View>
-          </>
-        )}
-      </Formik>
-    </View>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+    >
+      {() => (
+        <>
+          {currentChild}
+          <View
+            style={{
+              flexDirection: "row-reverse",
+              justifyContent: "space-evenly",
+            }}
+          >
+            {step === childrenArray.length - 1 ? (
+              <SubmitButton
+                title="Valider"
+                onPress={() => {
+                  onSubmit()
+                  progress(oneStep)
+                }}
+              />
+            ) : null}
+            {step < childrenArray.length - 1 ? (
+              <AppButton
+                title="Suivant"
+                onPress={() => {
+                  setstep((s) => s + 1)
+                  progress(oneStep)
+                }}
+              />
+            ) : null}
+            {step > 0 ? (
+              <AppButton
+                color="white"
+                text="primary"
+                onPress={() => {
+                  setstep((s) => s - 1)
+                  progress(-oneStep)
+                }}
+                title="Retour"
+              />
+            ) : null}
+          </View>
+        </>
+      )}
+    </Formik>
   )
 }
 

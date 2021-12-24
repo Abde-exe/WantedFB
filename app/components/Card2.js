@@ -58,8 +58,10 @@ const Card2 = ({ post }) => {
             justifyContent: "space-between",
           }}
         >
-          <AppText style2={styles.title}>{title}</AppText>
-          <AppText style2={styles.title}>{age}</AppText>
+          <AppText style2={styles.title} numberOfLines={1}>
+            {title}
+          </AppText>
+          <AppText style2={styles.subtitle}>{age}</AppText>
         </View>
         <View
           style={{
@@ -69,7 +71,7 @@ const Card2 = ({ post }) => {
             justifyContent: "space-between",
           }}
         >
-          <AppText style2={styles.description}>
+          <AppText style2={styles.description} numberOfLines={1}>
             {dayjs(createdAt.toDate()).fromNow()}
           </AppText>
           <AppText style2={styles.description}>DISPARITION</AppText>
@@ -92,10 +94,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   details: {
-    padding: 3,
     flex: 1,
-    height: 32,
-    justifyContent: "space-between",
+    height: 20,
+    justifyContent: "space-around",
   },
   image: {
     width: "100%",
@@ -107,6 +108,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
     color: colors.black,
+    flex: 1,
+  },
+  subtitle: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: colors.black,
   },
 
   description: {
@@ -114,5 +121,6 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
     color: colors.secondary,
     flexWrap: "wrap",
+    flex: 1,
   },
 })

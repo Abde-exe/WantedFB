@@ -7,7 +7,7 @@ export default function Screen({ children, style2 }) {
     <SafeAreaView style={[styles.screen, style2]}>
       <StatusBar
         animated={true}
-        //   backgroundColor={colors.primary}
+        backgroundColor={colors.primary}
         // translucent={false}
       />
       <View style={[style2, styles.view]}>{children}</View>

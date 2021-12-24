@@ -12,6 +12,7 @@ const UserPosts = ({ posts }) => {
   const [userPosts, setuserPosts] = useState(posts)
   const [modalVisible, setModalVisible] = useState(false)
   const [itemToDelete, setitemToDelete] = useState(null)
+  const userId = firebase.auth().currentUser.uid
 
   const onDeletePost = () => {
     if (itemToDelete.id) {
@@ -19,25 +20,7 @@ const UserPosts = ({ posts }) => {
       setuserPosts(userPosts.filter((i) => i.id != itemToDelete.id))
       setModalVisible(false)
       //delete from the database and the store
-      deleteUserPost(itemToDelete)
-
-      // //delete from the database
-      // firebase
-      //   .firestore()
-      //   .collection(itemToDelete.postType)
-      //   .doc(itemToDelete.id)
-      //   .delete()
-      //   .then(() => {
-      //     console.log(itemToDelete.postType)
-      //     //delete from the redux store
-      //     deleteUserPost(itemToDelete.id)
-      //     //delete from the array of posts in this screen
-      //     setuserPosts(userPosts.filter((i) => i.id != itemToDelete.id))
-      //     setModalVisible(false)
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error removing document: ", error)
-      //   })
+      deleteUserPost(itemToDelete, userId)
     }
   }
   if (posts.length != 0) {
@@ -48,6 +31,8 @@ const UserPosts = ({ posts }) => {
             visible={modalVisible}
             onClose={setModalVisible}
             onPress={onDeletePost}
+            text="Confirmer la suppression du post"
+            confirmText="Supprimer"
           />
           <FlatList
             data={userPosts}
@@ -57,7 +42,11 @@ const UserPosts = ({ posts }) => {
                 post={item}
                 onIconPress={() => {
                   setModalVisible(true)
-                  setitemToDelete({ id: item.id, postType: item.postType })
+                  setitemToDelete({
+                    id: item.id,
+                    postType: item.postType,
+                    images: item.images,
+                  })
                 }}
               />
             )}

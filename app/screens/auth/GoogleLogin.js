@@ -19,7 +19,6 @@ const GoogleLogin = ({ navigation }) => {
         .auth()
         .signInWithCredential(credential)
         .then((result) => {
-          console.log(`result`, result)
           firebase
             .firestore()
             .collection("users")

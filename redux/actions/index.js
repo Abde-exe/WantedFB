@@ -55,9 +55,10 @@ export function fetchUserPosts() {
 export function addUserPost(post) {
   return (dispatch) => {
     dispatch({ type: ADD_USER_POST, post })
+    dispatch({ type: USER_POSTS_STATE_CHANGE })
   }
 }
-export function deleteUserPost({ id, postType }) {
+export function deleteUserPost({ id, postType, images }, userId) {
   if (id) {
     //delete from the database
     firebase
@@ -72,8 +73,28 @@ export function deleteUserPost({ id, postType }) {
         console.error("Error removing document: ", error)
       })
   }
+  //delete each of the post's images from the storage
+  const childPath = `${postType}/${userId}`
+
+  images.forEach((element) => {
+    const end = element.indexOf("png")
+    const name = element.substring(end - 37, end + 3)
+
+    const ref = firebase.storage().ref(`${childPath}/${name}`)
+    ref
+      .delete()
+      .then(() => {
+        console.log(`success`)
+      })
+      .catch((error) => {
+        console.log(`error`, error)
+      })
+  })
+
+  //
   return (dispatch) => {
     dispatch({ type: DELETE_USER_POST, id })
+    dispatch({ type: USER_POSTS_STATE_CHANGE })
   }
 }
 
@@ -92,6 +113,7 @@ export function updateUserPost(post, values) {
       })
       .then(() => {
         console.log(post.postType)
+        navigation.navigate("DoneAnimation", { values })
       })
       .catch((error) => {
         console.error("Error removing document: ", error)

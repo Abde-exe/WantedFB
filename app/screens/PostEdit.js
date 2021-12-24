@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  SafeAreaView,
 } from "react-native"
 import { LogBox } from "react-native"
 LogBox.ignoreLogs(["Setting a timer for a long period of time"])
@@ -59,49 +60,48 @@ const PostEdit = ({ navigation, route }) => {
     setStep(step + i)
   }
   if (false) {
-    console.log(`route.params`, route.params)
     return <View></View>
   } else {
     return (
-      <Screen>
-        <View style={styles.container}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              paddingHorizontal: 8,
-            }}
-          >
-            <IconButton
-              onPress={() => navigation.goBack()}
-              name="arrow-left"
-              size={30}
-              color={colors.medium}
-            />
-            <IconButton
-              onPress={() => navigation.navigate("Account")}
-              name="close-circle"
-              size={30}
-              color={colors.medium}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : "height"}
+      >
+        <SafeAreaView>
+          <View style={styles.container}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingHorizontal: 8,
+              }}
+            >
+              <IconButton
+                onPress={() => navigation.goBack()}
+                name="arrow-left"
+                size={30}
+                color={colors.medium}
+              />
+              <IconButton
+                onPress={() => navigation.navigate("Account")}
+                name="close-circle"
+                size={30}
+                color={colors.medium}
+              />
+            </View>
+            <ProgressBar
+              animated={true}
+              animationType="spring"
+              width={Dimensions.get("window").width}
+              progress={step}
+              color={colors.secondary}
+              unfilledColor={colors.light}
+              borderColor={colors.background}
+              height={8}
+              borderRadius={0}
+              useNativeDriver={true}
             />
           </View>
-          <ProgressBar
-            animated={true}
-            animationType="spring"
-            width={Dimensions.get("window").width}
-            progress={step}
-            color={colors.secondary}
-            unfilledColor={colors.light}
-            borderColor={colors.background}
-            height={8}
-            borderRadius={0}
-            useNativeDriver={true}
-          />
-        </View>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "position" : "height"}
-          style={{ flex: 1 }}
-        >
+
           <ScrollView
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
@@ -124,45 +124,49 @@ const PostEdit = ({ navigation, route }) => {
               />
             )}
           </ScrollView>
-        </KeyboardAvoidingView>
-        <Modal visible={modalVisible} transparent={true} animationType="slide">
-          <View
-            style={{
-              position: "absolute",
-              bottom: 0,
-              width: "100%",
-              height: "30%",
-              backgroundColor: colors.medium,
-              borderTopStartRadius: 25,
-              borderTopEndRadius: 25,
-            }}
+          <Modal
+            visible={modalVisible}
+            transparent={true}
+            animationType="slide"
           >
-            <TouchableOpacity
-              onPress={() => {
-                setModalVisible(false)
-              }}
+            <View
               style={{
-                marginLeft: 16,
-                marginVertical: 8,
+                position: "absolute",
+                bottom: 0,
+                width: "100%",
+                height: "30%",
+                backgroundColor: colors.medium,
+                borderTopStartRadius: 25,
+                borderTopEndRadius: 25,
               }}
             >
-              <MaterialCommunityIcons
-                name="close-circle"
-                size={30}
-                color={colors.white}
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(false)
+                }}
+                style={{
+                  marginLeft: 16,
+                  marginVertical: 8,
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="close-circle"
+                  size={30}
+                  color={colors.white}
+                />
+              </TouchableOpacity>
+              <FlatList
+                horizontal
+                data={categories}
+                keyExtractor={(item) => item.value.toString()}
+                numColumns={1}
+                renderItem={({ item }) => <AppText>{item.label}</AppText>}
               />
-            </TouchableOpacity>
-            <FlatList
-              horizontal
-              data={categories}
-              keyExtractor={(item) => item.value.toString()}
-              numColumns={1}
-              renderItem={({ item }) => <AppText>{item.label}</AppText>}
-            />
-          </View>
-          )
-        </Modal>
-      </Screen>
+            </View>
+            )
+          </Modal>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     )
   }
 }

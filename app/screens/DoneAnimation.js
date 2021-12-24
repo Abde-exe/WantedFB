@@ -3,7 +3,6 @@ import { StyleSheet, View } from "react-native"
 import LottieView from "lottie-react-native"
 
 const DoneAnimation = ({ navigation, route }) => {
-  console.log(`route.params`, route.params)
   return (
     <View style={styles.animationContainer}>
       <LottieView

@@ -12,8 +12,9 @@ import AppButton from "../components/AppButton"
 import DetailsText2 from "../components/DetailsText2"
 import Screen from "../components/Screen"
 import IconButton from "../components/IconButton"
+import NavigationBar from "../components/NavigationBar"
 
-const SharingView = ({ route, navigation }) => {
+const SharingView = ({ route }) => {
   const viewRef = useRef()
   const [post, setpost] = useState(route.params.post)
 
@@ -49,14 +50,6 @@ const SharingView = ({ route, navigation }) => {
 
     await Sharing.shareAsync(image)
   }
-  const handleShare2 = async () => {
-    let shareOptions = {
-      message:
-        "Pour développer mes applications mobiles, je fais une confiance aveugle à OnTheBeach.dev",
-      url: "https://pbs.twimg.com/media/FGWjagLXIA0FJmt?format=png&name=medium",
-    }
-    downloadImage(shareOptions)
-  }
   const onShare = async () => {
     const image = await captureViewToImage()
 
@@ -77,53 +70,6 @@ const SharingView = ({ route, navigation }) => {
     } catch (error) {
       alert(error.message)
     }
-  }
-  const downloadImage = (shareOptions) => {
-    const pathOfTheImage = `${RNFS.documentDirectory}/shareImage.png`
-    RNFS.downloadAsync(shareOptions.url, pathOfTheImage)
-      .then((response) => {
-        if (Platform.OS === "android") {
-          //On partage le fichier local
-          let localOptions = { ...shareOptions }
-          localOptions.url = pathOfTheImage
-          console.log(`shareOptions`, localOptions.url)
-
-          Share.share({
-            message: `https://abdedev.fr/posts/`,
-            url: localOptions.url,
-            //   Sharing.shareAsync(image)
-          })
-            .then((response) => {
-              console.log("Finished downloading to ", shareOptions)
-              //Gestion du retour
-              // RNFS.deleteAsync(pathOfTheImage)
-            })
-            .catch((error) => {
-              //Gestion des erreurs
-              // RNFS.deleteAsync(pathOfTheImage)
-            })
-        } else {
-          shareWithBase64(pathOfTheImage, shareOptions)
-        }
-      })
-      .catch((error) => {
-        //En cas d'erreur, on peut choisir une autre option de partage (sans url par exemple)
-      })
-  }
-  const shareWithBase64 = (pathOfTheImage, shareOptions) => {
-    RNFS.readFile(`file://${pathOfTheImage}`, "base64").then((res) => {
-      let base64Options = { ...shareOptions }
-      base64Options.url = `data:image/jpeg;base64,${res}`
-      Share.share(shareOptions)
-        .then((response) => {
-          //Gestion du retour
-          RNFS.deleteAsync(pathOfTheImage)
-        })
-        .catch((error) => {
-          //Gestion des erreurs
-          RNFS.deleteAsync(pathOfTheImage)
-        })
-    })
   }
 
   if (post) {
@@ -146,21 +92,7 @@ const SharingView = ({ route, navigation }) => {
     date.seconds ? (date2 = date.toDate()) : (date2 = date)
     return (
       <Screen>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            paddingHorizontal: 8,
-            paddingVertical: 8,
-          }}
-        >
-          <IconButton
-            onPress={() => navigation.goBack()}
-            name="arrow-left"
-            size={30}
-            color={colors.medium}
-          />
-        </View>
+        <NavigationBar />
         <View
           style={{
             flex: 1,
@@ -173,16 +105,16 @@ const SharingView = ({ route, navigation }) => {
             <View
               style={{ flexDirection: "row", width: "100%", flexWrap: "wrap" }}
             >
-              {date && (
+              {date2 && (
                 <Text style={styles.title}>
                   {`Disparu(e) depuis le ${dayjs(date2).format("D/M")}`}
                 </Text>
               )}
-              {location && (
+              {location != "" ? (
                 <Text style={styles.title}>{`à ${
                   location.split(",")[0]
                 }`}</Text>
-              )}
+              ) : null}
             </View>
             <View
               style={{
@@ -310,7 +242,7 @@ const SharingView = ({ route, navigation }) => {
           /> */}
             <AppButton
               title="Partager"
-              onPress={Platform.OS == "ios" ? onShare : handleShare}
+              onPress={Platform.OS == "ios" ? onShare : onShare}
               width={"47%"}
             />
           </View>

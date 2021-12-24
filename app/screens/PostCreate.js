@@ -6,7 +6,7 @@ import {
   ScrollView,
   Modal,
   StyleSheet,
-  TouchableOpacity,
+  SafeAreaView,
   View,
   FlatList,
 } from "react-native"
@@ -20,6 +20,7 @@ import Screen from "../components/Screen"
 import colors from "../../config/colors"
 import IconButton from "../components/IconButton"
 import { Missings, Students } from "../components/specifications/SpecificForms"
+import NavigationBar from "../components/NavigationBar"
 
 const categories = [
   {
@@ -58,45 +59,26 @@ const PostCreate = ({ navigation, route }) => {
   }
 
   return (
-    <Screen>
-      <View style={styles.container}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            paddingHorizontal: 8,
-          }}
-        >
-          <IconButton
-            onPress={() => navigation.goBack()}
-            name="arrow-left"
-            size={30}
-            color={colors.medium}
-          />
-          <IconButton
-            onPress={() => navigation.navigate("FeedStack")}
-            name="close-circle"
-            size={30}
-            color={colors.medium}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "position" : "height"}
+    >
+      <SafeAreaView>
+        <View style={styles.container}>
+          <NavigationBar />
+          <ProgressBar
+            animated={true}
+            animationType="spring"
+            width={Dimensions.get("window").width}
+            progress={step}
+            color={colors.secondary}
+            unfilledColor={colors.light}
+            borderColor={colors.background}
+            height={8}
+            borderRadius={0}
+            useNativeDriver={true}
           />
         </View>
-        <ProgressBar
-          animated={true}
-          animationType="spring"
-          width={Dimensions.get("window").width}
-          progress={step}
-          color={colors.secondary}
-          unfilledColor={colors.light}
-          borderColor={colors.background}
-          height={8}
-          borderRadius={0}
-          useNativeDriver={true}
-        />
-      </View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "position" : "height"}
-        style={{ flex: 1 }}
-      >
+
         <ScrollView
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
@@ -111,45 +93,8 @@ const PostCreate = ({ navigation, route }) => {
             <Students changeProgress={changeProgress} />
           )}
         </ScrollView>
-      </KeyboardAvoidingView>
-      <Modal visible={modalVisible} transparent={true} animationType="slide">
-        <View
-          style={{
-            position: "absolute",
-            bottom: 0,
-            width: "100%",
-            height: "30%",
-            backgroundColor: colors.medium,
-            borderTopStartRadius: 25,
-            borderTopEndRadius: 25,
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              setModalVisible(false)
-            }}
-            style={{
-              marginLeft: 16,
-              marginVertical: 8,
-            }}
-          >
-            <MaterialCommunityIcons
-              name="close-circle"
-              size={30}
-              color={colors.white}
-            />
-          </TouchableOpacity>
-          <FlatList
-            horizontal
-            data={categories}
-            keyExtractor={(item) => item.value.toString()}
-            numColumns={1}
-            renderItem={({ item }) => <AppText>{item.label}</AppText>}
-          />
-        </View>
-        )
-      </Modal>
-    </Screen>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   )
 }
 

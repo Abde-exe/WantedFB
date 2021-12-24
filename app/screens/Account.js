@@ -8,6 +8,7 @@ import ListItem from "../components/lists/ListItem"
 import Screen from "../components/Screen"
 import Separator from "../components/Separator"
 import ProfileComponent from "../components/ProfileComponent"
+import AppModal2 from "../components/AppModal2"
 import UpdateProfile from "./UpdateProfile"
 import colors from "../../config/colors"
 const Account = ({ currentUser, navigation }) => {
@@ -79,16 +80,20 @@ const Account = ({ currentUser, navigation }) => {
           />
         </View>
         <ListItem
-          onPress={onSignOut}
+          onPress={() => setModal(true)}
           title="Déconnexion"
           ImageComponent={
             <Icon backgroundColor={colors.danger} name="logout" />
           }
         />
       </Screen>
-      <View style={styles.centeredView}>
-        <UpdateProfile modal={modal} setModal={setModal} />
-      </View>
+      <AppModal2
+        visible={modal}
+        onClose={setModal}
+        onPress={onSignOut}
+        text="Confirmer la déconnexion ? "
+        confirmText="Confirmer"
+      />
     </>
   )
 }

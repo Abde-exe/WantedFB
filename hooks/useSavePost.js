@@ -1,10 +1,7 @@
 import { v4 as uuidv4 } from "uuid"
 import firebase from "firebase"
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/core"
 import { addUserPost } from "../redux/actions"
-require("firebase/firestore")
-require("firebase/storage")
-
 export default useSavePost = () => {
   const navigation = useNavigation()
 
@@ -13,7 +10,7 @@ export default useSavePost = () => {
     const imagesBlob = []
     if (post.images.length > 0) {
       const images = post.images
-      const childPath = `missings/${firebase.auth().currentUser.uid}`
+      const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
 
       await Promise.all(
         images.map(async (image) => {
@@ -63,24 +60,11 @@ export default useSavePost = () => {
   const savePost = (post, images) => {
     let doc = firebase
       .firestore()
-      .collection("missings")
+      .collection(post.postType)
       .add({
-        postType: "missings",
+        ...post,
         createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
         images: images,
-        title: post.name,
-        description: post.description,
-        age: post.age,
-        date: post.date,
-        location: post.location,
-        corpulence: post.corpulence,
-        height: post.height,
-        hair: post.hair,
-        eyes: post.eyes,
-        outfit: post.outfit,
-        other: post.other,
-        tel: post.tel,
-        email: post.email,
         userID: firebase.auth().currentUser.uid,
       })
       .then(function () {

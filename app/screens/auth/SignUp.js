@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { View, Text, Pressable, StyleSheet, Image } from "react-native"
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
-import colors from "../../../config/colors"
 import Screen from "../../components/Screen"
 import ErrorMessage from "../../components/ErrorMessage"
 import firebase from "firebase"
@@ -10,6 +9,8 @@ import GoogleLogin from "./GoogleLogin"
 import FBLogin from "./FBLogin"
 import Separator from "../../components/Separator"
 import AppText from "../../components/AppText"
+import styles from "./style"
+
 const SignUp = ({ navigation }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -91,7 +92,7 @@ const SignUp = ({ navigation }) => {
       />
       {signupError ? <ErrorMessage error={signupError} visible={true} /> : null}
 
-      <AppButton title="S'inscrire" onPress={onHandleSignup} />
+      <AppButton title="Inscription" onPress={onHandleSignup} />
       <Separator />
       <View>
         <AppText style={{ marginVertical: 8 }}>Ou continuer avec</AppText>
@@ -119,35 +120,3 @@ const SignUp = ({ navigation }) => {
   )
 }
 export default SignUp
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "white",
-    width: "100%",
-  },
-  title: {
-    fontSize: 32,
-    color: colors.primary,
-    fontWeight: "500",
-    marginTop: 24,
-  },
-  subtitle: {
-    alignSelf: "center",
-    fontSize: 16,
-    color: colors.black,
-    fontWeight: "100",
-    marginBottom: 32,
-  },
-
-  footerButtonContainer: {
-    marginTop: 150,
-    bottom: 16,
-  },
-
-  forgotPasswordButtonText: {
-    color: colors.secondary,
-    fontSize: 16,
-    fontWeight: "600",
-  },
-})

@@ -3,7 +3,7 @@ import { Alert, Modal, StyleSheet, Pressable, View } from "react-native"
 import colors from "../../config/colors"
 import AppText from "./AppText"
 
-const AppModal2 = ({ visible, onClose, onPress }) => {
+const AppModal2 = ({ visible, onClose, onPress, text, confirmText }) => {
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -17,9 +17,7 @@ const AppModal2 = ({ visible, onClose, onPress }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <AppText style2={styles.modalText}>
-              Confirmer la suppression du post
-            </AppText>
+            <AppText style2={styles.modalText}>{text} </AppText>
             <View
               style={{
                 flexDirection: "row",
@@ -37,7 +35,7 @@ const AppModal2 = ({ visible, onClose, onPress }) => {
                 style={[styles.button, styles.buttonClose]}
                 onPress={onPress}
               >
-                <AppText style2={styles.textStyle}>Supprimer</AppText>
+                <AppText style2={styles.textStyle}>{confirmText}</AppText>
               </Pressable>
             </View>
           </View>

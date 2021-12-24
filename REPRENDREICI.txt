@@ -1,6 +1,13 @@
 Prochain release : 
-fonction sharing différente pour android et ios
 
-message confirmation apres deconnexion
+revoir le form
+revoir le fait de quitter le screen de creation de post
+
+faire une vraie barre de recherche
+filtre localisation avis de recherche
 
 post pour objet trouvés et perdus
+
+(systeme de minichat pour vérifier l'honneteté de la personne en lui posant une question
+exemple : de quelle couleur est l'objet perdu ou preuve par photo etc...)
+

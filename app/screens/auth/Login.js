@@ -12,6 +12,7 @@ import GoogleLogin from "./GoogleLogin"
 import FBLogin from "./FBLogin"
 import Separator from "../../components/Separator"
 import AppText from "../../components/AppText"
+import styles from "./style"
 const auth = Firebase.auth()
 WebBrowser.maybeCompleteAuthSession()
 const Login = ({ navigation }) => {
@@ -122,35 +123,3 @@ const Login = ({ navigation }) => {
   )
 }
 export default Login
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "white",
-    width: "100%",
-  },
-
-  title: {
-    fontSize: 32,
-    color: colors.primary,
-    fontWeight: "500",
-  },
-  subtitle: {
-    alignSelf: "center",
-    fontSize: 16,
-    color: colors.black,
-    fontWeight: "100",
-    marginBottom: 32,
-  },
-
-  footerButtonContainer: {
-    marginTop: 150,
-    bottom: 16,
-  },
-
-  forgotPasswordButtonText: {
-    color: colors.danger,
-    fontSize: 14,
-    fontWeight: "600",
-  },
-})

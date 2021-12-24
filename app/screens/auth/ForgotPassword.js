@@ -1,22 +1,35 @@
 import React, { useState } from "react"
-import { View, Text, Pressable } from "react-native"
+import { View, Text, Pressable, Alert } from "react-native"
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
 import Screen from "../../components/Screen"
+import styles from "./style"
+import AppText from "../../components/AppText"
+import firebase from "firebase"
 const ForgotPassword = ({ navigation }) => {
   const [mailSent, setmailSent] = useState(false)
-  const [username, setusername] = useState("")
+  const [email, setemail] = useState("")
 
-  const sendMail = () => {
-    // Send confirmation code to user's email
-    Auth.forgotPassword(username)
-      .then((data) => {
-        console.log(data)
-        setmailSent(true)
+  const sendMail = (email) => {
+    console.log(`email`, email)
+
+    firebase
+      .auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        Alert.alert(
+          `Un mail de réinitialisation a été envoyé à l'adresse ${email}`
+        )
       })
-      .catch((err) => {
-        console.log(err)
-        alert("Utilisateur introuvable")
+      .catch((error) => {
+        var errorCode = error.code
+        var errorMessage = error.message
+        console.log(`error`, error.code + error.message)
+        if (error.code == "auth/user-not-found")
+          Alert.alert(`Il n'existe pas de compte associé à l'adresse ${email}
+          `)
+        else if (error.code == "auth/invalid-email")
+          Alert.alert("Veuillez entrer une adresse mail valide")
       })
   }
 
@@ -25,7 +38,7 @@ const ForgotPassword = ({ navigation }) => {
     const [newpassword, setnewpassword] = useState("")
     const submit = () => {
       console.log(`newpassword`, newpassword)
-      Auth.forgotPasswordSubmit(username, code, newpassword)
+      Auth.forgotPasswordSubmit(email, code, newpassword)
         .then((data) => {
           console.log(data)
           navigation.popToTop()
@@ -34,7 +47,7 @@ const ForgotPassword = ({ navigation }) => {
     }
     return (
       <>
-        <Text>Modifier le mot de passe</Text>
+        <Text style={styles.subtitle}>Modifier le mot de passe</Text>
         <AppTextInput
           placeholder="Code de confirmation"
           onChangeText={(t) => setcode(t)}
@@ -49,12 +62,9 @@ const ForgotPassword = ({ navigation }) => {
   }
   return (
     <Screen>
-      <Text>Modifier le mot de passe</Text>
-      <AppTextInput
-        placeholder="Entrer le nom d'utilisateur"
-        onChangeText={(t) => setusername(t)}
-      />
-      <AppButton title="Valider" onPress={() => sendMail()} />
+      <Text style={styles.subtitle}>Veuillez entrer votre adresse email</Text>
+      <AppTextInput placeholder="Email" onChangeText={(t) => setemail(t)} />
+      <AppButton title="Valider" onPress={() => sendMail(email)} />
       <AppButton
         color="white"
         text="primary"
