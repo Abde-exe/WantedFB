@@ -12,7 +12,6 @@ import AppButton from "../components/AppButton"
 import DetailsText2 from "../components/DetailsText2"
 import Screen from "../components/Screen"
 import IconButton from "../components/IconButton"
-import NavigationBar from "../components/NavigationBar"
 
 const SharingView = ({ route }) => {
   const viewRef = useRef()
@@ -92,7 +91,6 @@ const SharingView = ({ route }) => {
     date.seconds ? (date2 = date.toDate()) : (date2 = date)
     return (
       <Screen>
-        <NavigationBar />
         <View
           style={{
             flex: 1,
@@ -112,7 +110,7 @@ const SharingView = ({ route }) => {
               )}
               {location != "" ? (
                 <Text style={styles.title}>{`à ${
-                  location.split(",")[0]
+                  location.name.split(",")[0]
                 }`}</Text>
               ) : null}
             </View>

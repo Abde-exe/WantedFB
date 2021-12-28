@@ -9,7 +9,6 @@ import Screen from "../components/Screen"
 import Separator from "../components/Separator"
 import ProfileComponent from "../components/ProfileComponent"
 import AppModal2 from "../components/AppModal2"
-import UpdateProfile from "./UpdateProfile"
 import colors from "../../config/colors"
 const Account = ({ currentUser, navigation }) => {
   const [modal, setModal] = useState(false)

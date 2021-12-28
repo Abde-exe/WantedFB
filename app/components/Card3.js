@@ -12,7 +12,7 @@ const Card3 = ({ post, onIconPress }) => {
   //state
   const [image, setImage] = useState()
   const navigation = useNavigation()
-  const { title, type, images, createdAt, postType } = post
+  const { title, type, images, createdAt, postType, location } = post
 
   useEffect(() => {
     if (images) {
@@ -58,12 +58,18 @@ const Card3 = ({ post, onIconPress }) => {
           }}
         >
           <AppText style2={styles.title}>{title}</AppText>
-          <IconButton
-            name="close-circle"
-            size={24}
-            color={colors.danger}
-            onPress={() => onIconPress()}
-          />
+          {onIconPress ? (
+            <IconButton
+              name="close-circle"
+              size={24}
+              color={colors.danger}
+              onPress={() => onIconPress()}
+            />
+          ) : (
+            <AppText style2={styles.subtitle}>
+              {location.name.split(",")[0]}
+            </AppText>
+          )}
         </View>
         <View
           style={{
@@ -100,7 +106,7 @@ const styles = StyleSheet.create({
   details: {
     flex: 1,
     justifyContent: "space-between",
-    padding: 10,
+    padding: 8,
   },
   image: {
     flex: 1,
@@ -114,11 +120,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.black,
   },
+  subtitle: {
+    fontSize: 14,
+    fontWeight: "300",
+    color: colors.black,
+    opacity: 0.7,
+  },
 
   description: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: "normal",
-    opacity: 0.6,
-    color: "red",
+    color: colors.danger,
   },
 })

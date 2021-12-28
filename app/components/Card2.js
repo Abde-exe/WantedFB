@@ -14,7 +14,7 @@ const Card2 = ({ post }) => {
   //state
   const [image, setImage] = useState()
   const navigation = useNavigation()
-  const { id, title, age, images, location, createdAt } = post
+  const { title, age, images, createdAt } = post
 
   useEffect(() => {
     if (images) {

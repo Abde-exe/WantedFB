@@ -3,9 +3,10 @@ Prochain release :
 revoir le form
 revoir le fait de quitter le screen de creation de post
 
-faire une vraie barre de recherche
 filtre localisation avis de recherche
 
+
+update de l'auteur du post en dessous du post sous forme de messages datés
 post pour objet trouvés et perdus
 
 (systeme de minichat pour vérifier l'honneteté de la personne en lui posant une question

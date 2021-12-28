@@ -20,7 +20,6 @@ import Screen from "../components/Screen"
 import colors from "../../config/colors"
 import IconButton from "../components/IconButton"
 import { Missings, Students } from "../components/specifications/SpecificForms"
-import NavigationBar from "../components/NavigationBar"
 
 const categories = [
   {
@@ -59,12 +58,9 @@ const PostCreate = ({ navigation, route }) => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "position" : "height"}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : null}>
       <SafeAreaView>
         <View style={styles.container}>
-          <NavigationBar />
           <ProgressBar
             animated={true}
             animationType="spring"

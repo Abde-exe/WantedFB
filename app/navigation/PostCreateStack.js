@@ -8,19 +8,48 @@ import { View, StyleSheet, Pressable } from "react-native"
 import AppText from "../components/AppText"
 import Icon from "../components/Icon"
 import Screen from "../components/Screen"
+import IconButton from "../components/IconButton"
 
 const Stack = createStackNavigator()
 
-const PostCreateStack = () => {
+const PostCreateStack = ({ navigation }) => {
   return (
-    <Stack.Navigator
-      headerMode="none"
-      mode="card"
-      initialRouteName="PostCreate"
-    >
+    <Stack.Navigator mode="card" initialRouteName="PostCreate">
       <Stack.Screen name="PostCreateMenu" component={PostCreateMenu} />
-      <Stack.Screen name="PostCreate" component={PostCreate} />
-      <Stack.Screen name="SharingView" component={SharingView} />
+      <Stack.Screen
+        name="PostCreate"
+        component={PostCreate}
+        options={{
+          headerTitle: null,
+          headerRight: (props) => (
+            <View style={{ marginRight: 16 }}>
+              <IconButton
+                onPress={() => navigation.navigate("Home")}
+                name="close-circle"
+                size={30}
+                color={colors.medium}
+              />
+            </View>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="SharingView"
+        component={SharingView}
+        options={{
+          headerTitle: null,
+          headerRight: (props) => (
+            <View style={{ marginRight: 16 }}>
+              <IconButton
+                onPress={() => navigation.navigate("Home")}
+                name="close-circle"
+                size={30}
+                color={colors.medium}
+              />
+            </View>
+          ),
+        }}
+      />
     </Stack.Navigator>
   )
 }

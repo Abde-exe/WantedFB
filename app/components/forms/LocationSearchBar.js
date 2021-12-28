@@ -17,10 +17,10 @@ const LocationSearchBar = ({ placeholder, name }) => {
     touched,
   } = useFormikContext()
 
-  const [location, setLocation] = useState(values["location"])
-
+  const [location, setLocation] = useState(values[name].name)
+  console.log(`location`, location)
   const onChange = (newLocation) => {
-    setLocation(newLocation)
+    setLocation(newLocation.name)
     setFieldValue(name, newLocation)
   }
   return (
@@ -35,8 +35,14 @@ const LocationSearchBar = ({ placeholder, name }) => {
         enablePoweredByContainer={false}
         disableScroll
         placeholder={placeholder}
-        onPress={(data) => {
-          onChange(data.description)
+        fetchDetails
+        onPress={(data, details) => {
+          onChange({
+            name: data.description,
+            dep: details.address_components[1].long_name,
+            lat: details.geometry.location.lat,
+            lng: details.geometry.location.lng,
+          })
         }}
         textInputProps={{
           onChangeText: (text) => setLocation(text),

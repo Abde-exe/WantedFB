@@ -18,7 +18,7 @@ const validationSchema = {
     title: Yup.string().required().min(3, "Entrer un nom").label("Nom"),
     age: Yup.number().min(0).max(120).label("Age"),
     date: Yup.date().label("Date"),
-    location: Yup.string().label("Localisation"),
+    location: Yup.object().label("Localisation"),
     description: Yup.string().label("Description"),
 
     corpulence: Yup.string().label("Corpulence"),
@@ -53,7 +53,7 @@ const initialValues = {
     description: "",
     age: "",
     date: new Date(),
-    location: "",
+    location: { name: "" },
     corpulence: "",
     height: "",
     hair: "",
@@ -133,20 +133,34 @@ const Missings = ({ changeProgress, post, edit }) => {
       }
       <View>
         <AppText style2={styles.title}>Identité et Signalement</AppText>
-
         <ImagePicker name="images" />
-
+        <View
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-around",
+            paddingHorizontal: 8,
+          }}
+        >
+          <AppFormField
+            name="title"
+            placeholder="Nom, prénom"
+            icon="account"
+            width={"70%"}
+          />
+          <AppFormField
+            name="age"
+            keyboardType="numeric"
+            maxLength={3}
+            placeholder="Age"
+            width={"22%"}
+          />
+        </View>
         <AppFormField
-          name="title"
-          placeholder="Nom, prénom..."
-          icon="account"
-        />
-        <AppFormField
-          name="age"
-          keyboardType="numeric"
-          maxLength={3}
-          placeholder="Age"
-          width={"22%"}
+          name="description"
+          placeholder="Description ou message"
+          multiline
+          numberOfLines={3}
         />
         <LocationSearchBar
           placeholder="Dernière localisation"
@@ -156,12 +170,6 @@ const Missings = ({ changeProgress, post, edit }) => {
           name="date"
           placeholder="Date de disparition"
           icon="calendar-today"
-        />
-        <AppFormField
-          name="description"
-          placeholder="Description ou message"
-          multiline
-          numberOfLines={4}
         />
       </View>
       {
@@ -267,7 +275,6 @@ const Students = ({ changeProgress, post, edit }) => {
       }
       <View>
         <AppText style2={styles.title}>Identité</AppText>
-
         <AppFormField name="name" placeholder="Nom, prénom..." icon="account" />
         <AppFormField
           name="age"
@@ -316,6 +323,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     marginLeft: 20,
     fontWeight: "600",
-    marginVertical: 30,
+    marginVertical: 15,
   },
 })

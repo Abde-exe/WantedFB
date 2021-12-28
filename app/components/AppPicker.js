@@ -4,27 +4,34 @@ import {
   FlatList,
   Modal,
   StyleSheet,
-  TouchableWithoutFeedback,
+  Pressable,
   View,
 } from "react-native"
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons"
 
 import defaultStyles from "../../config/styles"
 import AppText from "./AppText"
-import Screen from "./Screen"
 import PickerItem from "./PickerItems"
-
-export default function AppPicker({
-  icon,
-  items,
-  placeholder,
-  selected,
-  onSelect,
-}) {
+import colors from "../../config/colors"
+import IconButton from "./IconButton"
+export default function AppPicker({ icon, items, placeholder, action }) {
   const [modal, setModal] = useState(false)
+  const [selected, setSelected] = useState(items[0])
   return (
     <>
-      <TouchableWithoutFeedback onPress={() => setModal(true)}>
+      <Pressable
+        onPress={() => setModal(true)}
+        style={(args) => {
+          if (args.pressed) {
+            return [
+              {
+                backgroundColor: "transparent",
+                opacity: 0.5,
+              },
+            ]
+          }
+        }}
+      >
         <View style={styles.container}>
           {icon && (
             <MaterialCommunityIcons
@@ -35,7 +42,7 @@ export default function AppPicker({
             />
           )}
           <AppText style2={styles.text}>
-            {selected ? selected.label : placeholder}
+            {selected ? selected.num_dep : placeholder}
           </AppText>
           <MaterialCommunityIcons
             name="chevron-down"
@@ -43,24 +50,29 @@ export default function AppPicker({
             color={defaultStyles.colors.black}
           />
         </View>
-      </TouchableWithoutFeedback>
+      </Pressable>
       <Modal visible={modal} animationType="slide">
-        <Screen>
-          <Button title="close" onPress={() => setModal(false)} />
-          <FlatList
-            data={items}
-            keyExtractor={(item) => item.value.toString()}
-            renderItem={({ item }) => (
-              <PickerItem
-                label={item.label}
-                onPress={() => {
-                  setModal(false)
-                  onSelect(item)
-                }}
-              />
-            )}
-          />
-        </Screen>
+        <IconButton
+          name="close-circle"
+          size={24}
+          onPress={() => setModal(false)}
+          style2={{ position: "absolute", right: 16, top: 16 }}
+        />
+
+        <FlatList
+          data={items}
+          keyExtractor={(item) => item["num_dep"]}
+          renderItem={({ item }) => (
+            <PickerItem
+              label={`${item["num_dep"]} - ${item["dep_name"]}`}
+              onPress={() => {
+                setModal(false)
+                setSelected(item)
+                action(item.dep_name)
+              }}
+            />
+          )}
+        />
       </Modal>
     </>
   )
@@ -68,17 +80,13 @@ export default function AppPicker({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: defaultStyles.colors.light,
-    borderRadius: 25,
+    backgroundColor: colors.light,
+    borderRadius: 10,
     flexDirection: "row",
-    width: "100%",
-    padding: 15,
-    marginVertical: 10,
+    padding: 8,
     alignItems: "center",
+    marginVertical: 8,
   },
-  text: { flex: 1, textAlign: "left" },
 
-  icon: {
-    marginRight: 10,
-  },
+  icon: {},
 })

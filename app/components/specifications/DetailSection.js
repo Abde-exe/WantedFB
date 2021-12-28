@@ -24,7 +24,7 @@ const DetailSection = ({ post }) => {
         }}
       >
         {date && `Disparu(e) le ${dayjs(date.toDate()).format("D/M")}`}
-        {location && ` à ${location}`}
+        {location.name != "" && ` à ${location.name}`}
       </AppText>
       <View style={{ padding: 20 }}>
         <AppText style={styles.sectionTitle}>Identité</AppText>
@@ -34,7 +34,7 @@ const DetailSection = ({ post }) => {
             <DetailsText text={age} subText={"Age"} other={" ans"} />
           ) : null}
           {location != "" ? (
-            <DetailsText text={location} subText={"Lieu de disparition"} />
+            <DetailsText text={location.name} subText={"Lieu de disparition"} />
           ) : null}
         </View>
         {description != "" ? <DetailsText text={description} /> : null}

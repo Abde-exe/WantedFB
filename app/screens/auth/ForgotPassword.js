@@ -65,12 +65,7 @@ const ForgotPassword = ({ navigation }) => {
       <Text style={styles.subtitle}>Veuillez entrer votre adresse email</Text>
       <AppTextInput placeholder="Email" onChangeText={(t) => setemail(t)} />
       <AppButton title="Valider" onPress={() => sendMail(email)} />
-      <AppButton
-        color="white"
-        text="primary"
-        title="Retour"
-        onPress={() => navigation.goBack()}
-      />
+
       {mailSent && <SecondCompo />}
     </Screen>
   )

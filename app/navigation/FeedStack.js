@@ -9,6 +9,8 @@ import Search from "../screens/Search"
 import PostDetail from "../screens/PostDetail"
 import Home from "../screens/Home"
 import SharingView from "../screens/SharingView"
+import IconButton from "../components/IconButton"
+import colors from "../../config/colors"
 
 const Stack = createStackNavigator()
 export default function FeedStack({ navigation, route }) {
@@ -25,7 +27,6 @@ export default function FeedStack({ navigation, route }) {
 
   return (
     <Stack.Navigator
-      headerMode="none"
       screenOptions={{ animationEnabled: true }}
       initialRouteName="Home"
     >
@@ -53,13 +54,27 @@ export default function FeedStack({ navigation, route }) {
       <Stack.Screen
         name={"SharingView"}
         component={SharingView}
-        options={{ headerShown: false }}
+        options={{
+          headerTitle: null,
+          headerRight: (props) => (
+            <View style={{ marginRight: 16 }}>
+              <IconButton
+                onPress={() => navigation.navigate("Home")}
+                name="close-circle"
+                size={30}
+                color={colors.medium}
+              />
+            </View>
+          ),
+        }}
       />
 
       <Stack.Screen
         name={"Search"}
         component={Search}
-        options={{ headerShown: false }}
+        options={{
+          headerTitle: null,
+        }}
       />
     </Stack.Navigator>
   )
