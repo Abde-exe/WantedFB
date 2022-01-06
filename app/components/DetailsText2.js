@@ -10,6 +10,7 @@ const DetailsText2 = ({ text, subText, other = "" }) => {
         alignItems: "center",
         marginHorizontal: 8,
         marginTop: 8,
+        flexWrap: "wrap",
       }}
     >
       <Text style={styles.subText}>{subText}</Text>
@@ -22,7 +23,6 @@ export default DetailsText2
 
 const styles = StyleSheet.create({
   text: {
-    flexWrap: "wrap",
     fontSize: 16,
     color: colors.black,
     fontWeight: "100",

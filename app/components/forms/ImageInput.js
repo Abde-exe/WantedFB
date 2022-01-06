@@ -11,7 +11,7 @@ import Ionicons from "@expo/vector-icons/Ionicons"
 
 import colors from "../../../config/colors"
 
-export default ImageInput = ({ imageUri, onChange }) => {
+export default ImageInput = ({ imageUri, onChange, required }) => {
   useEffect(() => {
     requestPermission()
   }, [])
@@ -49,7 +49,7 @@ export default ImageInput = ({ imageUri, onChange }) => {
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
-      <View style={styles.container}>
+      <View style={[styles.container, { borderWidth: required ? 1 : 0 }]}>
         {!imageUri && <Ionicons name="camera" size={40} color={colors.dark} />}
         {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
       </View>
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     overflow: "hidden",
     width: 100,
+    borderColor: colors.danger,
   },
   image: {
     height: "100%",

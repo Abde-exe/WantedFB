@@ -22,7 +22,17 @@ const Card3 = ({ post, onIconPress }) => {
 
   return (
     <Pressable
-      style={styles.card}
+      style={(args) => {
+        if (args.pressed) {
+          return [
+            styles.card,
+            {
+              opacity: 0.8,
+            },
+          ]
+        }
+        return [styles.card]
+      }}
       onPress={() => navigation.navigate("PostDetail", post)}
     >
       <View

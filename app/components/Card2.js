@@ -14,7 +14,7 @@ const Card2 = ({ post }) => {
   //state
   const [image, setImage] = useState()
   const navigation = useNavigation()
-  const { title, age, images, createdAt } = post
+  const { title, age, state, images, createdAt } = post
 
   useEffect(() => {
     if (images) {
@@ -23,7 +23,17 @@ const Card2 = ({ post }) => {
   }, [post])
   return (
     <Pressable
-      style={styles.card}
+      style={(args) => {
+        if (args.pressed) {
+          return [
+            styles.card,
+            {
+              opacity: 0.8,
+            },
+          ]
+        }
+        return [styles.card]
+      }}
       onPress={() => navigation.navigate("PostDetail", post)}
     >
       <View
@@ -74,7 +84,9 @@ const Card2 = ({ post }) => {
           <AppText style2={styles.description} numberOfLines={1}>
             {dayjs(createdAt.toDate()).fromNow()}
           </AppText>
-          <AppText style2={styles.description}>DISPARITION</AppText>
+          <AppText style2={[styles.description, { textAlign: "right" }]}>
+            {state}
+          </AppText>
         </View>
       </View>
     </Pressable>

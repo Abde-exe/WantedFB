@@ -1,108 +1,25 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
+import { StackActions } from "@react-navigation/native"
 
-import PostCreate from "../screens/PostCreate"
 import SharingView from "../screens/SharingView"
 import colors from "../../config/colors"
 import { View, StyleSheet, Pressable } from "react-native"
-import AppText from "../components/AppText"
-import Icon from "../components/Icon"
-import Screen from "../components/Screen"
 import IconButton from "../components/IconButton"
 
 const Stack = createStackNavigator()
 
 const PostCreateStack = ({ navigation }) => {
   return (
-    <Stack.Navigator mode="card" initialRouteName="PostCreate">
-      <Stack.Screen name="PostCreateMenu" component={PostCreateMenu} />
-      <Stack.Screen
-        name="PostCreate"
-        component={PostCreate}
-        options={{
-          headerTitle: null,
-          headerRight: (props) => (
-            <View style={{ marginRight: 16 }}>
-              <IconButton
-                onPress={() => navigation.navigate("Home")}
-                name="close-circle"
-                size={30}
-                color={colors.medium}
-              />
-            </View>
-          ),
-        }}
-      />
-      <Stack.Screen
-        name="SharingView"
-        component={SharingView}
-        options={{
-          headerTitle: null,
-          headerRight: (props) => (
-            <View style={{ marginRight: 16 }}>
-              <IconButton
-                onPress={() => navigation.navigate("Home")}
-                name="close-circle"
-                size={30}
-                color={colors.medium}
-              />
-            </View>
-          ),
-        }}
-      />
-    </Stack.Navigator>
+    <Stack.Navigator
+      mode="modal"
+      initialRouteName="PostCreate"
+    ></Stack.Navigator>
   )
 }
 
 export default PostCreateStack
-const PostCreateMenu = ({ navigation }) => {
-  return (
-    <Screen>
-      <View style={{ flexDirection: "column", flex: 1 }}>
-        <AppText style={{ fontSize: 32, marginLeft: 16 }}>Nouveau post</AppText>
-        <AppText> choisir le type de post</AppText>
 
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-          }}
-        >
-          <Pressable
-            style={styles.view}
-            onPress={() =>
-              navigation.navigate("PostCreate", { postType: "missings" })
-            }
-          >
-            <Icon
-              size={80}
-              name="account-child"
-              iconColor={colors.secondary}
-              backgroundColor="white"
-            />
-            <AppText style2={styles.text}>Disparitions</AppText>
-          </Pressable>
-          <Pressable
-            style={styles.view}
-            onPress={() =>
-              navigation.navigate("PostCreate", { postType: "students" })
-            }
-          >
-            <Icon
-              size={80}
-              name="school"
-              iconColor={colors.secondary}
-              backgroundColor="white"
-            />
-            <AppText style2={styles.text}>Etudiants</AppText>
-          </Pressable>
-        </View>
-      </View>
-    </Screen>
-  )
-}
 const styles = StyleSheet.create({
   title: {
     textAlign: "left",

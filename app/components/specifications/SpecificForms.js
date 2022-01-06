@@ -14,22 +14,33 @@ import useSavePost from "../../../hooks/useSavePost"
 import { updateUserPost } from "../../../redux/actions/index"
 const validationSchema = {
   missings: Yup.object().shape({
-    images: Yup.array().min(1, "Sélectionner au moins 1 image"),
-    title: Yup.string().required().min(3, "Entrer un nom").label("Nom"),
-    age: Yup.number().min(0).max(120).label("Age"),
+    images: Yup.array().min(1, "Sélectionnez au moins 1 image"),
+    title: Yup.string()
+      .required("Veuillez entrer un nom")
+      .min(3, "Le nom doit être d'au moins 3 caractères")
+      .label("Nom"),
+    age: Yup.number()
+      .min(0, "Entrez une valeur entre 0 et 120 ans")
+      .max(120, "Entrez une valeur entre 0 et 120 ans")
+      .label("Age"),
     date: Yup.date().label("Date"),
-    location: Yup.object().label("Localisation"),
+    location: Yup.object()
+      .required("Veuillez entrer une localisation")
+      .label("Localisation"),
     description: Yup.string().label("Description"),
 
     corpulence: Yup.string().label("Corpulence"),
-    height: Yup.number().min(100).max(220).label("Taille"),
+    height: Yup.number()
+      .min(100, "Entrez une valeur entre 100 et 220 ans")
+      .max(220, "Entrez une valeur entre 100 et 220 ans")
+      .label("Taille"),
     hair: Yup.string().label("Cheveux"),
     eyes: Yup.string().label("Yeux"),
     outfit: Yup.string().label("Tenue"),
     other: Yup.string().label("Autre"),
 
     tel: Yup.string().label("Téléphone"),
-    email: Yup.string().email().label("Email"),
+    email: Yup.string().email("Entrez une adresse email valide").label("Email"),
   }),
   students: Yup.object().shape({
     name: Yup.string().required().min(3, "Entrer un nom").label("Nom"),
@@ -106,56 +117,48 @@ const Missings = ({ changeProgress, post, edit }) => {
       validationSchema={validationSchema.missings}
       progress={changeProgress}
       initialValues={post ? postValues : initialValues.missings}
-      onSubmit={
-        (values) => {
-          try {
-            //with images picked
-            if (values) {
-              values = { ...values, postType: "missings" }
-              if (values.images && values.images.length > 0)
-                edit ? updateUserPost(post, values) : uploadImages(values)
-              else {
-                //no images in the post
-                edit ? updateUserPost(post, values) : savePost(values, [])
-              }
-              navigation.navigate("DoneAnimation", { values })
+      onSubmit={(values, formikActions) => {
+        try {
+          //with images picked
+          if (values) {
+            values = { ...values, postType: "missings" }
+            if (values.images && values.images.length > 0)
+              edit ? updateUserPost(post, values) : uploadImages(values)
+            else {
+              //no images in the post
+              edit ? updateUserPost(post, values) : savePost(values, [])
             }
-          } catch (error) {
-            console.log(`error`, error)
-          }
-        }
 
-        // resetForm({ values: initialValues })
-      }
+            //reset form
+            formikActions.resetForm()
+
+            navigation.navigate("DoneAnimation", { values })
+          }
+        } catch (error) {
+          console.log(`error`, error)
+        }
+      }}
     >
       {
         //Form 1
       }
       <View>
         <AppText style2={styles.title}>Identité et Signalement</AppText>
-        <ImagePicker name="images" />
-        <View
-          style={{
-            flexDirection: "row",
-            width: "100%",
-            justifyContent: "space-around",
-            paddingHorizontal: 8,
-          }}
-        >
-          <AppFormField
-            name="title"
-            placeholder="Nom, prénom"
-            icon="account"
-            width={"70%"}
-          />
-          <AppFormField
-            name="age"
-            keyboardType="numeric"
-            maxLength={3}
-            placeholder="Age"
-            width={"22%"}
-          />
-        </View>
+        <ImagePicker name="images" required={true} />
+
+        <AppFormField
+          required
+          name="title"
+          placeholder="Nom, prénom"
+          icon="account"
+        />
+        <AppFormField
+          name="age"
+          keyboardType="numeric"
+          maxLength={3}
+          placeholder="Age"
+          width={"22%"}
+        />
         <AppFormField
           name="description"
           placeholder="Description ou message"
@@ -165,6 +168,7 @@ const Missings = ({ changeProgress, post, edit }) => {
         <LocationSearchBar
           placeholder="Dernière localisation"
           name="location"
+          required
         />
         <DateInput
           name="date"
@@ -250,7 +254,7 @@ const Students = ({ changeProgress, post, edit }) => {
       validationSchema={validationSchema.students}
       initialValues={post ? postValues : initialValues.students}
       progress={changeProgress}
-      onSubmit={(values) => {
+      onSubmit={(values, formikActions) => {
         try {
           //with images picked
           if (values) {

@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Pressable,
+  Text,
 } from "react-native"
 import { openURL } from "expo-linking"
 import firebase from "firebase"
@@ -23,10 +24,13 @@ import DetailSection from "../components/specifications/DetailSection"
 import Screen from "../components/Screen"
 
 import FloatButton from "../components/FloatButton"
+import { changeSavedPost, savePost, unsavePost } from "../../redux/actions"
+import DetailsText from "../components/DetailsText"
 const PostDetail = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false)
   //state---------//
   const [post, setPost] = useState(null)
+
   const [postUser, setPostUser] = useState()
   const currentUser = firebase.auth().currentUser
   //Main image
@@ -35,6 +39,7 @@ const PostDetail = ({ route, navigation }) => {
   const [carousel, setCarousel] = useState([])
   const [carouselVisible, setCarouselVisible] = useState(false)
 
+  const [bookmarked, setBookmarked] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(true)
   //fetch post with postId
@@ -95,6 +100,7 @@ const PostDetail = ({ route, navigation }) => {
   const onShare = () => {
     navigation.navigate("SharingView", { post })
   }
+
   //Loading
   if (!post) return <ActivityIndicator visible={loading} />
   //Error
@@ -114,6 +120,10 @@ const PostDetail = ({ route, navigation }) => {
     } else {
       openURL(`tel:${post.tel}`)
     }
+  }
+  const onBookmark = () => {
+    setBookmarked(!bookmarked)
+    changeSavedPost(post.id, bookmarked)
   }
   //Success
   if (post) {
@@ -141,7 +151,7 @@ const PostDetail = ({ route, navigation }) => {
             </AppText>
             <FontAwesome5 name="images" size={18} color={colors.medium} />
           </View>
-
+          {/* Buttons */}
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={{
@@ -159,12 +169,31 @@ const PostDetail = ({ route, navigation }) => {
             />
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => onBookmark()}
+            style={{
+              position: "absolute",
+              zIndex: 100,
+              borderRadius: 12,
+              right: 10,
+              top: 25,
+            }}
+          >
+            <MaterialCommunityIcons
+              name={bookmarked ? "bookmark" : "bookmark-outline"}
+              size={30}
+              color={colors.white}
+            />
+          </TouchableOpacity>
+
+          {/* Image */}
+          <TouchableOpacity
             onPress={() => {
               setCarouselVisible(true)
             }}
           >
             {image && <Image source={{ uri: image }} style={styles.image} />}
           </TouchableOpacity>
+          {/* Carousel */}
           <ImageView
             backgroundColor={"white"}
             animationType="slide"
@@ -247,8 +276,8 @@ const PostDetail = ({ route, navigation }) => {
         {/* Share Button Floating */}
         <FloatButton
           onPress={onShare}
-          icon={"share"}
-          color={colors.secondary}
+          icon={"share-variant"}
+          color={colors.primary}
         />
       </Screen>
     )

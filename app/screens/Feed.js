@@ -48,7 +48,7 @@ const Feed = ({ navigation }) => {
     setLoading(false)
   }
   const filtering = (filter) => {
-    if (filter != "Aucun filtre") {
+    if (filter != dep[0].dep_name) {
       const filteredList = posts.filter(
         (item) => item.location["dep"] == filter
       )

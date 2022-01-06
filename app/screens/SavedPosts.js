@@ -3,49 +3,26 @@ import { StyleSheet, Text, View, FlatList } from "react-native"
 import firebase from "firebase"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
-import { deleteUserPost } from "../../redux/actions/index"
+import { fetchSavedPosts } from "../../redux/actions/index"
 import Screen from "../components/Screen"
 import Card3 from "../components/Card3"
 import AppModal2 from "../components/AppModal2"
-import { store } from "../../App"
-const UserPosts = ({ posts }) => {
-  const [userPosts, setuserPosts] = useState(posts)
+
+const SavedPosts = ({ savedPosts }) => {
+  const [posts, setPosts] = useState([])
   const [modalVisible, setModalVisible] = useState(false)
   const [itemToDelete, setitemToDelete] = useState(null)
   const [refresh, setRefresh] = useState(false)
   const userId = firebase.auth().currentUser.uid
-  store.subscribe(
-    // cette fonction sera exécutée à chaque fois que le state change
-    () => {
-      const state = store.getState()
-      console.log(`state`, state)
-    }
-  )
-  const onDeletePost = () => {
-    if (itemToDelete.id) {
-      //delete from the list of post in this screen
-      setuserPosts(userPosts.filter((i) => i.id != itemToDelete.id))
-      setModalVisible(false)
-      //delete from the database and the store
-      deleteUserPost(itemToDelete, userId)
-    }
-  }
-  if (posts.length != 0) {
+
+  if (savedPosts.length != 0) {
     return (
       <Screen>
         <View>
-          <AppModal2
-            visible={modalVisible}
-            onClose={setModalVisible}
-            onPress={onDeletePost}
-            text="Confirmer la suppression du post"
-            confirmText="Supprimer"
-          />
           <FlatList
-            key={(item) => item.id}
             refreshing={refresh}
-            onRefresh={() => fetchUserPosts()}
-            data={userPosts}
+            onRefresh={() => fetchSavedPosts()}
+            data={posts}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <Card3
@@ -74,15 +51,15 @@ const UserPosts = ({ posts }) => {
 }
 
 const mapStateToProps = (store) => ({
-  posts: store.userState.posts,
+  savedPosts: store.userState.savedPosts,
 })
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      deleteUserPost,
+      fetchSavedPosts,
     },
     dispatch
   )
-export default connect(mapStateToProps, mapDispatchToProps)(UserPosts)
+export default connect(mapStateToProps, mapDispatchToProps)(SavedPosts)
 
 const styles = StyleSheet.create({})

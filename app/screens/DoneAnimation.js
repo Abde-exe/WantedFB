@@ -1,7 +1,7 @@
 import React from "react"
 import { StyleSheet, View } from "react-native"
 import LottieView from "lottie-react-native"
-
+import { StackActions } from "@react-navigation/native"
 const DoneAnimation = ({ navigation, route }) => {
   return (
     <View style={styles.animationContainer}>
@@ -14,8 +14,7 @@ const DoneAnimation = ({ navigation, route }) => {
         loop={false}
         source={require("../../assets/done.json")}
         onAnimationFinish={() => {
-          navigation.navigate("FeedStack", {
-            screen: "SharingView",
+          navigation.navigate("SharingView", {
             params: { post: route.params.values },
           })
         }}

@@ -4,11 +4,15 @@ import { createStackNavigator } from "@react-navigation/stack"
 import Feed from "../screens/Feed"
 import Feed2 from "../screens/Feed2"
 
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
+import {
+  getFocusedRouteNameFromRoute,
+  StackActions,
+} from "@react-navigation/native"
 import Search from "../screens/Search"
 import PostDetail from "../screens/PostDetail"
 import Home from "../screens/Home"
 import SharingView from "../screens/SharingView"
+import DoneAnimation from "../screens/DoneAnimation"
 import IconButton from "../components/IconButton"
 import colors from "../../config/colors"
 
@@ -45,35 +49,34 @@ export default function FeedStack({ navigation, route }) {
         component={Feed2}
         options={{ headerShown: false }}
       />
-
       <Stack.Screen
         name={"PostDetail"}
         component={PostDetail}
         options={{ headerShown: false, tabBarVisible: false }}
       />
       <Stack.Screen
+        name={"Search"}
+        component={Search}
+        options={{
+          headerTitle: null,
+        }}
+      />
+      <Stack.Screen
         name={"SharingView"}
         component={SharingView}
         options={{
           headerTitle: null,
+          headerLeft: null,
           headerRight: (props) => (
             <View style={{ marginRight: 16 }}>
               <IconButton
-                onPress={() => navigation.navigate("Home")}
+                onPress={() => navigation.dispatch(StackActions.popToTop())}
                 name="close-circle"
                 size={30}
                 color={colors.medium}
               />
             </View>
           ),
-        }}
-      />
-
-      <Stack.Screen
-        name={"Search"}
-        component={Search}
-        options={{
-          headerTitle: null,
         }}
       />
     </Stack.Navigator>

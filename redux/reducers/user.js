@@ -4,11 +4,15 @@ import {
   ADD_USER_POST,
   DELETE_USER_POST,
   UPDATE_USER_POST,
+  SAVED_POSTS_STATE_CHANGE,
+  SAVE_POST,
+  UNSAVE_POST,
 } from "../constants"
 
 const initialState = {
   currentUser: null,
   posts: [],
+  savedPosts: [],
 }
 
 export const user = (state = initialState, action) => {
@@ -35,6 +39,18 @@ export const user = (state = initialState, action) => {
       return {
         ...state,
         posts: newArray,
+      }
+      break
+    case SAVED_POSTS_STATE_CHANGE:
+      return { ...state, savedPosts: action.savedPosts }
+      break
+    case SAVE_POST:
+      return { ...state, savedPosts: [action.id, ...state.savedPosts] }
+      break
+    case UNSAVE_POST:
+      return {
+        ...state,
+        savedPosts: state.savedPosts.filter((item) => item !== action.id),
       }
       break
 

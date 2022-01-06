@@ -6,7 +6,6 @@ import { connect } from "react-redux"
 import Icon from "../components/Icon"
 import ListItem from "../components/lists/ListItem"
 import Screen from "../components/Screen"
-import Separator from "../components/Separator"
 import ProfileComponent from "../components/ProfileComponent"
 import AppModal2 from "../components/AppModal2"
 import colors from "../../config/colors"
@@ -22,6 +21,24 @@ const Account = ({ currentUser, navigation }) => {
         backgroundColor: colors.primary,
       },
       navigate: "UserPosts",
+    },
+    {
+      title: "Sauvegardés",
+      icon: {
+        name: "bookmark",
+        iconColor: "white",
+        backgroundColor: colors.primary,
+      },
+      navigate: "SavedPosts",
+    },
+    {
+      title: "Remarques/avis",
+      icon: {
+        name: "clipboard-alert",
+        iconColor: "white",
+        backgroundColor: colors.primary,
+      },
+      navigate: "Report",
     },
     // {
     //   title: "Mes Messages",
@@ -62,7 +79,6 @@ const Account = ({ currentUser, navigation }) => {
             scrollEnabled={false}
             data={menuItems}
             keyExtractor={(item) => item.title}
-            ItemSeparatorComponent={Separator}
             renderItem={({ item }) => (
               <ListItem
                 title={item.title}
@@ -78,13 +94,23 @@ const Account = ({ currentUser, navigation }) => {
             )}
           />
         </View>
-        <ListItem
-          onPress={() => setModal(true)}
-          title="Déconnexion"
-          ImageComponent={
-            <Icon backgroundColor={colors.danger} name="logout" />
-          }
-        />
+
+        <View
+          style={{
+            flex: 1,
+            bottom: 200,
+            position: "absolute",
+            width: "100%",
+          }}
+        >
+          <ListItem
+            onPress={() => setModal(true)}
+            title="Déconnexion"
+            ImageComponent={
+              <Icon backgroundColor={colors.danger} name="logout" />
+            }
+          />
+        </View>
       </Screen>
       <AppModal2
         visible={modal}
@@ -103,6 +129,7 @@ const mapStateToProps = (store) => ({
 export default connect(mapStateToProps, null)(Account)
 const styles = StyleSheet.create({
   container: {
+    height: "100%",
     marginVertical: 40,
     marginBottom: 40,
   },

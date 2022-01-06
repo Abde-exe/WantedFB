@@ -54,9 +54,9 @@ export default function AppPicker({ icon, items, placeholder, action }) {
       <Modal visible={modal} animationType="slide">
         <IconButton
           name="close-circle"
-          size={24}
+          size={26}
           onPress={() => setModal(false)}
-          style2={{ position: "absolute", right: 16, top: 16 }}
+          style2={{ position: "absolute", right: 16, top: 8 }}
         />
 
         <FlatList

@@ -7,6 +7,7 @@ export default function ImageInputList({
   imageUris = [],
   onRemoveImage,
   onAddImage,
+  required,
 }) {
   const scrollView = useRef()
 
@@ -21,10 +22,14 @@ export default function ImageInputList({
         <View style={styles.container}>
           {imageUris.map((uri) => (
             <View style={styles.image} key={uri}>
-              <ImageInput imageUri={uri} onChange={() => onRemoveImage(uri)} />
+              <ImageInput
+                imageUri={uri}
+                onChange={() => onRemoveImage(uri)}
+                required={false}
+              />
             </View>
           ))}
-          <ImageInput onChange={(uri) => onAddImage(uri)} />
+          <ImageInput onChange={(uri) => onAddImage(uri)} required={required} />
         </View>
       </ScrollView>
     </View>

@@ -15,20 +15,23 @@ export default function AppTextInput({
   icon,
   rightIcon,
   OnPressRightIcon,
+  required,
   width = Dimensions.get("window").width - 32,
   ...otherProps
 }) {
   return (
-    <View style={[styles.container, style2, { width: width }]}>
+    <View
+      style={[
+        styles.container,
+        style2,
+        {
+          width: width,
+          borderRightWidth: required ? 2 : 0,
+        },
+      ]}
+    >
       {icon ? (
-        <IconButton
-          name={icon}
-          size={20}
-          color={defaultStyles.colors.black}
-          style2={{
-            marginRight: 5,
-          }}
-        />
+        <IconButton name={icon} size={20} color={defaultStyles.colors.black} />
       ) : null}
       <TextInput
         autoCorrect={false}
@@ -52,9 +55,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     borderRadius: 10,
     flexDirection: "row",
-    padding: 15,
+    paddingVertical: 16,
+    paddingHorizontal: 8,
     alignItems: "center",
     marginVertical: 8,
+    borderColor: colors.danger,
     marginHorizontal: 16,
   },
   textInput: {

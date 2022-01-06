@@ -4,7 +4,7 @@ import { useFormikContext } from "formik"
 import ImageInputList from "./ImageInputList"
 import ErrorMessage from "./ErrorMessage"
 
-export default ImagePicker = ({ name }) => {
+export default ImagePicker = ({ name, required }) => {
   const { errors, setFieldValue, touched, values } = useFormikContext()
   const imageUris = values[name]
 
@@ -20,6 +20,7 @@ export default ImagePicker = ({ name }) => {
   return (
     <>
       <ImageInputList
+        required={required}
         imageUris={imageUris}
         onAddImage={handleAdd}
         onRemoveImage={handleRemove}

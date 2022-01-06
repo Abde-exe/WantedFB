@@ -3,7 +3,11 @@ import { Linking, View, Pressable, StyleSheet, Button } from "react-native"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import colors from "../../config/colors"
-import { fetchUser, fetchUserPosts } from "../../redux/actions/index"
+import {
+  fetchUser,
+  fetchUserPosts,
+  fetchSavedPosts,
+} from "../../redux/actions/index"
 import AppText from "../components/AppText"
 import Screen from "../components/Screen"
 import Icon from "../components/Icon"
@@ -12,6 +16,7 @@ export class Home extends Component {
   componentDidMount() {
     this.props.fetchUser()
     this.props.fetchUserPosts()
+    this.props.fetchSavedPosts()
   }
   onSignOut() {
     firebase
@@ -80,6 +85,7 @@ const mapDispatchToProps = (dispatch) =>
     {
       fetchUser,
       fetchUserPosts,
+      fetchSavedPosts,
     },
     dispatch
   )

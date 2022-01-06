@@ -1,16 +1,21 @@
 import React from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { createStackNavigator } from "@react-navigation/stack"
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
+import {
+  getFocusedRouteNameFromRoute,
+  StackActions,
+} from "@react-navigation/native"
 
 import Account from "../screens/Account"
 import Messages from "../screens/Messages"
 import UserPosts from "../screens/UserPosts"
 import PostEdit from "../screens/PostEdit"
 import PostDetail from "../screens/PostDetail"
-import PostCreate from "../screens/PostCreate"
+import SavedPosts from "../screens/SavedPosts"
 import IconButton from "../components/IconButton"
 import colors from "../../config/colors"
+import Report from "../screens/Report"
+import SharingView from "../screens/SharingView"
 
 const Stack = createStackNavigator()
 export default function AccountNavigator({ navigation, route }) {
@@ -37,12 +42,13 @@ export default function AccountNavigator({ navigation, route }) {
         component={UserPosts}
         options={{ title: "Mes posts" }}
       />
-      <Stack.Screen name="PostCreate" component={PostCreate} />
       <Stack.Screen
         name="PostDetail"
         component={PostDetail}
         options={{ headerShown: false }}
       />
+      <Stack.Screen name="SavedPosts" component={SavedPosts} />
+      <Stack.Screen name="Report" component={Report} />
       <Stack.Screen
         name="PostEdit"
         component={PostEdit}
@@ -51,7 +57,24 @@ export default function AccountNavigator({ navigation, route }) {
           headerRight: (props) => (
             <View style={{ marginRight: 16 }}>
               <IconButton
-                onPress={() => navigation.navigate("Home")}
+                onPress={() => navigation.dispatch(StackActions.popToTop())}
+                name="close-circle"
+                size={30}
+                color={colors.medium}
+              />
+            </View>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="SharingView"
+        component={SharingView}
+        options={{
+          headerTitle: null,
+          headerRight: (props) => (
+            <View style={{ marginRight: 16 }}>
+              <IconButton
+                onPress={() => navigation.dispatch(StackActions.popToTop())}
                 name="close-circle"
                 size={30}
                 color={colors.medium}

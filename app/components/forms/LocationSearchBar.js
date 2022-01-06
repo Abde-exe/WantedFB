@@ -7,8 +7,9 @@ import { useFormikContext } from "formik"
 import defaultStyles from "../../../config/styles"
 import ErrorMessage from "./ErrorMessage"
 import environment from "../../../config/environment"
+import colors from "../../../config/colors"
 
-const LocationSearchBar = ({ placeholder, name }) => {
+const LocationSearchBar = ({ placeholder, name, required }) => {
   const {
     setFieldTouched,
     setFieldValue,
@@ -18,13 +19,12 @@ const LocationSearchBar = ({ placeholder, name }) => {
   } = useFormikContext()
 
   const [location, setLocation] = useState(values[name].name)
-  console.log(`location`, location)
   const onChange = (newLocation) => {
     setLocation(newLocation.name)
     setFieldValue(name, newLocation)
   }
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { borderRightWidth: required ? 2 : 0 }]}>
       <MaterialCommunityIcons
         name="map-marker"
         size={20}
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 8,
     marginHorizontal: 16,
+    borderColor: colors.danger,
   },
   icon: {
     marginRight: 10,

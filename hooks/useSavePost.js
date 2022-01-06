@@ -2,9 +2,10 @@ import { v4 as uuidv4 } from "uuid"
 import firebase from "firebase"
 import { useNavigation } from "@react-navigation/core"
 import { addUserPost } from "../redux/actions"
+import { useDispatch } from "react-redux"
 export default useSavePost = () => {
   const navigation = useNavigation()
-
+  const dispatch = useDispatch()
   //uploading the images in the storage
   const uploadImages = async (post) => {
     const imagesBlob = []
@@ -58,6 +59,13 @@ export default useSavePost = () => {
   }
   //saving post
   const savePost = (post, images) => {
+    //delete all empty strings
+    for (const key in post) {
+      if (post[key] === "") {
+        delete post[key]
+      }
+    }
+
     let doc = firebase
       .firestore()
       .collection(post.postType)
@@ -65,10 +73,11 @@ export default useSavePost = () => {
         ...post,
         createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
         images: images,
+        state: "disparu(e)",
         userID: firebase.auth().currentUser.uid,
       })
       .then(function () {
-        addUserPost(doc)
+        console.log(`doc`, doc)
       })
   }
   const savePost2 = (post, images) => {

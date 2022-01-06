@@ -31,7 +31,14 @@ const FloatButton = ({ icon, color, onPress }) => {
 export default FloatButton
 
 const styles = StyleSheet.create({
-  container: { position: "absolute", bottom: 80, right: 20, zIndex: 100 },
+  container: {
+    position: "absolute",
+    bottom: 100,
+    right: 20,
+    zIndex: 100,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   icon: {
     elevation: 5,
     shadowColor: "#000",

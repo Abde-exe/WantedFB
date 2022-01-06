@@ -1,14 +1,21 @@
 Prochain release : 
 
-revoir le form
-revoir le fait de quitter le screen de creation de post
+COMPRENDRE REDUX AVANT DE CONTINUER
+Mettre en place post favoris
 
-filtre localisation avis de recherche
-
-
-update de l'auteur du post en dessous du post sous forme de messages datés
 post pour objet trouvés et perdus
+post pour les animaux
+
+lazy loading images 
+Dynamic links https://www.youtube.com/results?search_query=dynamic+links+react+native
+update de l'auteur du post en dessous du post sous forme de messages datés
 
 (systeme de minichat pour vérifier l'honneteté de la personne en lui posant une question
 exemple : de quelle couleur est l'objet perdu ou preuve par photo etc...)
+
+
+# Tester l'appli
+1. Télécharger l'application Expo Go sur [App Store](https://apps.apple.com/fr/app/expo-go/id982107779) ou [Google Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent&gl=FR)
+2. Scanner ce QR Code  ![alt text](https://github.com/Abde-exe/WantedFB/blob/main/qrcode%20.png?raw=true)
+* [OU ICI](https://expo.dev/@abdeebda/WantedApp)
 

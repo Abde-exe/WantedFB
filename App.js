@@ -5,7 +5,7 @@ import { Provider } from "react-redux"
 import { createStore, applyMiddleware } from "redux"
 import rootReducer from "./redux/reducers"
 import thunk from "redux-thunk"
-const store = createStore(rootReducer, applyMiddleware(thunk))
+export const store = createStore(rootReducer, applyMiddleware(thunk))
 
 import AuthStack from "./app/navigation/AuthStack"
 import RootNavigator from "./app/navigation/RootNavigator"
@@ -13,6 +13,7 @@ import RootNavigator from "./app/navigation/RootNavigator"
 export default function App() {
   const [loggedIn, setloggedIn] = useState(false)
   const [loaded, setloaded] = useState(false)
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (!user) {

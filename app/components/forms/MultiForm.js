@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { Formik } from "formik"
 import AppButton from "../AppButton"
-import { View } from "react-native"
+import { Alert, Modal, Text, View } from "react-native"
 import SubmitButton from "./SubmitButton"
-
+import AppModal2 from "../AppModal2"
 function MultiForm({
   initialValues,
   onSubmit,
@@ -15,13 +15,25 @@ function MultiForm({
   const oneStep = 1 / childrenArray.length //part of one step progress in the form
   const [step, setstep] = useState(0)
   const currentChild = childrenArray[step]
+
+  const errorModal = (errors) => {
+    console.log(`errors`, errors)
+    if (Object.keys(errors).length !== 0) {
+      var err = ""
+      for (var key in errors) {
+        err = err + "" + errors[key] + "\n\n"
+      }
+      Alert.alert("Erreur dans le formulaire", err)
+    }
+  }
+
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
-      {() => (
+      {({ errors }) => (
         <>
           {currentChild}
           <View
@@ -34,8 +46,9 @@ function MultiForm({
               <SubmitButton
                 title="Valider"
                 onPress={() => {
+                  errorModal(errors)
                   onSubmit()
-                  progress(oneStep)
+                  //progress(oneStep)
                 }}
               />
             ) : null}

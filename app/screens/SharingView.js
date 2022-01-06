@@ -75,6 +75,7 @@ const SharingView = ({ route }) => {
     const {
       images,
       title,
+      description,
       age,
       date,
       location,
@@ -89,6 +90,7 @@ const SharingView = ({ route }) => {
     } = post
     var date2 = ""
     date.seconds ? (date2 = date.toDate()) : (date2 = date)
+
     return (
       <Screen>
         <View
@@ -105,14 +107,11 @@ const SharingView = ({ route }) => {
             >
               {date2 && (
                 <Text style={styles.title}>
-                  {`Disparu(e) depuis le ${dayjs(date2).format("D/M")}`}
+                  {`Disparu(e) depuis le ${dayjs(date2).format("D/M")} à  ${
+                    location.name.split(",")[0]
+                  } `}
                 </Text>
               )}
-              {location != "" ? (
-                <Text style={styles.title}>{`à ${
-                  location.name.split(",")[0]
-                }`}</Text>
-              ) : null}
             </View>
             <View
               style={{
@@ -128,7 +127,7 @@ const SharingView = ({ route }) => {
                     uri: post.images[0],
                   }}
                   style={{
-                    width: "100%",
+                    width: "50%",
                     resizeMode: "cover",
                     borderWidth: 2,
                     borderColor: colors.danger,
@@ -143,7 +142,33 @@ const SharingView = ({ route }) => {
                   width: "50%",
                   height: "100%",
                 }}
-              ></View>
+              >
+                {title != "" ? <Text style={styles.text}>{title}</Text> : null}
+                {age != "" ? (
+                  <DetailsText2 row text={age} subText="Age :" other="ans" />
+                ) : null}
+                {corpulence != "" ? (
+                  <DetailsText2
+                    row
+                    text="fpznenefnzepfnzepfenfnez"
+                    subText="Corpulence :"
+                  />
+                ) : null}
+                {height != "" ? (
+                  <DetailsText2
+                    row
+                    text={height}
+                    subText="Taille :"
+                    other="cm"
+                  />
+                ) : null}
+                {hair != "" ? (
+                  <DetailsText2 row text={hair} subText="Cheveux :" />
+                ) : null}
+                {eyes != "" ? (
+                  <DetailsText2 row text={eyes} subText="Yeux :" />
+                ) : null}
+              </View>
             </View>
             <View
               style={{
@@ -153,22 +178,13 @@ const SharingView = ({ route }) => {
                 height: "40%",
               }}
             >
-              {title != "" ? <Text style={styles.text}>{title}</Text> : null}
-              {age != "" ? (
-                <DetailsText2 row text={age} subText="Age :" other="ans" />
+              {description != "" ? (
+                <DetailsText2
+                  style={styles.subText}
+                  text={description.substring(0, 240)}
+                ></DetailsText2>
               ) : null}
-              {corpulence != "" ? (
-                <DetailsText2 row text={corpulence} subText="Corpulence :" />
-              ) : null}
-              {height != "" ? (
-                <DetailsText2 row text={height} subText="Taille :" other="cm" />
-              ) : null}
-              {hair != "" ? (
-                <DetailsText2 row text={hair} subText="Cheveux :" />
-              ) : null}
-              {eyes != "" ? (
-                <DetailsText2 row text={eyes} subText="Yeux :" />
-              ) : null}
+
               {outfit != "" ? (
                 <DetailsText2
                   row
@@ -187,12 +203,8 @@ const SharingView = ({ route }) => {
                 width: "100%",
               }}
             >
-              {email != "" ? (
-                <DetailsText2 row text={email} subText="Email :" />
-              ) : null}
-              {tel != "" ? (
-                <DetailsText2 row text={tel} subText="Téléphone :" />
-              ) : null}
+              {email != "" ? <DetailsText2 text={email} /> : null}
+              {tel != "" ? <DetailsText2 text={tel} /> : null}
             </View>
             <View
               style={{
@@ -264,7 +276,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     color: colors.danger,
     paddingHorizontal: 8,
   },

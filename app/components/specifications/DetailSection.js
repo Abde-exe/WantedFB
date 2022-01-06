@@ -37,7 +37,7 @@ const DetailSection = ({ post }) => {
             <DetailsText text={location.name} subText={"Lieu de disparition"} />
           ) : null}
         </View>
-        {description != "" ? <DetailsText text={description} /> : null}
+        {description != "" ? <AppText>{description}</AppText> : null}
         <Separator />
         <AppText style={styles.sectionTitle}>Description physique</AppText>
         <View style={styles.section}>

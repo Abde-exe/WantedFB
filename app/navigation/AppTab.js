@@ -1,12 +1,13 @@
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
-
 import colors from "../../config/colors"
 import NewPostButton from "./NewPostButton"
 import FeedStack from "./FeedStack"
 import AccountNavigator from "./AccountNavigator"
 import PostCreateStack from "./PostCreateStack"
+import Icon from "../components/Icon"
+import { View, StyleSheet, TouchableOpacity } from "react-native"
 
 const Tab = createBottomTabNavigator()
 
@@ -34,13 +35,29 @@ const AppTab = () => {
         <Tab.Screen
           name={"PostCreateStack"}
           component={PostCreateStack}
-          options={({ navigation }) => ({
+          options={{
             tabBarVisible: false,
-            tabBarButton: () => (
-              <NewPostButton
-                onPress={() => navigation.navigate("PostCreateStack")}
-              />
+            tabBarIcon: () => (
+              <View style={styles.container}>
+                <MaterialCommunityIcons
+                  name="plus-circle"
+                  size={30}
+                  color={colors.white}
+                />
+              </View>
             ),
+
+            // tabBarButton: () => (
+            //   <NewPostButton
+            //     onPress={() => navigation.navigate("PostCreateStack")}
+            //   />
+            // ),
+          }}
+          listeners={({ navigation }) => ({
+            tabPress: (event) => {
+              event.preventDefault()
+              navigation.navigate("PostCreate")
+            },
           })}
         />
         <Tab.Screen
@@ -62,5 +79,16 @@ const AppTab = () => {
     </>
   )
 }
-
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.primary,
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    borderColor: colors.white,
+    borderWidth: 6,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+})
 export default AppTab

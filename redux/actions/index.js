@@ -7,6 +7,9 @@ import {
   ADD_USER_POST,
   DELETE_USER_POST,
   UPDATE_USER_POST,
+  SAVE_POST,
+  UNSAVE_POST,
+  SAVED_POSTS_STATE_CHANGE,
 } from "../constants"
 export function fetchUser() {
   //prettier-ignore
@@ -55,7 +58,6 @@ export function fetchUserPosts() {
 export function addUserPost(post) {
   return (dispatch) => {
     dispatch({ type: ADD_USER_POST, post })
-    dispatch({ type: USER_POSTS_STATE_CHANGE })
   }
 }
 export function deleteUserPost({ id, postType, images }, userId) {
@@ -94,7 +96,6 @@ export function deleteUserPost({ id, postType, images }, userId) {
   //
   return (dispatch) => {
     dispatch({ type: DELETE_USER_POST, id })
-    dispatch({ type: USER_POSTS_STATE_CHANGE })
   }
 }
 
@@ -122,4 +123,20 @@ export function updateUserPost(post, values) {
   return (dispatch) => {
     dispatch({ type: UPDATE_USER_POST, post })
   }
+}
+
+export function changeSavedPost(post, saved) {
+  return (dispatch) => {
+    if (saved) dispatch({ type: UNSAVE_POST, id })
+    else {
+      dispatch({ type: SAVE_POST, id })
+    }
+  }
+}
+export function fetchSavedPosts() {
+  //prettier-ignore
+  return ((dispatch) => {
+const savedPosts= []
+          dispatch({ type: SAVED_POSTS_STATE_CHANGE, savedPosts })
+  })
 }
