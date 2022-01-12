@@ -1,12 +1,12 @@
 import {
   USER_STATE_CHANGE,
-  USER_POSTS_STATE_CHANGE,
   ADD_USER_POST,
   DELETE_USER_POST,
   UPDATE_USER_POST,
   SAVED_POSTS_STATE_CHANGE,
   SAVE_POST,
   UNSAVE_POST,
+  FETCH_USER_POSTS,
 } from "../constants"
 
 const initialState = {
@@ -15,27 +15,35 @@ const initialState = {
   savedPosts: [],
 }
 
-export const user = (state = initialState, action) => {
+export default user = (state = initialState, action) => {
+  let newState = {}
   switch (action.type) {
     case USER_STATE_CHANGE:
-      return { ...state, currentUser: action.currentUser }
+      newState = { ...state, currentUser: action.payload }
+      return newState
       break
-    case USER_POSTS_STATE_CHANGE:
-      return { ...state, posts: action.posts }
+    case FETCH_USER_POSTS:
+      newState = { ...state, posts: action.payload }
+      return newState
       break
     case ADD_USER_POST:
-      return { ...state, posts: [action.post, ...state.posts] }
+      newState = { ...state, posts: [action.payload, ...state.posts] }
+      return newState
       break
     case DELETE_USER_POST:
-      return {
+      newState = {
         ...state,
-        posts: state.posts.filter((item) => item.id !== action.id),
+        posts: state.posts.filter((item) => item.id !== action.payload),
+        savedPosts: state.posts.filter((item) => item.id !== action.payload),
       }
+      return newState
       break
     case UPDATE_USER_POST:
-      const index = state.posts.findIndex((post) => post.id !== action.post.id)
+      const index = state.posts.findIndex(
+        (post) => post.id !== action.payload.id
+      )
       const newArray = [...state.posts]
-      newArray[index] = action.post
+      newArray[index] = action.payload
       return {
         ...state,
         posts: newArray,
@@ -45,15 +53,43 @@ export const user = (state = initialState, action) => {
       return { ...state, savedPosts: action.savedPosts }
       break
     case SAVE_POST:
-      return { ...state, savedPosts: [action.id, ...state.savedPosts] }
+      let newState = {}
+      if (action.payload.saved) {
+        newState = {
+          ...state,
+          savedPosts: [
+            { ...action.payload.post, saved: action.payload.saved },
+            ...state.savedPosts,
+          ],
+        }
+      } else {
+        newState = {
+          ...state,
+          savedPosts: state.savedPosts.filter(
+            (item) => item.id !== action.payload.post.id
+          ),
+        }
+      }
+      console.log(`DelPost`, newState.savedPosts.length)
+      return newState
       break
     case UNSAVE_POST:
       return {
         ...state,
-        savedPosts: state.savedPosts.filter((item) => item !== action.id),
+        savedPosts: state.savedPosts.filter(
+          (item) => item.id !== action.payload.post.id
+        ),
       }
       break
-
+    case "ADD_TO_FAV":
+      newState = { ...state }
+      if (!action.payload.saved) {
+        newState.savedPosts = newState.savedPosts.filter(
+          (item) => item.id !== action.payload.id
+        )
+      } else newState.savedPosts = [action.payload, ...newState.savedPosts]
+      return newState
+      break
     default:
       return state
       break

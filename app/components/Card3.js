@@ -12,7 +12,7 @@ const Card3 = ({ post, onIconPress }) => {
   //state
   const [image, setImage] = useState()
   const navigation = useNavigation()
-  const { title, type, images, createdAt, postType, location } = post
+  const { title, type, images, postType, location } = post
 
   useEffect(() => {
     if (images) {
@@ -90,7 +90,7 @@ const Card3 = ({ post, onIconPress }) => {
           }}
         >
           <AppText style2={styles.description}>
-            {dayjs(createdAt.toDate()).format("DD/MM/YYYY")}
+            {/* {dayjs(createdAt.toDate()).format("DD/MM/YYYY")} */}
           </AppText>
           <AppText style2={styles.description}>
             {postType == "students" ? type : "Disparu(e)"}

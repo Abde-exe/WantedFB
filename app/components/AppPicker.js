@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Pressable,
   View,
+  SafeAreaView,
 } from "react-native"
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons"
 
@@ -18,7 +19,7 @@ export default function AppPicker({ icon, items, placeholder, action }) {
   const [modal, setModal] = useState(false)
   const [selected, setSelected] = useState(items[0])
   return (
-    <>
+    <SafeAreaView>
       <Pressable
         onPress={() => setModal(true)}
         style={(args) => {
@@ -74,7 +75,7 @@ export default function AppPicker({ icon, items, placeholder, action }) {
           )}
         />
       </Modal>
-    </>
+    </SafeAreaView>
   )
 }
 

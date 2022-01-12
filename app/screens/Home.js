@@ -1,24 +1,23 @@
-import React, { Component } from "react"
-import { Linking, View, Pressable, StyleSheet, Button } from "react-native"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React, { useEffect } from "react"
+import { View, Pressable, StyleSheet, Button } from "react-native"
+import { useSelector, useDispatch } from "react-redux"
 import colors from "../../config/colors"
-import {
-  fetchUser,
-  fetchUserPosts,
-  fetchSavedPosts,
-} from "../../redux/actions/index"
 import AppText from "../components/AppText"
 import Screen from "../components/Screen"
 import Icon from "../components/Icon"
 import firebase from "firebase"
-export class Home extends Component {
-  componentDidMount() {
-    this.props.fetchUser()
-    this.props.fetchUserPosts()
-    this.props.fetchSavedPosts()
-  }
-  onSignOut() {
+
+import { fetchUserPosts, fetchUser } from "../../redux/actions"
+
+const Home = ({ navigation }) => {
+  const dispatch = useDispatch()
+  const { currentUser, posts } = useSelector((state) => state.user)
+  useEffect(() => {
+    !currentUser ? getUser() : null
+    posts.length === 0 ? getUserPosts() : null
+  }, [])
+
+  const onSignOut = () => {
     firebase
       .auth()
       .signOut()
@@ -29,67 +28,78 @@ export class Home extends Component {
         console.log(`error`, error)
       })
   }
-
-  render() {
-    return (
-      <Screen>
-        <View style={{ flexDirection: "column", flex: 1 }}>
-          {this.props.currentUser && (
-            <AppText style={{ fontSize: 32, marginLeft: 16 }}>
-              Bonjour {this.props.currentUser.name}
-            </AppText>
-          )}
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              justifyContent: "space-evenly",
-              alignItems: "center",
-            }}
-          >
-            <Pressable
-              style={styles.view}
-              onPress={() => this.props.navigation.navigate("Feed")}
-            >
-              <Icon
-                size={80}
-                name="account-child"
-                iconColor={colors.secondary}
-                backgroundColor="white"
-              />
-              <AppText style2={styles.text}>Disparitions</AppText>
-            </Pressable>
-            {/* <Pressable
-              style={styles.view}
-              onPress={() => this.props.navigation.navigate("Feed2")}
-            >
-              <Icon
-                size={80}
-                name="school"
-                iconColor={colors.secondary}
-                backgroundColor="white"
-              />
-              <AppText style2={styles.text}>Etudiants</AppText>
-            </Pressable> */}
-          </View>
-        </View>
-      </Screen>
+  const getUserPosts = async () => {
+    let posts = []
+    let postTypes = ["missings", "students"]
+    await Promise.all(
+      postTypes.map(async (element) => {
+        await firebase
+          .firestore()
+          .collection(element)
+          .orderBy("createdAt", "desc")
+          .get()
+          .then((snapshot) => {
+            snapshot.docs.map((doc) => {
+              const data = doc.data()
+              const id = doc.id
+              if (data.userID == firebase.auth().currentUser.uid) {
+                posts.push({ id, ...data })
+              }
+            })
+          })
+      })
     )
+    dispatch(fetchUserPosts(posts))
   }
-}
-const mapStateToProps = (store) => ({
-  currentUser: store.userState.currentUser,
-})
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      fetchUser,
-      fetchUserPosts,
-      fetchSavedPosts,
-    },
-    dispatch
+  const getUser = () => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser.uid)
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists) {
+          dispatch(fetchUser(snapshot.data()))
+        } else {
+          console.log("does not exist")
+        }
+      })
+  }
+  return (
+    <Screen>
+      <View style={{ flexDirection: "column", flex: 1 }}>
+        {currentUser && (
+          <AppText style={{ fontSize: 32, marginLeft: 16 }}>
+            Bonjour {currentUser.name}
+          </AppText>
+        )}
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "column",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+          }}
+        >
+          <Pressable
+            style={styles.view}
+            onPress={() => navigation.navigate("Feed")}
+          >
+            <Icon
+              size={80}
+              name="account-child"
+              iconColor={colors.secondary}
+              backgroundColor="white"
+            />
+            <AppText style2={styles.text}>Disparitions</AppText>
+          </Pressable>
+        </View>
+      </View>
+    </Screen>
   )
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+}
+
+export default Home
 
 const styles = StyleSheet.create({
   title: {

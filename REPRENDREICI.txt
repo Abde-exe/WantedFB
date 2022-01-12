@@ -1,7 +1,5 @@
 Prochain release : 
 
-COMPRENDRE REDUX AVANT DE CONTINUER
-Mettre en place post favoris
 
 post pour objet trouvés et perdus
 post pour les animaux
@@ -9,7 +7,8 @@ post pour les animaux
 lazy loading images 
 Dynamic links https://www.youtube.com/results?search_query=dynamic+links+react+native
 update de l'auteur du post en dessous du post sous forme de messages datés
-
+https://docs.expo.dev/versions/latest/sdk/branch/
+https://reactnavigation.org/docs/5.x/deep-linking/#third-party-integrations
 (systeme de minichat pour vérifier l'honneteté de la personne en lui posant une question
 exemple : de quelle couleur est l'objet perdu ou preuve par photo etc...)
 

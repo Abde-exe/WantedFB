@@ -1,36 +1,63 @@
 import React, { useEffect, useState } from "react"
 import { StyleSheet, Text, View, FlatList } from "react-native"
 import firebase from "firebase"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { deleteUserPost } from "../../redux/actions/index"
+import { useDispatch, useSelector } from "react-redux"
 import Screen from "../components/Screen"
 import Card3 from "../components/Card3"
 import AppModal2 from "../components/AppModal2"
-import { store } from "../../App"
-const UserPosts = ({ posts }) => {
-  const [userPosts, setuserPosts] = useState(posts)
+import { deleteUserPost } from "../../redux/actions"
+const UserPosts = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [itemToDelete, setitemToDelete] = useState(null)
-  const [refresh, setRefresh] = useState(false)
   const userId = firebase.auth().currentUser.uid
-  store.subscribe(
-    // cette fonction sera exécutée à chaque fois que le state change
-    () => {
-      const state = store.getState()
-      console.log(`state`, state)
-    }
-  )
+  const posts = useSelector((state) => state.user.posts)
+  const [userPosts, setuserPosts] = useState(posts)
+  const dispatch = useDispatch()
+
   const onDeletePost = () => {
     if (itemToDelete.id) {
       //delete from the list of post in this screen
       setuserPosts(userPosts.filter((i) => i.id != itemToDelete.id))
       setModalVisible(false)
-      //delete from the database and the store
-      deleteUserPost(itemToDelete, userId)
+      //delete from the database and the redux store
+      deletePost(itemToDelete, userId)
     }
   }
-  if (posts.length != 0) {
+  const deletePost = ({ id, postType, images }, userId) => {
+    if (id) {
+      //delete from the database
+      firebase
+        .firestore()
+        .collection(postType)
+        .doc(id)
+        .delete()
+        .then(() => {
+          //dispatch for the store action
+          dispatch(deleteUserPost(id))
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error)
+        })
+    }
+    //delete each of the post's images from the storage
+    const childPath = `${postType}/${userId}`
+
+    images.forEach((element) => {
+      const end = element.indexOf("png")
+      const name = element.substring(end - 37, end + 3)
+
+      const ref = firebase.storage().ref(`${childPath}/${name}`)
+      ref
+        .delete()
+        .then(() => {
+          console.log(`success`)
+        })
+        .catch((error) => {
+          console.log(`error`, error)
+        })
+    })
+  }
+  if (posts) {
     return (
       <Screen>
         <View>
@@ -43,9 +70,7 @@ const UserPosts = ({ posts }) => {
           />
           <FlatList
             key={(item) => item.id}
-            refreshing={refresh}
-            onRefresh={() => fetchUserPosts()}
-            data={userPosts}
+            data={posts}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <Card3
@@ -73,16 +98,4 @@ const UserPosts = ({ posts }) => {
   }
 }
 
-const mapStateToProps = (store) => ({
-  posts: store.userState.posts,
-})
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      deleteUserPost,
-    },
-    dispatch
-  )
-export default connect(mapStateToProps, mapDispatchToProps)(UserPosts)
-
-const styles = StyleSheet.create({})
+export default UserPosts

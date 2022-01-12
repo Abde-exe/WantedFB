@@ -21,7 +21,7 @@ function MultiForm({
     if (Object.keys(errors).length !== 0) {
       var err = ""
       for (var key in errors) {
-        err = err + "" + errors[key] + "\n\n"
+        err = err + "•" + errors[key] + "\n\n"
       }
       Alert.alert("Erreur dans le formulaire", err)
     }

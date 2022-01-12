@@ -14,7 +14,7 @@ const Card2 = ({ post }) => {
   //state
   const [image, setImage] = useState()
   const navigation = useNavigation()
-  const { title, age, state, images, createdAt } = post
+  const { title, state, images, createdAt } = post
 
   useEffect(() => {
     if (images) {
@@ -71,7 +71,6 @@ const Card2 = ({ post }) => {
           <AppText style2={styles.title} numberOfLines={1}>
             {title}
           </AppText>
-          <AppText style2={styles.subtitle}>{age}</AppText>
         </View>
         <View
           style={{

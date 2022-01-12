@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react"
 import { ActivityIndicator, StyleSheet, View } from "react-native"
 import firebase from "firebase"
+import { PersistGate } from "redux-persist/integration/react"
 import { Provider } from "react-redux"
-import { createStore, applyMiddleware } from "redux"
-import rootReducer from "./redux/reducers"
-import thunk from "redux-thunk"
-export const store = createStore(rootReducer, applyMiddleware(thunk))
-
+import { store, persistor } from "./redux/store"
 import AuthStack from "./app/navigation/AuthStack"
 import RootNavigator from "./app/navigation/RootNavigator"
 
@@ -37,7 +34,9 @@ export default function App() {
   }
   return (
     <Provider store={store}>
-      <RootNavigator />
+      <PersistGate loading={null} persistor={persistor}>
+        <RootNavigator />
+      </PersistGate>
     </Provider>
   )
 }

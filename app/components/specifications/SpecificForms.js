@@ -1,8 +1,10 @@
 import React from "react"
-import { View, StyleSheet, KeyboardAvoidingView, Platform } from "react-native"
+import { View, StyleSheet } from "react-native"
 import * as Yup from "yup"
 import { useNavigation } from "@react-navigation/core"
-
+import { v4 as uuidv4 } from "uuid"
+import firebase from "firebase"
+import { addUserPost } from "../../../redux/actions"
 import AppText from "../AppText"
 import MultiForm from "../forms/MultiForm"
 import ImagePicker from "../forms/ImagePicker"
@@ -10,8 +12,8 @@ import { AppFormField, LocationSearchBar } from "../forms"
 import DateInput from "../DateInput"
 import SelectRadio from "../forms/SelectRadio"
 import colors from "../../../config/colors"
-import useSavePost from "../../../hooks/useSavePost"
 import { updateUserPost } from "../../../redux/actions/index"
+import { useDispatch } from "react-redux"
 const validationSchema = {
   missings: Yup.object().shape({
     images: Yup.array().min(1, "Sélectionnez au moins 1 image"),
@@ -24,9 +26,9 @@ const validationSchema = {
       .max(120, "Entrez une valeur entre 0 et 120 ans")
       .label("Age"),
     date: Yup.date().label("Date"),
-    location: Yup.object()
-      .required("Veuillez entrer une localisation")
-      .label("Localisation"),
+    location: Yup.object().label("Localisation"),
+    // .required("Veuillez entrer une localisation")
+
     description: Yup.string().label("Description"),
 
     corpulence: Yup.string().label("Corpulence"),
@@ -89,8 +91,66 @@ const initialValues = {
 }
 
 const Missings = ({ changeProgress, post, edit }) => {
-  const { savePost, uploadImages } = useSavePost()
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+  //uploading the images in the storage
+  const uploadImages = async (post) => {
+    const imagesBlob = []
+    if (post.images.length > 0) {
+      const images = post.images
+      const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
+
+      await Promise.all(
+        images.map(async (image) => {
+          const response = await fetch(image)
+          const blob = await response.blob()
+          const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
+
+          await ref.put(blob).then((result) => {
+            imagesBlob.push(result.metadata.name)
+          })
+          await ref.getDownloadURL(blob).then((result) => {
+            imagesBlob.pop()
+            imagesBlob.push(result)
+          })
+        })
+      ).then(() => savePost(post, imagesBlob))
+    } else {
+      savePost(post, [])
+    }
+  }
+  //saving post
+  const savePost = (post, images) => {
+    //delete all empty strings
+    for (const key in post) {
+      if (post[key] === "") {
+        delete post[key]
+      }
+    }
+
+    let doc = firebase
+      .firestore()
+      .collection(post.postType)
+      .add({
+        ...post,
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+        images: images,
+        state: "disparu(e)",
+        userID: firebase.auth().currentUser.uid,
+      })
+      .then((result) => {
+        const newpost = {
+          ...post,
+          id: result.id,
+          createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+          images: images,
+          state: "disparu(e)",
+          userID: firebase.auth().currentUser.uid,
+        }
+        console.log(`post`, newpost)
+        dispatch(addUserPost(newpost))
+      })
+  }
 
   let postValues = {}
   //existing values ready to be modfied
@@ -143,7 +203,7 @@ const Missings = ({ changeProgress, post, edit }) => {
         //Form 1
       }
       <View>
-        <AppText style2={styles.title}>Identité et Signalement</AppText>
+        <AppText style2={styles.title}>Signalement</AppText>
         <ImagePicker name="images" required={true} />
 
         <AppFormField
@@ -161,7 +221,7 @@ const Missings = ({ changeProgress, post, edit }) => {
         />
         <AppFormField
           name="description"
-          placeholder="Description ou message"
+          placeholder="Message"
           multiline
           numberOfLines={3}
         />
@@ -175,6 +235,11 @@ const Missings = ({ changeProgress, post, edit }) => {
           placeholder="Date de disparition"
           icon="calendar-today"
         />
+        <AppText
+          style2={{ color: colors.danger, fontSize: 12, marginLeft: 16 }}
+        >
+          Les champs en rouge sonts requis
+        </AppText>
       </View>
       {
         //Form 2
@@ -230,7 +295,6 @@ const Missings = ({ changeProgress, post, edit }) => {
 }
 
 const Students = ({ changeProgress, post, edit }) => {
-  const { savePost, uploadImages } = useSavePost()
   const navigation = useNavigation()
 
   let postValues = {}

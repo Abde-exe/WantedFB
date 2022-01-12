@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { FlatList, StyleSheet, View } from "react-native"
 import firebase from "firebase"
-import { connect } from "react-redux"
+import { useSelector } from "react-redux"
 
 import Icon from "../components/Icon"
 import ListItem from "../components/lists/ListItem"
@@ -9,7 +9,9 @@ import Screen from "../components/Screen"
 import ProfileComponent from "../components/ProfileComponent"
 import AppModal2 from "../components/AppModal2"
 import colors from "../../config/colors"
-const Account = ({ currentUser, navigation }) => {
+const Account = ({ navigation }) => {
+  const currentUser = useSelector((state) => state.user.currentUser)
+
   const [modal, setModal] = useState(false)
 
   const menuItems = [
@@ -123,10 +125,7 @@ const Account = ({ currentUser, navigation }) => {
   )
 }
 
-const mapStateToProps = (store) => ({
-  currentUser: store.userState.currentUser,
-})
-export default connect(mapStateToProps, null)(Account)
+export default Account
 const styles = StyleSheet.create({
   container: {
     height: "100%",

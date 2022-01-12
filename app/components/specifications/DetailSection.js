@@ -24,42 +24,40 @@ const DetailSection = ({ post }) => {
         }}
       >
         {date && `Disparu(e) le ${dayjs(date.toDate()).format("D/M")}`}
-        {location.name != "" && ` à ${location.name}`}
+        {location.name && ` à ${location.name}`}
       </AppText>
       <View style={{ padding: 20 }}>
         <AppText style={styles.sectionTitle}>Identité</AppText>
         <View style={styles.section}>
           <DetailsText text={title} subText={"Nom"} />
-          {age != "" ? (
+          {age ? (
             <DetailsText text={age} subText={"Age"} other={" ans"} />
           ) : null}
-          {location != "" ? (
+          {location ? (
             <DetailsText text={location.name} subText={"Lieu de disparition"} />
           ) : null}
         </View>
-        {description != "" ? <AppText>{description}</AppText> : null}
+        {description ? <AppText>{description}</AppText> : null}
         <Separator />
         <AppText style={styles.sectionTitle}>Description physique</AppText>
         <View style={styles.section}>
-          {corpulence != "" ? (
+          {corpulence ? (
             <DetailsText text={corpulence} subText={"Corpulence"} />
           ) : null}
-          {height != "" ? (
+          {height ? (
             <DetailsText text={height} subText={"Taille"} other=" cm" />
           ) : null}
-          {hair != "" ? <DetailsText text={hair} subText={"Cheveux"} /> : null}
-          {eyes != "" ? <DetailsText text={eyes} subText={"Yeux"} /> : null}
-          {outfit != "" ? (
-            <DetailsText text={outfit} subText={"Tenue"} />
-          ) : null}
-          {other != "" ? <DetailsText text={other} subText={"Autre"} /> : null}
+          {hair ? <DetailsText text={hair} subText={"Cheveux"} /> : null}
+          {eyes ? <DetailsText text={eyes} subText={"Yeux"} /> : null}
+          {outfit ? <DetailsText text={outfit} subText={"Tenue"} /> : null}
+          {other ? <DetailsText text={other} subText={"Autre"} /> : null}
         </View>
         <Separator />
 
         <AppText style={styles.sectionTitle}>Contact</AppText>
         <View style={styles.section}>
-          {tel != "" ? <DetailsText text={tel} subText={"Téléphone"} /> : null}
-          {email != "" ? <DetailsText text={email} subText={"Email"} /> : null}
+          {tel ? <DetailsText text={tel} subText={"Téléphone"} /> : null}
+          {email ? <DetailsText text={email} subText={"Email"} /> : null}
         </View>
       </View>
     </View>

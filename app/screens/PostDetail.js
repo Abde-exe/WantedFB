@@ -24,9 +24,11 @@ import DetailSection from "../components/specifications/DetailSection"
 import Screen from "../components/Screen"
 
 import FloatButton from "../components/FloatButton"
-import { changeSavedPost, savePost, unsavePost } from "../../redux/actions"
+import { changeSavedPost } from "../../redux/actions"
 import DetailsText from "../components/DetailsText"
+import { useSelector, useDispatch } from "react-redux"
 const PostDetail = ({ route, navigation }) => {
+  const dispatch = useDispatch()
   const [modalVisible, setModalVisible] = useState(false)
   //state---------//
   const [post, setPost] = useState(null)
@@ -42,6 +44,8 @@ const PostDetail = ({ route, navigation }) => {
   const [bookmarked, setBookmarked] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(true)
+  let saved = []
+  saved = useSelector((state) => state.user.savedPosts)
   //fetch post with postId
   useEffect(() => {
     //when only have the id not the post itself
@@ -54,6 +58,20 @@ const PostDetail = ({ route, navigation }) => {
       setError(false)
     }
   }, [])
+  useEffect(() => {
+    //set bookmark icon on if the post is already bookmarked by the user
+    if (post) {
+      if (saved.filter((item) => item.id === post.id).length > 0)
+        setBookmarked(true)
+    }
+  }, [post])
+  const ifExists = (post) => {
+    {
+      return true
+    }
+
+    return false
+  }
   const fetchPost = () => {
     try {
       setLoading(true)
@@ -121,9 +139,10 @@ const PostDetail = ({ route, navigation }) => {
       openURL(`tel:${post.tel}`)
     }
   }
+
   const onBookmark = () => {
     setBookmarked(!bookmarked)
-    changeSavedPost(post.id, bookmarked)
+    dispatch(changeSavedPost(post, !bookmarked))
   }
   //Success
   if (post) {
