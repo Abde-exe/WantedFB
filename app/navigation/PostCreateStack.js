@@ -6,15 +6,15 @@ import SharingView from "../screens/SharingView"
 import colors from "../../config/colors"
 import { View, StyleSheet, Pressable } from "react-native"
 import IconButton from "../components/IconButton"
+import AppBottomSheet from "./AppBottomSheet"
 
 const Stack = createStackNavigator()
 
 const PostCreateStack = ({ navigation }) => {
   return (
-    <Stack.Navigator
-      mode="modal"
-      initialRouteName="PostCreate"
-    ></Stack.Navigator>
+    <Stack.Navigator mode="modal" headerMode="none">
+      <Stack.Screen component={AppBottomSheet} name="AppBottomSheet" />
+    </Stack.Navigator>
   )
 }
 

@@ -12,7 +12,9 @@ const Card3 = ({ post, onIconPress }) => {
   //state
   const [image, setImage] = useState()
   const navigation = useNavigation()
-  const { title, type, images, postType, location } = post
+  const { title, type, images, postType, location, createdAt } = post
+  var date = new Date(1970, 0, 1) // Epoch
+  date.setSeconds(createdAt.seconds)
 
   useEffect(() => {
     if (images) {
@@ -77,7 +79,7 @@ const Card3 = ({ post, onIconPress }) => {
             />
           ) : (
             <AppText style2={styles.subtitle}>
-              {location.name.split(",")[0]}
+              {location.name && location.name.split(",")[0]}
             </AppText>
           )}
         </View>
@@ -90,7 +92,7 @@ const Card3 = ({ post, onIconPress }) => {
           }}
         >
           <AppText style2={styles.description}>
-            {/* {dayjs(createdAt.toDate()).format("DD/MM/YYYY")} */}
+            {dayjs(date).format("DD/MM/YYYY")}
           </AppText>
           <AppText style2={styles.description}>
             {postType == "students" ? type : "Disparu(e)"}

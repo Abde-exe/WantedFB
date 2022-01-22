@@ -15,6 +15,8 @@ import AppText from "./AppText"
 import PickerItem from "./PickerItems"
 import colors from "../../config/colors"
 import IconButton from "./IconButton"
+import { StatusBar } from "expo-status-bar"
+import Separator from "./Separator"
 export default function AppPicker({ icon, items, placeholder, action }) {
   const [modal, setModal] = useState(false)
   const [selected, setSelected] = useState(items[0])
@@ -52,7 +54,12 @@ export default function AppPicker({ icon, items, placeholder, action }) {
           />
         </View>
       </Pressable>
-      <Modal visible={modal} animationType="slide">
+      <Modal
+        visible={modal}
+        animationType="slide"
+        style={{ backgroundColor: "red" }}
+      >
+        <Separator />
         <IconButton
           name="close-circle"
           size={26}

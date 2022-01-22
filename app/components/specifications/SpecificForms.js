@@ -26,8 +26,10 @@ const validationSchema = {
       .max(120, "Entrez une valeur entre 0 et 120 ans")
       .label("Age"),
     date: Yup.date().label("Date"),
-    location: Yup.object().label("Localisation"),
-    // .required("Veuillez entrer une localisation")
+    location: Yup.object()
+      .required("Veuillez entrer une localisation")
+      .label("Localisation"),
+    //
 
     description: Yup.string().label("Description"),
 
@@ -45,18 +47,38 @@ const validationSchema = {
     email: Yup.string().email("Entrez une adresse email valide").label("Email"),
   }),
   students: Yup.object().shape({
-    name: Yup.string().required().min(3, "Entrer un nom").label("Nom"),
-    age: Yup.number().min(0).max(120).label("Age"),
-    location: Yup.string().label("Localisation"),
+    name: Yup.string()
+      .required("Entrez un nom")
+      .min(3, "Entrez un nom")
+      .label("Nom"),
 
-    type: Yup.string().required().label("Type"),
+    type: Yup.string().required("Choisissez le type d'annonce").label("Type"),
     domain: Yup.string().label("Domaine"),
     length: Yup.string().label("Durée"),
     place: Yup.string().label("Lieu"),
 
-    title: Yup.string().required().min(3, "Entrer un nom").label("Titre"),
+    title: Yup.string()
+      .required("Entrez un nom")
+      .min(3, "Entrez un nom")
+      .label("Titre"),
     description: Yup.string().label("Description"),
     images: Yup.array(),
+    tel: Yup.string().label("Téléphone"),
+    email: Yup.string().email("Entrez une adresse email valide").label("Email"),
+  }),
+  animals: Yup.object().shape({
+    name: Yup.string().min(3, "Entrez un nom").label("Nom"),
+    age: Yup.number().min(0).max(120).label("Age"),
+    location: Yup.object().label("Localisation"),
+    date: Yup.date().label("Date"),
+    title: Yup.string().required().min(3, "Entrez un titre").label("Titre"),
+    description: Yup.string().label("Description"),
+    race: Yup.string().label("Race"),
+    other: Yup.string().label("Autre"),
+    sexe: Yup.string().label("Sexe"),
+    images: Yup.array(),
+    tel: Yup.string().label("Téléphone"),
+    email: Yup.string().email("Entrez une adresse email valide").label("Email"),
   }),
 }
 const initialValues = {
@@ -78,14 +100,29 @@ const initialValues = {
   },
   students: {
     name: "",
-    age: "",
-    location: "",
+    date: "",
     type: "",
     domain: "",
     place: "",
     length: "",
+    tel: "",
+    email: "",
     title: "",
     description: "",
+    images: [],
+  },
+  animals: {
+    name: "",
+    age: "",
+    location: { name: "" },
+    race: "",
+    sexe: "",
+    title: "",
+    date: new Date(),
+    other: "",
+    description: "",
+    tel: "",
+    email: "",
     images: [],
   },
 }
@@ -147,7 +184,6 @@ const Missings = ({ changeProgress, post, edit }) => {
           state: "disparu(e)",
           userID: firebase.auth().currentUser.uid,
         }
-        console.log(`post`, newpost)
         dispatch(addUserPost(newpost))
       })
   }
@@ -192,7 +228,7 @@ const Missings = ({ changeProgress, post, edit }) => {
             //reset form
             formikActions.resetForm()
 
-            navigation.navigate("DoneAnimation", { values })
+            navigation.navigate("SharingView", { post: values })
           }
         } catch (error) {
           console.log(`error`, error)
@@ -296,6 +332,62 @@ const Missings = ({ changeProgress, post, edit }) => {
 
 const Students = ({ changeProgress, post, edit }) => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+  //uploading the images in the storage
+  const uploadImages = async (post) => {
+    const imagesBlob = []
+    if (post.images.length > 0) {
+      const images = post.images
+      const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
+
+      await Promise.all(
+        images.map(async (image) => {
+          const response = await fetch(image)
+          const blob = await response.blob()
+          const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
+
+          await ref.put(blob).then((result) => {
+            imagesBlob.push(result.metadata.name)
+          })
+          await ref.getDownloadURL(blob).then((result) => {
+            imagesBlob.pop()
+            imagesBlob.push(result)
+          })
+        })
+      ).then(() => savePost(post, imagesBlob))
+    } else {
+      savePost(post, [])
+    }
+  }
+  //saving post
+  const savePost = (post, images) => {
+    //delete all empty strings
+    for (const key in post) {
+      if (post[key] === "") {
+        delete post[key]
+      }
+    }
+
+    let doc = firebase
+      .firestore()
+      .collection(post.postType)
+      .add({
+        ...post,
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+        images: images,
+        userID: firebase.auth().currentUser.uid,
+      })
+      .then((result) => {
+        const newpost = {
+          ...post,
+          id: result.id,
+          createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+          images: images,
+          userID: firebase.auth().currentUser.uid,
+        }
+        dispatch(addUserPost(newpost))
+      })
+  }
 
   let postValues = {}
   //existing values ready to be modfied
@@ -311,6 +403,8 @@ const Students = ({ changeProgress, post, edit }) => {
       title: post.title,
       description: post.description,
       images: post.images,
+      tel: post.tel,
+      email: post.email,
     }
   }
   return (
@@ -329,21 +423,205 @@ const Students = ({ changeProgress, post, edit }) => {
               //no images in the post
               edit ? updateUserPost(post, values) : savePost(values, [])
             }
-            navigation.navigate("DoneAnimation", { values })
+            //reset form
+            formikActions.resetForm()
+            navigation.navigate("SharingView", { post: values })
           }
         } catch (error) {
           console.log(`error`, error)
         }
-
-        // resetForm({ values: initialValues })
       }}
     >
       {
         //Form 1
       }
       <View>
-        <AppText style2={styles.title}>Identité</AppText>
-        <AppFormField name="name" placeholder="Nom, prénom..." icon="account" />
+        <AppText style2={styles.title}>Annonce</AppText>
+        <SelectRadio name="type" typeValues={["Alternance", "Job", "Stage"]} />
+
+        <AppFormField name="title" placeholder="Titre" required />
+        <AppFormField
+          name="description"
+          placeholder="Description"
+          multiline
+          numberOfLines={4}
+        />
+
+        <AppFormField name="domain" placeholder="Domaine" required />
+        <AppFormField name="length" placeholder="Durée" />
+        <LocationSearchBar placeholder="Lieu" name="place" />
+        <AppText
+          style2={{ color: colors.danger, fontSize: 12, marginLeft: 16 }}
+        >
+          Les champs en rouge sonts requis
+        </AppText>
+      </View>
+      {
+        //Form 2
+      }
+      <View>
+        <AppText style2={styles.title}>Détails</AppText>
+        <ImagePicker name="images" />
+
+        <AppFormField
+          required
+          name="name"
+          placeholder="Nom, prénom..."
+          icon="account"
+        />
+
+        <AppFormField
+          width={"40%"}
+          name="tel"
+          placeholder="Téléphone"
+          keyboardType="numeric"
+          maxLength={10}
+        />
+        <AppFormField name="email" placeholder="Email" />
+      </View>
+    </MultiForm>
+  )
+}
+const Animals = ({ changeProgress, post, edit }) => {
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
+  //uploading the images in the storage
+  const uploadImages = async (post) => {
+    const imagesBlob = []
+    if (post.images.length > 0) {
+      const images = post.images
+      const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
+
+      await Promise.all(
+        images.map(async (image) => {
+          const response = await fetch(image)
+          const blob = await response.blob()
+          const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
+
+          await ref.put(blob).then((result) => {
+            imagesBlob.push(result.metadata.name)
+          })
+          await ref.getDownloadURL(blob).then((result) => {
+            imagesBlob.pop()
+            imagesBlob.push(result)
+          })
+        })
+      ).then(() => savePost(post, imagesBlob))
+    } else {
+      savePost(post, [])
+    }
+  }
+  //saving post
+  const savePost = (post, images) => {
+    //delete all empty strings
+    for (const key in post) {
+      if (post[key] === "") {
+        delete post[key]
+      }
+    }
+
+    let doc = firebase
+      .firestore()
+      .collection("animals")
+      .add({
+        ...post,
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+        images: images,
+        state: "disparu(e)",
+        userID: firebase.auth().currentUser.uid,
+      })
+      .then((result) => {
+        const newpost = {
+          ...post,
+          id: result.id,
+          createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+          images: images,
+          state: "disparu(e)",
+          userID: firebase.auth().currentUser.uid,
+        }
+        dispatch(addUserPost(newpost))
+      })
+  }
+
+  let postValues = {}
+  //existing values ready to be modfied
+  if (post) {
+    postValues = {
+      images: post.images,
+      title: post.title,
+      description: post.description,
+      age: post.age,
+      name: post.name,
+      date: post.date.toDate(),
+      location: post.location.name,
+      sexe: post.sexe,
+      race: post.race,
+      email: post.email,
+      tel: post.tel,
+    }
+  }
+  return (
+    <MultiForm
+      validationSchema={validationSchema.animals}
+      progress={changeProgress}
+      initialValues={post ? postValues : initialValues.animals}
+      onSubmit={(values, formikActions) => {
+        try {
+          //with images picked
+          if (values) {
+            values = { ...values, postType: "animals" }
+            if (values.images && values.images.length > 0)
+              edit ? updateUserPost(post, values) : uploadImages(values)
+            else {
+              //no images in the post
+              edit ? updateUserPost(post, values) : savePost(values, [])
+            }
+
+            //reset form
+            formikActions.resetForm()
+
+            navigation.navigate("SharingView", { post: values })
+          }
+        } catch (error) {
+          console.log(`error`, error)
+        }
+      }}
+    >
+      {
+        //Form 1
+      }
+      <View>
+        <AppText style2={styles.title}>Signalement</AppText>
+        <ImagePicker name="images" required={true} />
+        <AppFormField required name="title" placeholder="Titre" />
+        <AppFormField
+          name="description"
+          placeholder="Message"
+          multiline
+          numberOfLines={3}
+        />
+        <LocationSearchBar
+          placeholder="Dernière localisation"
+          name="location"
+          required
+        />
+        <DateInput
+          name="date"
+          placeholder="Date de disparition"
+          icon="calendar-today"
+        />
+        <AppText
+          style2={{ color: colors.danger, fontSize: 12, marginLeft: 16 }}
+        >
+          Les champs en rouge sonts requis
+        </AppText>
+      </View>
+      {
+        //Form 2
+      }
+      <View>
+        <AppText style2={styles.title}>Description</AppText>
+        <AppFormField required name="name" placeholder="Nom" />
         <AppFormField
           name="age"
           keyboardType="numeric"
@@ -352,39 +630,36 @@ const Students = ({ changeProgress, post, edit }) => {
           width={"22%"}
         />
 
-        <LocationSearchBar placeholder="Localisation" name="location" />
-      </View>
-      {
-        //Form 2
-      }
-      <View>
-        <AppText style2={styles.title}>Poste</AppText>
+        <SelectRadio name="sexe" typeValues={["Femelle", "Mâle"]} />
+        <AppFormField name="race" placeholder="Race" />
 
-        <SelectRadio name="type" typeValues={["Alternance", "Job", "Stage"]} />
-        <AppFormField name="domain" placeholder="Domaine" />
-        <AppFormField name="length" placeholder="Durée" />
-        <LocationSearchBar placeholder="Lieu" name="place" />
+        <AppFormField
+          name="other"
+          placeholder="Signe particulier, autre..."
+          multiline
+          numberOfLines={4}
+        />
       </View>
       {
         //Form 3
       }
       <View>
-        <AppText style2={styles.title}>Détails</AppText>
+        <AppText style2={styles.title}>Contact</AppText>
 
-        <AppFormField name="title" placeholder="Titre" />
         <AppFormField
-          name="description"
-          placeholder="Description"
-          multiline
-          numberOfLines={4}
+          width={"40%"}
+          name="tel"
+          placeholder="Téléphone"
+          keyboardType="numeric"
+          maxLength={10}
         />
-        <ImagePicker name="images" />
+
+        <AppFormField name="email" placeholder="Email" />
       </View>
     </MultiForm>
   )
 }
-
-export { Missings, Students }
+export { Missings, Students, Animals }
 const styles = StyleSheet.create({
   title: {
     color: colors.secondary,

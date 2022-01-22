@@ -21,6 +21,7 @@ export const fetchUserPosts = (posts) => {
   }
 }
 export const addUserPost = (post) => (dispatch) => {
+  console.log(`post.name`, post.name)
   dispatch({ type: ADD_USER_POST, payload: post })
 }
 export const fetchUser = (user) => (dispatch) => {

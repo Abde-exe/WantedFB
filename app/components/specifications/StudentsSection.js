@@ -5,10 +5,9 @@ import AppText from "../AppText"
 import DetailsText from "../DetailsText"
 import Separator from "../Separator"
 
-const DetailSection2 = ({ post }) => {
-  const { name, age, location } = post
+const StudentsSection = ({ post }) => {
   const { type, domain, length, place } = post
-  const { title, description } = post
+  const { title, description, name } = post
   return (
     <View>
       <AppText
@@ -18,48 +17,34 @@ const DetailSection2 = ({ post }) => {
           width: "90%",
           alignSelf: "center",
           color: colors.danger,
-          marginTop: 64,
         }}
       >
         {title}
       </AppText>
+      {description && <AppText>{description} </AppText>}
       <View style={{ padding: 20 }}>
         <AppText style={styles.sectionTitle}>Identité</AppText>
         <View style={styles.section}>
           <DetailsText text={name} subText={"Nom"} />
-          {age != "" ? (
-            <DetailsText text={age} subText={"Age"} other={" ans"} />
-          ) : null}
-          {location != "" ? (
-            <DetailsText text={location} subText={"Localisation"} />
-          ) : null}
         </View>
         <Separator />
-        <AppText style={styles.sectionTitle}>Poste</AppText>
+        <AppText style={styles.sectionTitle}>Détails</AppText>
         <View style={styles.section}>
-          {type != "" ? <DetailsText text={type} subText={"Type"} /> : null}
-          {domain != "" ? (
-            <DetailsText text={domain} subText={"Domaine"} />
-          ) : null}
-          {length != "" ? (
-            <DetailsText text={length} subText={"Durée"} />
-          ) : null}
-          {place != "" ? <DetailsText text={place} subText={"Lieu"} /> : null}
+          {type && <DetailsText text={type} subText={"Type"} />}
+          {domain && <DetailsText text={domain} subText={"Domaine"} />}
+          {length && <DetailsText text={length} subText={"Durée"} />}
+          {place && <DetailsText text={place} subText={"Lieu"} />}
         </View>
         <Separator />
 
-        <AppText style={styles.sectionTitle}>Détails</AppText>
-        <View style={styles.section}>
-          {description != "" ? (
-            <DetailsText text={description} subText={"Description"} />
-          ) : null}
-        </View>
+        <AppText style={styles.sectionTitle}>Contact</AppText>
+        <View style={styles.section}></View>
       </View>
     </View>
   )
 }
 
-export default DetailSection2
+export default StudentsSection
 const styles = StyleSheet.create({
   title: {
     marginBottom: 7,

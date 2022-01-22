@@ -22,27 +22,23 @@ const Report = () => {
       <Formik
         initialValues={{ reportText: "", images: [] }}
         validationSchema={validationSchema}
+        onSubmit={(values) => console.log(values)}
       >
-        <View>
-          <AppText>Amélioration, erreurs ,avis, idées etc</AppText>
-          <ImagePicker name="images" />
-          <AppTextInput
-            name="reportText"
-            placeholder="Détails"
-            numberOfLines={4}
-          />
-          <SubmitButton
-            title="Envoyer"
-            onPress={() => {
-              onSubmit()
-            }}
-          />
-        </View>
+        {({ handleSubmit }) => (
+          <View>
+            <AppText>Amélioration, erreurs ,avis, idées etc</AppText>
+            <ImagePicker name="images" />
+            <AppTextInput
+              name="reportText"
+              placeholder="Détails"
+              numberOfLines={4}
+            />
+            <AppButton title="Envoyer" onPress={handleSubmit} />
+          </View>
+        )}
       </Formik>
     </Screen>
   )
 }
 
 export default Report
-
-const styles = StyleSheet.create({})

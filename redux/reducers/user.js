@@ -34,7 +34,9 @@ export default user = (state = initialState, action) => {
       newState = {
         ...state,
         posts: state.posts.filter((item) => item.id !== action.payload),
-        savedPosts: state.posts.filter((item) => item.id !== action.payload),
+        savedPosts: state.savedPosts.filter(
+          (item) => item.id !== action.payload
+        ),
       }
       return newState
       break
@@ -70,24 +72,6 @@ export default user = (state = initialState, action) => {
           ),
         }
       }
-      console.log(`DelPost`, newState.savedPosts.length)
-      return newState
-      break
-    case UNSAVE_POST:
-      return {
-        ...state,
-        savedPosts: state.savedPosts.filter(
-          (item) => item.id !== action.payload.post.id
-        ),
-      }
-      break
-    case "ADD_TO_FAV":
-      newState = { ...state }
-      if (!action.payload.saved) {
-        newState.savedPosts = newState.savedPosts.filter(
-          (item) => item.id !== action.payload.id
-        )
-      } else newState.savedPosts = [action.payload, ...newState.savedPosts]
       return newState
       break
     default:

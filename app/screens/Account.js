@@ -33,15 +33,15 @@ const Account = ({ navigation }) => {
       },
       navigate: "SavedPosts",
     },
-    {
-      title: "Remarques/avis",
-      icon: {
-        name: "clipboard-alert",
-        iconColor: "white",
-        backgroundColor: colors.primary,
-      },
-      navigate: "Report",
-    },
+    // {
+    //   title: "Remarques/avis",
+    //   icon: {
+    //     name: "clipboard-alert",
+    //     iconColor: "white",
+    //     backgroundColor: colors.primary,
+    //   },
+    //   navigate: "Report",
+    // },
     // {
     //   title: "Mes Messages",
     //   icon: {

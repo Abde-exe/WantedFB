@@ -4,11 +4,11 @@ export default {
   expo: {
     description: "description",
     primaryColor: "#015EFF",
-    privacy: "unlisted",
+    privacy: "public",
     scheme: "wantedapp",
-    name: "WantedApp",
+    name: "Wanted | Avis de recherche",
     slug: "WantedApp",
-    version: "1.0.6",
+    version: "1.0.7",
     orientation: "portrait",
     icon: "./assets/icon.png",
     splash: {
@@ -19,16 +19,16 @@ export default {
     updates: {
       fallbackToCacheTimeout: 0,
     },
-    assetBundlePatterns: ["**/*"],
+    assetBundlePatterns: ["assets/**/*"],
     ios: {
       associatedDomains: ["applinks:abdedev.fr"],
       //schema: "wantedapp",
       supportsTablet: true,
-      bundleIdentifier: "fr.wantedapp",
+      bundleIdentifier: "com.wantedapp",
     },
     android: {
-      package: "fr.wantedapp",
-      versionCode: 6,
+      package: "com.wantedapp",
+      versionCode: 7,
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#FFFFFF",
@@ -48,7 +48,7 @@ export default {
       ],
     },
     web: {
-      favicon: "./assets/favicon.png",
+      favicon: "./assets/icon2.png",
     },
     extra: {
       apiKey: process.env.API_KEY,

@@ -9,7 +9,6 @@ import { View } from "react-native"
 import PostCreate from "../screens/PostCreate"
 import IconButton from "../components/IconButton"
 import colors from "../../config/colors"
-import PostEdit from "../screens/PostEdit"
 import SharingView from "../screens/SharingView"
 import DoneAnimation from "../screens/DoneAnimation"
 const Stack = createStackNavigator()
@@ -32,6 +31,7 @@ const linking = {
     },
   },
 }
+
 const RootNavigator = ({ navigation }) => {
   return (
     <NavigationContainer theme={navigationTheme} linking={linking}>
@@ -53,6 +53,7 @@ const RootNavigator = ({ navigation }) => {
             headerTitle: null,
           }}
         />
+
         <Stack.Screen
           name="DoneAnimation"
           component={DoneAnimation}

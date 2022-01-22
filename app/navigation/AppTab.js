@@ -1,17 +1,18 @@
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+
 import colors from "../../config/colors"
 import NewPostButton from "./NewPostButton"
 import FeedStack from "./FeedStack"
 import AccountNavigator from "./AccountNavigator"
 import PostCreateStack from "./PostCreateStack"
-import Icon from "../components/Icon"
-import { View, StyleSheet, TouchableOpacity } from "react-native"
+import { View, StyleSheet } from "react-native"
+import AppBottomSheet from "./AppBottomSheet"
 
 const Tab = createBottomTabNavigator()
 
-const AppTab = () => {
+const AppTab = ({ navigation }) => {
   return (
     <>
       <Tab.Navigator
@@ -36,7 +37,7 @@ const AppTab = () => {
           name={"PostCreateStack"}
           component={PostCreateStack}
           options={{
-            tabBarVisible: false,
+            //tabBarVisible: false,
             tabBarIcon: () => (
               <View style={styles.container}>
                 <MaterialCommunityIcons
@@ -53,12 +54,13 @@ const AppTab = () => {
             //   />
             // ),
           }}
-          listeners={({ navigation }) => ({
-            tabPress: (event) => {
-              event.preventDefault()
-              navigation.navigate("PostCreate")
-            },
-          })}
+          // listeners={({ navigation }) => ({
+          //   tabPress: (event) => {
+          //     event.preventDefault()
+          //     setisOpen(true)
+          //      navigation.navigate("PostCreate")
+          //   },
+          // })}
         />
         <Tab.Screen
           name="AccountNavigator"

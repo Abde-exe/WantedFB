@@ -17,11 +17,15 @@ import AppText from "../components/AppText"
 import Screen from "../components/Screen"
 import colors from "../../config/colors"
 import IconButton from "../components/IconButton"
-import { Missings, Students } from "../components/specifications/SpecificForms"
+import {
+  Animals,
+  Missings,
+  Students,
+} from "../components/specifications/SpecificForms"
 
 const PostEdit = ({ navigation, route }) => {
   const scrollView = useRef()
-  const post = route.params
+  const post = route.params.post
   //manage progress bar and steps
   const [step, setStep] = useState(0)
   const changeProgress = (i) => {
@@ -63,8 +67,10 @@ const PostEdit = ({ navigation, route }) => {
         >
           {post.postType == "missings" ? (
             <Missings changeProgress={changeProgress} post={post} edit={true} />
-          ) : (
+          ) : post.postType == "students" ? (
             <Students changeProgress={changeProgress} post={post} edit={true} />
+          ) : (
+            <Animals changeProgress={changeProgress} post={post} edit={true} />
           )}
         </ScrollView>
       </SafeAreaView>

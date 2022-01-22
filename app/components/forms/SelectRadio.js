@@ -27,10 +27,10 @@ const SelectRadio = ({ name, typeValues, ...otherProps }) => {
         containerStyle={{
           marginHorizontal: 50,
           flexDirection: "row",
-          justifyContent: "space-between",
+          justifyContent: "space-evenly",
           alignItems: "center",
         }}
-        selected={values.type}
+        selected={values[name]}
         onSelected={(value) => {
           setFieldValue(name, value)
         }}

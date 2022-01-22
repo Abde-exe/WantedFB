@@ -4,9 +4,8 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  TouchableOpacity,
-  Pressable,
   Text,
+  TouchableOpacity,
 } from "react-native"
 import { openURL } from "expo-linking"
 import firebase from "firebase"
@@ -15,18 +14,23 @@ import ImageView from "react-native-image-view"
 
 import AppText from "../components/AppText"
 import colors from "../../config/colors"
-import ProfileComponent from "../components/ProfileComponent"
 import ActivityIndicator from "../components/ActivityIndicator"
 import AppButton from "../components/AppButton"
 import AppModal from "../components/AppModal"
-import DetailSection2 from "../components/specifications/DetailSection2"
-import DetailSection from "../components/specifications/DetailSection"
+import StudentsSection from "../components/specifications/StudentsSection"
+import MissingsSection from "../components/specifications/MissingsSection"
+import AnimalsSection from "../components/specifications/AnimalsSection"
 import Screen from "../components/Screen"
 
 import FloatButton from "../components/FloatButton"
 import { changeSavedPost } from "../../redux/actions"
-import DetailsText from "../components/DetailsText"
 import { useSelector, useDispatch } from "react-redux"
+import AppTextInput from "../components/AppTextInput"
+import IconButton from "../components/IconButton"
+import Icon from "../components/Icon"
+import Separator from "../components/Separator"
+import Messages from "../components/Messages"
+import { Animals } from "../components/specifications/SpecificForms"
 const PostDetail = ({ route, navigation }) => {
   const dispatch = useDispatch()
   const [modalVisible, setModalVisible] = useState(false)
@@ -58,6 +62,7 @@ const PostDetail = ({ route, navigation }) => {
       setError(false)
     }
   }, [])
+
   useEffect(() => {
     //set bookmark icon on if the post is already bookmarked by the user
     if (post) {
@@ -65,13 +70,7 @@ const PostDetail = ({ route, navigation }) => {
         setBookmarked(true)
     }
   }, [post])
-  const ifExists = (post) => {
-    {
-      return true
-    }
 
-    return false
-  }
   const fetchPost = () => {
     try {
       setLoading(true)
@@ -257,10 +256,13 @@ const PostDetail = ({ route, navigation }) => {
           />
 
           {post.postType == "missings" ? (
-            <DetailSection post={post} />
+            <MissingsSection post={post} />
+          ) : post.postType == "students" ? (
+            <StudentsSection post={post} />
           ) : (
-            <DetailSection2 post={post} />
+            <AnimalsSection post={post} />
           )}
+          <Separator />
         </ScrollView>
 
         {/* Footer : Edit Button or Profil Component */}
@@ -273,21 +275,13 @@ const PostDetail = ({ route, navigation }) => {
           {post.userID == currentUser.uid ? (
             <AppButton
               title="Modifier"
-              onPress={() =>
-                navigation.navigate("AccountNavigator", {
-                  screen: "PostEdit",
-                  params: post,
-                })
-              }
+              onPress={() => navigation.navigate("PostEdit", { post: post })}
             />
           ) : (
             postUser && (
-              <ProfileComponent
-                image={postUser.image}
-                title={postUser.name}
-                buttonTitle="Contacter"
-                buttonAction={() => setModalVisible(true)}
-                style2={styles.profileComponent}
+              <AppButton
+                title="Contacter"
+                onPress={() => setModalVisible(true)}
               />
             )
           )}
@@ -296,7 +290,7 @@ const PostDetail = ({ route, navigation }) => {
         <FloatButton
           onPress={onShare}
           icon={"share-variant"}
-          color={colors.primary}
+          color={colors.secondary}
         />
       </Screen>
     )

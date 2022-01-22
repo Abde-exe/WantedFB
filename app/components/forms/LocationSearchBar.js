@@ -46,7 +46,7 @@ const LocationSearchBar = ({ placeholder, name, required }) => {
         }}
         textInputProps={{
           onChangeText: (text) => setLocation(text),
-          value: location,
+          value: location === "" ? values[name].name : location,
         }}
         query={{
           key: environment.GOOGLE_PLACES,

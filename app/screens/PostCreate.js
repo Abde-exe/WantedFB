@@ -19,34 +19,11 @@ import AppText from "../components/AppText"
 import Screen from "../components/Screen"
 import colors from "../../config/colors"
 import IconButton from "../components/IconButton"
-import { Missings, Students } from "../components/specifications/SpecificForms"
-
-const categories = [
-  {
-    backgroundColor: "#fc5c65",
-    icon: "floor-lamp",
-    label: "Disparition",
-    value: 1,
-  },
-  {
-    backgroundColor: "#fd9644",
-    icon: "car",
-    label: "Enlèvement",
-    value: 2,
-  },
-  {
-    backgroundColor: "#fed330",
-    icon: "camera",
-    label: "Fuite",
-    value: 3,
-  },
-  {
-    backgroundColor: "#26de81",
-    icon: "cards",
-    label: "Ne sais pas",
-    value: 4,
-  },
-]
+import {
+  Animals,
+  Missings,
+  Students,
+} from "../components/specifications/SpecificForms"
 
 const PostCreate = ({ navigation, route }) => {
   const scrollView = useRef()
@@ -83,10 +60,12 @@ const PostCreate = ({ navigation, route }) => {
             scrollView.current.scrollTo({ x: 0, y: 0, animated: true })
           }
         >
-          {true ? (
+          {route.params.type === "missings" ? (
             <Missings changeProgress={changeProgress} />
-          ) : (
+          ) : route.params.type === "students" ? (
             <Students changeProgress={changeProgress} />
+          ) : (
+            <Animals changeProgress={changeProgress} />
           )}
         </ScrollView>
       </SafeAreaView>

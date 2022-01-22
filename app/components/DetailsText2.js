@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     color: colors.black,
-    fontWeight: "100",
+    fontWeight: "400",
     marginLeft: 8,
   },
   subText: {
-    fontSize: 18,
+    fontSize: 14,
     color: colors.medium,
   },
 })

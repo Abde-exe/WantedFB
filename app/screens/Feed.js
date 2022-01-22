@@ -13,7 +13,7 @@ import colors from "../../config/colors"
 import Separator from "../components/Separator"
 import AppPicker from "../components/AppPicker"
 import dep from "../../data/departements-region.json"
-const Feed = ({ navigation }) => {
+const Feed = ({ navigation, route }) => {
   const [posts, setPosts] = useState([])
   const [filteredPosts, setFilteredPosts] = useState([])
   const [refresh, setRefresh] = useState(false)
@@ -28,7 +28,7 @@ const Feed = ({ navigation }) => {
   }, [])
   const fetchPosts = async () => {
     Firebase.firestore()
-      .collection("missings")
+      .collection(route.params.type)
       .orderBy("createdAt", "desc")
       .get()
       .then((querySnapshot) => {

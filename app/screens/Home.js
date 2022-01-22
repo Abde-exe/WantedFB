@@ -30,7 +30,7 @@ const Home = ({ navigation }) => {
   }
   const getUserPosts = async () => {
     let posts = []
-    let postTypes = ["missings", "students"]
+    let postTypes = ["missings", "students", "animals"]
     await Promise.all(
       postTypes.map(async (element) => {
         await firebase
@@ -76,14 +76,13 @@ const Home = ({ navigation }) => {
         <View
           style={{
             flex: 1,
-            flexDirection: "column",
-            justifyContent: "space-evenly",
+            justifyContent: "space-around",
             alignItems: "center",
           }}
         >
           <Pressable
             style={styles.view}
-            onPress={() => navigation.navigate("Feed")}
+            onPress={() => navigation.navigate("Feed", { type: "missings" })}
           >
             <Icon
               size={80}
@@ -92,6 +91,30 @@ const Home = ({ navigation }) => {
               backgroundColor="white"
             />
             <AppText style2={styles.text}>Disparitions</AppText>
+          </Pressable>
+          <Pressable
+            style={styles.view}
+            onPress={() => navigation.navigate("Feed", { type: "students" })}
+          >
+            <Icon
+              name="school"
+              size={80}
+              iconColor={colors.secondary}
+              backgroundColor="white"
+            />
+            <AppText style2={styles.text}>Etudiants</AppText>
+          </Pressable>
+          <Pressable
+            style={styles.view}
+            onPress={() => navigation.navigate("Feed", { type: "animals" })}
+          >
+            <Icon
+              name="dog"
+              size={80}
+              iconColor={colors.secondary}
+              backgroundColor="white"
+            />
+            <AppText style2={styles.text}>Animaux</AppText>
           </Pressable>
         </View>
       </View>
@@ -115,12 +138,10 @@ const styles = StyleSheet.create({
   },
   view: {
     backgroundColor: colors.primary,
-    width: "50%",
-    height: "25%",
+    width: "80%",
+    height: "20%",
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-    position: "absolute",
-    top: 200,
   },
 })

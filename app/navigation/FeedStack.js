@@ -9,9 +9,9 @@ import {
 } from "@react-navigation/native"
 import Search from "../screens/Search"
 import PostDetail from "../screens/PostDetail"
+import PostEdit from "../screens/PostEdit"
 import Home from "../screens/Home"
 import SharingView from "../screens/SharingView"
-import DoneAnimation from "../screens/DoneAnimation"
 import IconButton from "../components/IconButton"
 import colors from "../../config/colors"
 
@@ -20,7 +20,11 @@ export default function FeedStack({ navigation, route }) {
   //hide the bottom tabBar only for PostDetail or SharingView screens
   React.useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route)
-    if (routeName === "PostDetail" || routeName === "SharingView") {
+    if (
+      routeName === "PostDetail" ||
+      routeName === "SharingView" ||
+      routeName === "PostEdit"
+    ) {
       navigation.setOptions({ tabBarVisible: false })
     } else {
       navigation.setOptions({ tabBarVisible: true })
@@ -48,6 +52,23 @@ export default function FeedStack({ navigation, route }) {
         name={"PostDetail"}
         component={PostDetail}
         options={{ headerShown: false, tabBarVisible: false }}
+      />
+      <Stack.Screen
+        name="PostEdit"
+        component={PostEdit}
+        options={{
+          headerTitle: null,
+          headerRight: (props) => (
+            <View style={{ marginRight: 16 }}>
+              <IconButton
+                onPress={() => navigation.dispatch(StackActions.popToTop())}
+                name="close-circle"
+                size={30}
+                color={colors.medium}
+              />
+            </View>
+          ),
+        }}
       />
       <Stack.Screen
         name={"Search"}

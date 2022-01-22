@@ -8,10 +8,13 @@ import AppText from "../AppText"
 import DetailsText from "../DetailsText"
 import Separator from "../Separator"
 
-const DetailSection = ({ post }) => {
-  const { title, age, date, location, description } = post
-  const { corpulence, height, hair, eyes, outfit, other } = post
+const AnimalsSection = ({ post }) => {
+  const { title, age, date, location, description, name } = post
+  const { sexe, race, other } = post
   const { tel, email } = post
+  var date2 = new Date(1970, 0, 1)
+  date2.setSeconds(date.seconds)
+
   return (
     <View>
       <AppText
@@ -23,33 +26,36 @@ const DetailSection = ({ post }) => {
           color: colors.danger,
         }}
       >
-        {date && `Disparu(e) le ${dayjs(date.toDate()).format("D/M")}`}
+        {date && `Disparu(e) le ${dayjs(date2).format("D/M")}`}
         {location.name && ` à ${location.name}`}
       </AppText>
+      {description ? (
+        <AppText
+          style2={{
+            marginHorizontal: 16,
+            marginVertical: 16,
+          }}
+        >
+          {description}
+        </AppText>
+      ) : null}
+
       <View style={{ padding: 20 }}>
-        <AppText style={styles.sectionTitle}>Identité</AppText>
+        <AppText style={styles.sectionTitle}>Signalement</AppText>
         <View style={styles.section}>
-          <DetailsText text={title} subText={"Nom"} />
-          {age ? (
-            <DetailsText text={age} subText={"Age"} other={" ans"} />
-          ) : null}
-          {location ? (
+          <DetailsText text={name} subText={"Nom"} />
+          {age && <DetailsText text={age} subText={"Age"} other={" ans"} />}
+          {location.name ? (
             <DetailsText text={location.name} subText={"Lieu de disparition"} />
           ) : null}
         </View>
-        {description ? <AppText>{description}</AppText> : null}
         <Separator />
-        <AppText style={styles.sectionTitle}>Description physique</AppText>
+        <AppText style={styles.sectionTitle}>Description</AppText>
         <View style={styles.section}>
-          {corpulence ? (
-            <DetailsText text={corpulence} subText={"Corpulence"} />
+          {sexe ? <DetailsText text={sexe} subText={"Sexe"} /> : null}
+          {race ? (
+            <DetailsText text={race} subText={"Race"} other=" cm" />
           ) : null}
-          {height ? (
-            <DetailsText text={height} subText={"Taille"} other=" cm" />
-          ) : null}
-          {hair ? <DetailsText text={hair} subText={"Cheveux"} /> : null}
-          {eyes ? <DetailsText text={eyes} subText={"Yeux"} /> : null}
-          {outfit ? <DetailsText text={outfit} subText={"Tenue"} /> : null}
           {other ? <DetailsText text={other} subText={"Autre"} /> : null}
         </View>
         <Separator />
@@ -64,7 +70,7 @@ const DetailSection = ({ post }) => {
   )
 }
 
-export default DetailSection
+export default AnimalsSection
 const styles = StyleSheet.create({
   title: {
     marginBottom: 7,
