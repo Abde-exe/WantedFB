@@ -93,22 +93,6 @@ const SignUp = ({ navigation }) => {
       {signupError ? <ErrorMessage error={signupError} visible={true} /> : null}
 
       <AppButton title="Inscription" onPress={onHandleSignup} />
-      <Separator />
-      <View>
-        <AppText style={{ marginVertical: 8 }}>Ou continuer avec</AppText>
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-evenly",
-          width: "50%",
-        }}
-      >
-        <GoogleLogin />
-        <FBLogin />
-      </View>
-
       <View style={styles.footerButtonContainer}>
         <Pressable onPress={() => navigation.navigate("Login")}>
           <Text style={styles.forgotPasswordButtonText}>
@@ -116,6 +100,23 @@ const SignUp = ({ navigation }) => {
           </Text>
         </Pressable>
       </View>
+      <Separator />
+      <View>
+        <AppText style={{ marginVertical: 8 }}>Ou continuer avec</AppText>
+      </View>
+      {Platform.OS === "android" ? (
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            width: "50%",
+          }}
+        >
+          <GoogleLogin />
+          <FBLogin />
+        </View>
+      ) : null}
     </Screen>
   )
 }

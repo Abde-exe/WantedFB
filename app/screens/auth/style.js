@@ -23,8 +23,7 @@ export default styles = StyleSheet.create({
   },
 
   footerButtonContainer: {
-    marginTop: 150,
-    bottom: 16,
+    marginTop: 20,
   },
 
   forgotPasswordButtonText: {

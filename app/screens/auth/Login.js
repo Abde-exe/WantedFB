@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { View, Text, Pressable, StyleSheet, Image, Button } from "react-native"
+import React, { useState } from "react"
+import { View, Text, Pressable, Platform, Image } from "react-native"
 
 import * as WebBrowser from "expo-web-browser"
 import AppTextInput from "../../components/AppTextInput"
@@ -13,9 +13,14 @@ import FBLogin from "./FBLogin"
 import Separator from "../../components/Separator"
 import AppText from "../../components/AppText"
 import styles from "./style"
+import { StackActions } from "@react-navigation/native"
+import AppleLogin from "./AppleLogin"
+import { useDispatch } from "react-redux"
 const auth = Firebase.auth()
 WebBrowser.maybeCompleteAuthSession()
 const Login = ({ navigation }) => {
+  const dispatch = useDispatch()
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [passwordVisibility, setPasswordVisibility] = useState(true)
@@ -35,7 +40,18 @@ const Login = ({ navigation }) => {
     try {
       if (email !== "" && password !== "") {
         await auth.signInWithEmailAndPassword(email, password)
+        navigation.dispatch(StackActions.replace("Root"))
+        dispatch(loginUser)
       }
+    } catch (error) {
+      setLoginError(error.message)
+    }
+  }
+  const onAnonymousLogin = async () => {
+    try {
+      await auth
+        .signInAnonymously()
+        .then(() => navigation.dispatch(StackActions.replace("Root")))
     } catch (error) {
       setLoginError(error.message)
     }
@@ -83,23 +99,14 @@ const Login = ({ navigation }) => {
       >
         <Text style={styles.forgotPasswordButtonText}>Mot de passe oublié</Text>
       </Pressable>
-      <AppButton title="Connexion" onPress={onLogin} />
-
-      <Separator />
-      <View>
-        <AppText style={{ marginVertical: 8 }}>Ou continuer avec</AppText>
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-evenly",
-          width: "50%",
-        }}
-      >
-        <GoogleLogin />
-        <FBLogin />
-      </View>
+      <AppButton title="Connexion" onPress={onLogin} width={"45%"} />
+      <AppButton
+        title="Ignorer"
+        color="white"
+        text="primary"
+        width={"45%"}
+        onPress={onAnonymousLogin}
+      />
       <View style={styles.footerButtonContainer}>
         <Pressable onPress={() => navigation.navigate("SignUp")}>
           <Text style={{ color: colors.secondary, fontSize: 16 }}>
@@ -107,18 +114,23 @@ const Login = ({ navigation }) => {
           </Text>
         </Pressable>
       </View>
-      {/*
-      <Button
-        title="testFB"
-        onPress={() => Auth.federatedSignIn({ provider: "Facebook" })}
-        iconRight
-      />
-      <Button
-        title="testGo"
-        onPress={() => Auth.federatedSignIn({ provider: "Google" })}
-        iconRight
-      />
-      */}
+      <Separator />
+      <View>
+        <AppText style={{ marginVertical: 8 }}>Ou continuer avec</AppText>
+      </View>
+      {Platform.OS === "android" ? (
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            width: "50%",
+          }}
+        >
+          <GoogleLogin />
+          <FBLogin />
+        </View>
+      ) : null}
     </Screen>
   )
 }

@@ -1,11 +1,11 @@
 import {
-  USER_STATE_CHANGE,
+  USER_LOGIN,
+  USER_LOGOUT,
   ADD_USER_POST,
   DELETE_USER_POST,
   UPDATE_USER_POST,
   SAVED_POSTS_STATE_CHANGE,
   SAVE_POST,
-  UNSAVE_POST,
   FETCH_USER_POSTS,
 } from "../constants"
 
@@ -18,8 +18,14 @@ const initialState = {
 export default user = (state = initialState, action) => {
   let newState = {}
   switch (action.type) {
-    case USER_STATE_CHANGE:
+    case USER_LOGIN:
       newState = { ...state, currentUser: action.payload }
+      console.log("newState.currentUser", newState.currentUser)
+      return newState
+      break
+    case USER_LOGOUT:
+      newState = { ...state, currentUser: null }
+      console.log("newState", newState.currentUser)
       return newState
       break
     case FETCH_USER_POSTS:

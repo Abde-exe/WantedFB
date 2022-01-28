@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { FlatList, StyleSheet, View } from "react-native"
 import firebase from "firebase"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 import Icon from "../components/Icon"
 import ListItem from "../components/lists/ListItem"
@@ -9,9 +9,16 @@ import Screen from "../components/Screen"
 import ProfileComponent from "../components/ProfileComponent"
 import AppModal2 from "../components/AppModal2"
 import colors from "../../config/colors"
+import { logoutUser } from "../../redux/actions"
+import { StackActions } from "@react-navigation/native"
 const Account = ({ navigation }) => {
+  const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.user.currentUser)
-
+  useEffect(() => {
+    if (currentUser === null) {
+      navigation.dispatch(StackActions.replace("Auth"))
+    }
+  }, [])
   const [modal, setModal] = useState(false)
 
   const menuItems = [
@@ -57,7 +64,8 @@ const Account = ({ navigation }) => {
       .auth()
       .signOut()
       .then(() => {
-        // Sign-out successful.
+        navigation.dispatch(StackActions.replace("Auth"))
+        dispatch(logoutUser())
       })
       .catch((error) => {
         console.log(`error`, error)

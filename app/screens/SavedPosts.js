@@ -6,13 +6,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import Screen from "../components/Screen"
 import Card3 from "../components/Card3"
-import AppModal2 from "../components/AppModal2"
 
 const SavedPosts = () => {
-  // const [posts, setPosts] = useState([])
-  const [modalVisible, setModalVisible] = useState(false)
-  const [itemToDelete, setitemToDelete] = useState(null)
-  const userId = firebase.auth().currentUser.uid
   let posts = useSelector((state) => state.user.savedPosts)
   useEffect(() => {
     getData()

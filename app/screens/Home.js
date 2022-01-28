@@ -17,17 +17,6 @@ const Home = ({ navigation }) => {
     posts.length === 0 ? getUserPosts() : null
   }, [])
 
-  const onSignOut = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        // Sign-out successful.
-      })
-      .catch((error) => {
-        console.log(`error`, error)
-      })
-  }
   const getUserPosts = async () => {
     let posts = []
     let postTypes = ["missings", "students", "animals"]

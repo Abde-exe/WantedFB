@@ -9,6 +9,7 @@ import AccountNavigator from "./AccountNavigator"
 import PostCreateStack from "./PostCreateStack"
 import { View, StyleSheet } from "react-native"
 import AppBottomSheet from "./AppBottomSheet"
+import { useSelector } from "react-redux"
 
 const Tab = createBottomTabNavigator()
 

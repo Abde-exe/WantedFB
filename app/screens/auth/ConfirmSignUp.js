@@ -12,8 +12,8 @@ const ConfirmSignUp = ({ navigation, route }) => {
   async function confirmSignUp() {
     try {
       await Auth.confirmSignUp(username, authCode)
-      console.log(" Code confirmed")
-      navigation.navigate("SignIn")
+      console.log("Code confirmed")
+      navigation.navigate("Login")
     } catch (error) {
       console.log(
         " Verification code does not match. Please enter a valid verification code.",

@@ -6,6 +6,8 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
+  Pressable,
+  Alert,
 } from "react-native"
 import { openURL } from "expo-linking"
 import firebase from "firebase"
@@ -26,14 +28,15 @@ import FloatButton from "../components/FloatButton"
 import { changeSavedPost } from "../../redux/actions"
 import { useSelector, useDispatch } from "react-redux"
 import AppTextInput from "../components/AppTextInput"
-import IconButton from "../components/IconButton"
-import Icon from "../components/Icon"
 import Separator from "../components/Separator"
-import Messages from "../components/Messages"
 import { Animals } from "../components/specifications/SpecificForms"
+import AppModal2 from "../components/AppModal2"
+import Icon from "../components/Icon"
 const PostDetail = ({ route, navigation }) => {
   const dispatch = useDispatch()
   const [modalVisible, setModalVisible] = useState(false)
+  const [reportModal, setReportModal] = useState(false)
+  const [reportText, setReportText] = useState("")
   //state---------//
   const [post, setPost] = useState(null)
 
@@ -116,6 +119,26 @@ const PostDetail = ({ route, navigation }) => {
 
   const onShare = () => {
     navigation.navigate("SharingView", { post })
+  }
+  const onReport = () => {
+    try {
+      firebase
+        .firestore()
+        .collection("reports")
+        .add({
+          postId: post.id,
+          reportUserId: currentUser.uid,
+          reportText,
+          createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+        })
+    } catch (e) {
+      console.log("e", e)
+    }
+    Alert.alert(
+      "Signalement",
+      "Merci pour votre signalement, votre message a bien été envoyé"
+    )
+    setReportModal(false)
   }
 
   //Loading
@@ -254,7 +277,22 @@ const PostDetail = ({ route, navigation }) => {
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
           />
-
+          <AppModal2
+            visible={reportModal}
+            confirmText="Signaler"
+            onClose={() => setReportModal(false)}
+            onPress={onReport}
+          >
+            <AppText>
+              Veuillez signaler votre problème concernant ce post ou son auteur
+            </AppText>
+            <AppTextInput
+              onChangeText={setReportText}
+              width={"100%"}
+              placeholder="Décrivez votre problème"
+              numberOfLines={3}
+            />
+          </AppModal2>
           {post.postType == "missings" ? (
             <MissingsSection post={post} />
           ) : post.postType == "students" ? (
@@ -263,6 +301,21 @@ const PostDetail = ({ route, navigation }) => {
             <AnimalsSection post={post} />
           )}
           <Separator />
+          <Pressable
+            style={styles.reportButton}
+            onPress={() =>
+              currentUser.isAnonymous
+                ? navigation.navigate("Auth")
+                : setReportModal(true)
+            }
+          >
+            <Icon
+              name={"flag"}
+              backgroundColor="white"
+              iconColor={colors.danger}
+            />
+            <Text style={styles.reportText}>Signaler un problème</Text>
+          </Pressable>
         </ScrollView>
 
         {/* Footer : Edit Button or Profil Component */}
@@ -316,5 +369,13 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 25,
     borderTopStartRadius: 25,
     backgroundColor: colors.light,
+  },
+  reportButton: {
+    flexDirection: "row",
+    marginLeft: 16,
+    alignItems: "center",
+  },
+  reportText: {
+    color: colors.danger,
   },
 })

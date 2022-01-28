@@ -22,7 +22,7 @@ export default {
     assetBundlePatterns: ["assets/**/*"],
     ios: {
       associatedDomains: ["applinks:abdedev.fr"],
-      //schema: "wantedapp",
+      usesAppleSignIn: true,
       supportsTablet: true,
       bundleIdentifier: "com.wantedapp",
     },

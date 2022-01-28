@@ -1,16 +1,18 @@
 //fetch user, save user, fetch post, save post...
-import firebase from "firebase"
 
 import {
-  USER_STATE_CHANGE,
+  USER_LOGIN,
   FETCH_USER_POSTS,
   DELETE_USER_POST,
   UPDATE_USER_POST,
   SAVE_POST,
-  SAVED_POSTS_STATE_CHANGE,
   ADD_USER_POST,
+  USER_LOGOUT,
 } from "../constants"
 
+export const logoutUser = () => {
+  return (dispatch) => dispatch({ type: USER_LOGOUT })
+}
 export const fetchUserPosts = (posts) => {
   try {
     return (dispatch) => {
@@ -25,8 +27,9 @@ export const addUserPost = (post) => (dispatch) => {
   dispatch({ type: ADD_USER_POST, payload: post })
 }
 export const fetchUser = (user) => (dispatch) => {
+  console.log("test")
   dispatch({
-    type: USER_STATE_CHANGE,
+    type: USER_LOGIN,
     payload: user,
   })
 }
@@ -41,11 +44,4 @@ export const changeSavedPost = (post, saved) => {
   return (dispatch) => {
     dispatch({ type: SAVE_POST, payload: { post, saved } })
   }
-}
-const fetchSavedPosts = () => {
-  //prettier-ignore
-  return ((dispatch) => {
-const savedPosts= []
-          dispatch({ type: SAVED_POSTS_STATE_CHANGE, savedPosts })
-  })
 }

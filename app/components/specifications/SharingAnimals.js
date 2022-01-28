@@ -26,12 +26,11 @@ const SharingMissings = ({ post }) => {
         <View style={{ flexDirection: "row" }}>
           {date2 ? (
             <Text style={styles.title}>
-              {`Disparu(e) depuis le ${dayjs(date2).format("D/M")} à`}
+              {`Disparu(e) depuis le ${dayjs(date2).format("D/M")} à `}
+              {location ? (
+                <Text style={styles.title}>{location.name.split(",")[0]}</Text>
+              ) : null}
             </Text>
-          ) : null}
-
-          {location ? (
-            <Text style={styles.title}>{location.name.split(",")[0]}</Text>
           ) : null}
         </View>
         <View

@@ -10,7 +10,14 @@ import {
 import colors from "../../config/colors"
 import AppText from "./AppText"
 
-const AppModal2 = ({ visible, onClose, onPress, text, confirmText }) => {
+const AppModal2 = ({
+  visible,
+  onClose,
+  onPress,
+  text,
+  confirmText,
+  children,
+}) => {
   return (
     <Modal
       animationType="slide"
@@ -22,6 +29,7 @@ const AppModal2 = ({ visible, onClose, onPress, text, confirmText }) => {
       }}
     >
       <View style={styles.modalView}>
+        {children}
         <AppText style2={styles.modalText}>{text} </AppText>
         <View
           style={{
@@ -58,12 +66,12 @@ const styles = StyleSheet.create({
     backgroundColor: "orange",
   },
   modalView: {
-    top: Dimensions.get("window").height / 2.5,
+    top: Dimensions.get("window").height / 4,
     width: "80%",
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 24,
     alignItems: "center",
     alignSelf: "center",
     shadowColor: "#000",
@@ -74,6 +82,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    position: "absolute",
   },
   button: {
     borderRadius: 20,

@@ -1,8 +1,8 @@
 Prochain release : 
 
-
+AJouter un bouter signaler le post
 post pour objet trouvés et perdus
-post pour les animaux
+
 
 lazy loading images 
 Dynamic links https://www.youtube.com/results?search_query=dynamic+links+react+native
@@ -22,4 +22,5 @@ exemple : de quelle couleur est l'objet perdu ou preuve par photo etc...)
 Keystore password: 4e019fafab7a4883bf22250a40bc65c5
   Key alias:         QGFiZGVlYmRhL1dhbnRlZEFwcA==
   Key password:      d9d114c5a7414d14a62cb3c76eb5442c
+
 

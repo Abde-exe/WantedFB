@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontWeight: "400",
     marginLeft: 8,
+    textAlign: "left",
   },
   subText: {
     fontSize: 14,

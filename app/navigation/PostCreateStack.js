@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 import { StackActions } from "@react-navigation/native"
 
@@ -7,10 +7,18 @@ import colors from "../../config/colors"
 import { View, StyleSheet, Pressable } from "react-native"
 import IconButton from "../components/IconButton"
 import AppBottomSheet from "./AppBottomSheet"
+import { useSelector } from "react-redux"
 
 const Stack = createStackNavigator()
 
 const PostCreateStack = ({ navigation }) => {
+  const currentUser = useSelector((state) => state.user.currentUser)
+
+  useEffect(() => {
+    if (currentUser === null) {
+      navigation.dispatch(StackActions.replace("Auth"))
+    }
+  }, [])
   return (
     <Stack.Navigator mode="modal" headerMode="none">
       <Stack.Screen component={AppBottomSheet} name="AppBottomSheet" />

@@ -20,7 +20,6 @@ const SharingMissings = ({ post }) => {
       outfit,
       other,
     } = post
-    console.log(`date`, location)
     var date2 = ""
     date.seconds ? (date2 = date.toDate()) : (date2 = date)
     return (
@@ -28,11 +27,11 @@ const SharingMissings = ({ post }) => {
         <View style={{ flexDirection: "row" }}>
           {date2 && (
             <Text style={styles.title}>
-              {`Disparu(e) depuis le ${dayjs(date2).format("D/M")} à`}
+              {`Disparu(e) depuis le ${dayjs(date2).format("D/M")} à `}
+              {location.name && (
+                <Text style={styles.title}>{location.name}</Text>
+              )}
             </Text>
-          )}
-          {location.name && (
-            <Text style={styles.title}>ofnvzrvnrvnri rovnrinrivrn</Text>
           )}
         </View>
         <View
@@ -49,8 +48,8 @@ const SharingMissings = ({ post }) => {
                 uri: post.images[0],
               }}
               style={{
-                width: "50%",
-                resizeMode: "cover",
+                width: "40%",
+                resizeMode: "contain",
                 borderWidth: 2,
                 borderColor: colors.danger,
               }}
@@ -128,7 +127,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   text: {
-    textAlign: "center",
+    textAlign: "left",
     fontSize: 24,
     fontWeight: "bold",
     marginLeft: 4,

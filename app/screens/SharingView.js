@@ -4,7 +4,6 @@ import { captureRef } from "react-native-view-shot"
 import * as Permissions from "expo-permissions"
 import * as MediaLibrary from "expo-media-library"
 import * as Sharing from "expo-sharing"
-import * as RNFS from "expo-file-system"
 import colors from "../../config/colors"
 import AppButton from "../components/AppButton"
 import DetailsText2 from "../components/DetailsText2"
@@ -69,7 +68,6 @@ const SharingView = ({ route }) => {
       alert(error.message)
     }
   }
-  console.log(`post`, post)
   return (
     <Screen>
       <View
@@ -158,13 +156,13 @@ const SharingView = ({ route }) => {
             justifyContent: "space-around",
           }}
         >
-          <AppButton
+          {/* <AppButton
             title="Télécharger"
             onPress={handleSave}
             width={"50%"}
             color="white"
             text="primary"
-          />
+          /> */}
           <AppButton
             title="Partager"
             onPress={Platform.OS == "ios" ? onShare : onShare}
