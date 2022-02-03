@@ -27,17 +27,33 @@ const RootNavigator = () => {
 
   const prefix = Linking.makeUrl("/")
   const linking = {
-    prefixes: ["https://abdedev.fr", "https://*.abdedev.fr", prefix],
+    prefixes: ["https://abdedev.fr", prefix],
     config: {
       screens: {
-        AppTab: {
+        Root: {
           screens: {
-            FeedStack: {
+            AppTab: {
               screens: {
-                PostDetail: "posts/:id",
-                Feed: "Feed",
+                AccountNavigator: {
+                  screens: {
+                    Account: "Account",
+                  },
+                },
+                FeedStack: {
+                  screens: {
+                    PostDetail: "posts/:id",
+                    Feed: "Feed",
+                    Home: "Accueil",
+                  },
+                },
               },
             },
+          },
+        },
+        Auth: {
+          screens: {
+            Login: "Login",
+            SignUp: "SignUp",
           },
         },
       },
@@ -58,9 +74,8 @@ const RootNavigator = () => {
         initialRouteName={loggedIn ? "Root" : "Auth"}
         headerMode="none"
       >
-        <Stack.Screen name="Auth" component={AuthStack} />
-
         <Stack.Screen name="Root" component={BaseNavigator} />
+        <Stack.Screen name="Auth" component={AuthStack} />
       </Stack.Navigator>
     </NavigationContainer>
   )

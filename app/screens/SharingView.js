@@ -12,10 +12,22 @@ import IconButton from "../components/IconButton"
 import SharingMissings from "../components/specifications/SharingMissings"
 import SharingAnimals from "../components/specifications/SharingAnimals"
 import SharingStudents from "../components/specifications/SharingStudents"
+import dynamicLinks from "@react-native-firebase/dynamic-links"
+
+//listen for links
 
 const SharingView = ({ route }) => {
   const viewRef = useRef()
   const [post, setpost] = useState(route.params.post)
+  console.log("post.id", post.id)
+  const onShareLinkPress = async () => {
+    const shareOptions = {
+      messageHeader: post.title,
+      messageBody: `Checkout my new article!`,
+    }
+    await _branchUniversalObject.showShareSheet(shareOptions)
+  }
+
   const captureViewToImage = async () => {
     try {
       const uri = await captureRef(viewRef, {
@@ -38,6 +50,36 @@ const SharingView = ({ route }) => {
     }
   }
 
+  const getUrlFromFirebase = async (id) => {
+    try {
+      const response = await fetch(
+        "https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyCeoQjaosVPYf8xS0QxiqIOL_od4exQf8s",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: {
+            dynamicLinkInfo: {
+              domainUriPrefix: "https://wantedapp3.page.link",
+              link: `https://abdedev.fr/posts/${id}`,
+              androidInfo: {
+                androidPackageName: "com.wantedapp",
+              },
+              iosInfo: {
+                iosBundleId: "com.wantedapp",
+              },
+            },
+          },
+        }
+      )
+      const json = await response.json()
+      return json.shortLink
+    } catch (error) {
+      console.error(error)
+    }
+  }
   const handleShare = async () => {
     const image = await captureViewToImage()
     if (!(await Sharing.isAvailableAsync())) {
@@ -47,22 +89,26 @@ const SharingView = ({ route }) => {
 
     await Sharing.shareAsync(image)
   }
+
   const onShare = async () => {
     const image = await captureViewToImage()
 
     try {
-      const result = await Share.share({
-        url: image,
-        message: `https://abdedev.fr/posts/${post.id}`,
-      })
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
+      if (post.id) {
+        const result = await Share.share({
+          url: image,
+          message: getUrlFromFirebase(post.id),
+        })
+
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            // shared with activity type of result.activityType
+          } else {
+            // shared
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // dismissed
         }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
       }
     } catch (error) {
       alert(error.message)

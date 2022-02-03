@@ -16,6 +16,7 @@ import styles from "./style"
 import { StackActions } from "@react-navigation/native"
 import AppleLogin from "./AppleLogin"
 import { useDispatch } from "react-redux"
+import { logInAnon } from "../../../redux/actions"
 const auth = Firebase.auth()
 WebBrowser.maybeCompleteAuthSession()
 const Login = ({ navigation }) => {
@@ -49,9 +50,9 @@ const Login = ({ navigation }) => {
   }
   const onAnonymousLogin = async () => {
     try {
-      await auth
-        .signInAnonymously()
-        .then(() => navigation.dispatch(StackActions.replace("Root")))
+      await auth.signInAnonymously().then((response) => {
+        navigation.dispatch(StackActions.replace("Root"))
+      })
     } catch (error) {
       setLoginError(error.message)
     }
@@ -114,11 +115,11 @@ const Login = ({ navigation }) => {
           </Text>
         </Pressable>
       </View>
-      <Separator />
+      {/* <Separator />
       <View>
         <AppText style={{ marginVertical: 8 }}>Ou continuer avec</AppText>
       </View>
-      {Platform.OS === "android" ? (
+       {Platform.OS === "android" ? (
         <View
           style={{
             flexDirection: "row",
@@ -130,7 +131,7 @@ const Login = ({ navigation }) => {
           <GoogleLogin />
           <FBLogin />
         </View>
-      ) : null}
+      ) : null} */}
     </Screen>
   )
 }

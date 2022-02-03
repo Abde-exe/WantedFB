@@ -1,7 +1,7 @@
 //fetch user, save user, fetch post, save post...
 
 import {
-  USER_LOGIN,
+  USER_FETCH,
   FETCH_USER_POSTS,
   DELETE_USER_POST,
   UPDATE_USER_POST,
@@ -10,6 +10,9 @@ import {
   USER_LOGOUT,
 } from "../constants"
 
+export const logInAnon = (user) => {
+  return (dispatch) => dispatch({ type: "USER_LOGIN_ANON", payload: user })
+}
 export const logoutUser = () => {
   return (dispatch) => dispatch({ type: USER_LOGOUT })
 }
@@ -29,7 +32,7 @@ export const addUserPost = (post) => (dispatch) => {
 export const fetchUser = (user) => (dispatch) => {
   console.log("test")
   dispatch({
-    type: USER_LOGIN,
+    type: USER_FETCH,
     payload: user,
   })
 }

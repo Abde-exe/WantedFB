@@ -29,7 +29,7 @@ const SharingMissings = ({ post }) => {
             <Text style={styles.title}>
               {`Disparu(e) depuis le ${dayjs(date2).format("D/M")} à `}
               {location.name && (
-                <Text style={styles.title}>{location.name}</Text>
+                <Text style={styles.title}>{location.name.split(",")[0]}</Text>
               )}
             </Text>
           )}

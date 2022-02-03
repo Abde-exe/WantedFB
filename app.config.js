@@ -8,7 +8,7 @@ export default {
     scheme: "wantedapp",
     name: "Wanted | Avis de recherche",
     slug: "WantedApp",
-    version: "1.0.7",
+    version: "1.1.0",
     orientation: "portrait",
     icon: "./assets/icon.png",
     splash: {
@@ -25,16 +25,20 @@ export default {
       usesAppleSignIn: true,
       supportsTablet: true,
       bundleIdentifier: "com.wantedapp",
+      config: {
+        branch: { apiKey: "key_live_pc6IfvSS138Ifiq5oMddkialFygK2suQ" },
+      },
     },
     android: {
       package: "com.wantedapp",
-      versionCode: 7,
+      versionCode: 10,
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#FFFFFF",
       },
       intentFilters: [
         {
+          autoVerify: true,
           action: "VIEW",
           data: [
             {
@@ -46,6 +50,9 @@ export default {
           category: ["BROWSABLE", "DEFAULT"],
         },
       ],
+      config: {
+        branch: { apiKey: "key_live_pc6IfvSS138Ifiq5oMddkialFygK2suQ" },
+      },
     },
     web: {
       favicon: "./assets/icon2.png",

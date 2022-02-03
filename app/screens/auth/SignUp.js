@@ -100,7 +100,7 @@ const SignUp = ({ navigation }) => {
           </Text>
         </Pressable>
       </View>
-      <Separator />
+      {/* <Separator />
       <View>
         <AppText style={{ marginVertical: 8 }}>Ou continuer avec</AppText>
       </View>
@@ -116,7 +116,7 @@ const SignUp = ({ navigation }) => {
           <GoogleLogin />
           <FBLogin />
         </View>
-      ) : null}
+      ) : null} */}
     </Screen>
   )
 }

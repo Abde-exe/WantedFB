@@ -1,6 +1,7 @@
 import {
-  USER_LOGIN,
+  USER_FETCH,
   USER_LOGOUT,
+  USER_LOGIN_ANON,
   ADD_USER_POST,
   DELETE_USER_POST,
   UPDATE_USER_POST,
@@ -18,14 +19,19 @@ const initialState = {
 export default user = (state = initialState, action) => {
   let newState = {}
   switch (action.type) {
-    case USER_LOGIN:
+    case USER_FETCH:
       newState = { ...state, currentUser: action.payload }
       console.log("newState.currentUser", newState.currentUser)
       return newState
       break
     case USER_LOGOUT:
       newState = { ...state, currentUser: null }
-      console.log("newState", newState.currentUser)
+      console.log("logout")
+      return newState
+      break
+    case USER_LOGIN_ANON:
+      newState = { ...state, currentUser: action.payload }
+      console.log("newState.currentUser", newState.currentUser)
       return newState
       break
     case FETCH_USER_POSTS:

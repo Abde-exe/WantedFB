@@ -1,5 +1,6 @@
-export const USER_LOGIN = "USER_LOGIN"
+export const USER_FETCH = "USER_FETCH"
 export const USER_LOGOUT = "USER_LOGOUT"
+export const USER_LOGIN_ANON = "USER_LOGIN_ANON"
 export const FETCH_USER_POSTS = "FETCH_USER_POSTS"
 export const ADD_USER_POST = "ADD_USER_POST"
 export const DELETE_USER_POST = "DELETE_USER_POST"
