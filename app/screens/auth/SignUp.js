@@ -63,7 +63,7 @@ const SignUp = ({ navigation }) => {
       />
       <Text style={styles.title}>Bonjour</Text>
       <Text style={styles.subtitle}>
-        Veuillez créer un compte pour entrer sur Wanted
+        Veuillez créer un compte pour utiliser Wanted
       </Text>
 
       <AppTextInput

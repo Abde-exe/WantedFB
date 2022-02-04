@@ -66,7 +66,7 @@ const Login = ({ navigation }) => {
       />
       <Text style={styles.title}>Bonjour</Text>
       <Text style={styles.subtitle}>
-        Veuillez vous connecter pour entrer sur Wanted
+        Veuillez vous connecter pour utiliser Wanted
       </Text>
 
       <AppTextInput

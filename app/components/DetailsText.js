@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     width: "90%",
     fontSize: 16,
     color: colors.black,
-    fontWeight: "100",
+    fontWeight: "400",
   },
   subText: {
     marginTop: 8,

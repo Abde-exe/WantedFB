@@ -49,7 +49,7 @@ const SharingMissings = ({ post }) => {
               }}
               style={{
                 width: "40%",
-                resizeMode: "contain",
+                resizeMode: "cover",
                 borderWidth: 2,
                 borderColor: colors.danger,
               }}
