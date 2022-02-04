@@ -71,6 +71,8 @@ Le lien est généré par Dynamic Links (Firebase) ce qui permet d'ouvrir l'appl
 * Meilleur UI/UX
 * Extension vers les pays francophones européens (Belgique, Luxembourg, Suisse)
 
-L'application est disponible sur le Play Store et bientôt sur l'App Store d'apple (que
+L'application est disponible sur le Play Store et bientôt sur l'App Store d'apple
+
+Google Play Store :
 https://play.google.com/store/apps/details?id=com.wantedapp
 
