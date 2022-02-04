@@ -17,7 +17,7 @@ Utilisation secondaire : L'appli permet également de mettre des recherches de s
 
 ## Fonctionnalités
 * Création de posts
-* Feed des posts crées
+* Feed des posts créés
 * Partage d'un post sur les réseaux via un lien
 * Authentification
 * Prise de contact avec l'auteur du posts
@@ -26,13 +26,15 @@ Utilisation secondaire : L'appli permet également de mettre des recherches de s
 
 * React Native 0.64
 * Expo SDK 43
-* Firebase 8 (Authentification, Stockage d'images, base de données)
-* Redux 
+* Firebase 8 (Authentication, Storage, Cloud Firestore, Dynamic Links)
+* Redux + Redux-persist + AsyncStorage + Redux-thunk
 
-## Améliorationns
+## Améliorations à venir
 * Authentification via google/twitter/facebook/apple
+* Mise à jour de la situation via des messages en dessous du post
 * Map avec les differents avis de recherche autour de la localisation actuelle
 * Meilleur UI/UX
+
 
 https://apps.apple.com/fr/app/expo-go/id982107779
 https://play.google.com/store/apps/details?id=host.exp.exponent&gl=FR
