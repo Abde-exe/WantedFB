@@ -15,9 +15,14 @@ Utilisation de base : Wanted est une application mobile qui permet de créer un 
 
 Utilisation secondaire : L'appli permet également de mettre des recherches de stage, alternance, job pour les étudiants.
 
+
+
+
+
+
 ## Fonctionnalités
 * Création de posts
-* Feed des posts crées
+* Feed des posts créés
 * Partage d'un post sur les réseaux via un lien
 * Authentification
 * Prise de contact avec l'auteur du posts
@@ -26,15 +31,48 @@ Utilisation secondaire : L'appli permet également de mettre des recherches de s
 
 * React Native 0.64
 * Expo SDK 43
-* Firebase 8 (Authentification, Stockage d'images, base de données)
-* Redux 
+* Firebase 8 (Authentication, Storage, Cloud Firestore, Dynamic Links)
+* Redux + Redux-persist + AsyncStorage + Redux-thunk
 
-## Améliorationns
+### Authentification avec Firebase Auth
+Possibilité de consulter les posts sans se connecter (authentification anonyme via firebase auth)
+
+<img src="https://user-images.githubusercontent.com/67431499/152504000-8ef6a485-5cff-4271-b273-0e9b4c071690.jpg"  height="400">
+
+
+### Formulaire de création de post
+Formualaire en plusieurs étapes, avec Formik et Yup pour la validation des données entrées
+Suggestions de villes françaises via GooglePlacesAutocomplete pour la localistation du post (sert aussi de filtre quand on va rechercher les posts par département)
+
+<img src="https://user-images.githubusercontent.com/67431499/152504017-adf37c9b-dd06-423a-902e-d93faebb81b1.jpg" height="400">
+<img src="https://user-images.githubusercontent.com/67431499/152506128-3e040921-08cd-4dce-aaf9-8bacc279ed7b.jpg" height="400">
+<img src="https://user-images.githubusercontent.com/67431499/152506130-b4e4b479-d45a-4cf0-ab8c-0366ae7d7485.jpg" height="400">
+
+### Feed regroupant les avis de recherche postés
+Barre de recherche + Filtre par départements français
+
+<img src="https://user-images.githubusercontent.com/67431499/152504055-83e68c94-35ae-40ba-9a2f-08e6122e69b7.png" height="400">
+
+### Détail du post
+La section détails est dynamique : seuls les champs remplis par l'auteur du post sont affichés 
+
+<img src="https://user-images.githubusercontent.com/67431499/152504035-937b6472-c733-4143-9ad2-97b7fad09efe.png" height="400">
+
+### Partage de l'avis de recherche
+L'utilisateur a la posibilté de partager l'affiche et le lien du post
+Le lien est généré par Dynamic Links (Firebase) ce qui permet d'ouvrir l'appli en étant redirigé directement sur le post en partagé en cliquant dessus ou alors de renvoyer vers l'app store ou le play store quand l'utilisateur qui reçoit le lien n'a pas installé l'appli Wanted.
+
+<img src="https://user-images.githubusercontent.com/67431499/152504007-33eceb0c-936c-4a1a-ad5e-140e10b6eb44.jpg" height="400">
+
+## Améliorations à venir
 * Authentification via google/twitter/facebook/apple
+* Mise à jour de la situation via des messages en dessous du post
 * Map avec les differents avis de recherche autour de la localisation actuelle
 * Meilleur UI/UX
+* Extension vers les pays francophones européens (Belgique, Luxembourg, Suisse)
 
-https://apps.apple.com/fr/app/expo-go/id982107779
-https://play.google.com/store/apps/details?id=host.exp.exponent&gl=FR
+L'application est disponible sur le Play Store et bientôt sur l'App Store d'apple
 
+Google Play Store :
+https://play.google.com/store/apps/details?id=com.wantedapp
 
