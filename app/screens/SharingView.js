@@ -12,7 +12,6 @@ import IconButton from "../components/IconButton"
 import SharingMissings from "../components/specifications/SharingMissings"
 import SharingAnimals from "../components/specifications/SharingAnimals"
 import SharingStudents from "../components/specifications/SharingStudents"
-import dynamicLinks from "@react-native-firebase/dynamic-links"
 
 //listen for links
 
