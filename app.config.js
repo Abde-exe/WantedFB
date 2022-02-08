@@ -8,9 +8,9 @@ export default {
     scheme: "wantedapp",
     name: "Wanted | Avis de recherche",
     slug: "WantedApp",
-    version: "1.1.0",
+    version: "1.1.1",
     orientation: "portrait",
-    icon: "./assets/icon.png",
+    icon: "./assets/icon2.png",
     splash: {
       image: "./assets/splash.png",
       resizeMode: "contain",
@@ -31,9 +31,9 @@ export default {
     },
     android: {
       package: "com.wantedapp",
-      versionCode: 10,
+      versionCode: 11,
       adaptiveIcon: {
-        foregroundImage: "./assets/adaptive-icon.png",
+        foregroundImage: "./assets/icon2.png",
         backgroundColor: "#FFFFFF",
       },
       intentFilters: [

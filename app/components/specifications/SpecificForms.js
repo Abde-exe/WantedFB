@@ -44,7 +44,10 @@ const validationSchema = {
     other: Yup.string().label("Autre"),
 
     tel: Yup.string().label("Téléphone"),
-    email: Yup.string().email("Entrez une adresse email valide").label("Email"),
+    email: Yup.string()
+      .required()
+      .email("Entrez une adresse email valide")
+      .label("Email"),
   }),
   students: Yup.object().shape({
     name: Yup.string()
@@ -53,13 +56,13 @@ const validationSchema = {
       .label("Nom"),
 
     type: Yup.string().required("Choisissez le type d'annonce").label("Type"),
-    domain: Yup.string().label("Domaine"),
+    domain: Yup.string().required("Indiquez dans quel d").label("Domaine"),
     length: Yup.string().label("Durée"),
-    place: Yup.string().label("Lieu"),
+    location: Yup.object().label("Lieu"),
 
     title: Yup.string()
-      .required("Entrez un nom")
-      .min(3, "Entrez un nom")
+      .required("Entrez un titre")
+      .min(3, "Entrez un titre")
       .label("Titre"),
     description: Yup.string().label("Description"),
     images: Yup.array(),
@@ -103,7 +106,7 @@ const initialValues = {
     date: "",
     type: "",
     domain: "",
-    place: "",
+    location: { name: "" },
     length: "",
     tel: "",
     email: "",
@@ -133,28 +136,24 @@ const Missings = ({ changeProgress, post, edit }) => {
   //uploading the images in the storage
   const uploadImages = async (post) => {
     const imagesBlob = []
-    if (post.images.length > 0) {
-      const images = post.images
-      const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
+    const images = post.images
+    const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
 
-      await Promise.all(
-        images.map(async (image) => {
-          const response = await fetch(image)
-          const blob = await response.blob()
-          const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
+    await Promise.all(
+      images.map(async (image) => {
+        const response = await fetch(image)
+        const blob = await response.blob()
+        const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
 
-          await ref.put(blob).then((result) => {
-            imagesBlob.push(result.metadata.name)
-          })
-          await ref.getDownloadURL(blob).then((result) => {
-            imagesBlob.pop()
-            imagesBlob.push(result)
-          })
+        await ref.put(blob).then((result) => {
+          imagesBlob.push(result.metadata.name)
         })
-      ).then(() => savePost(post, imagesBlob))
-    } else {
-      savePost(post, [])
-    }
+        await ref.getDownloadURL(blob).then((result) => {
+          imagesBlob.pop()
+          imagesBlob.push(result)
+        })
+      })
+    ).then(() => savePost(post, imagesBlob))
   }
   //saving post
   const savePost = (post, images) => {
@@ -325,6 +324,11 @@ const Missings = ({ changeProgress, post, edit }) => {
         />
 
         <AppFormField name="email" placeholder="Email" />
+        <AppText
+          style2={{ color: colors.danger, fontSize: 12, marginLeft: 16 }}
+        >
+          Ces informations seront affichées dans l'annonce
+        </AppText>
       </View>
     </MultiForm>
   )
@@ -336,28 +340,24 @@ const Students = ({ changeProgress, post, edit }) => {
   //uploading the images in the storage
   const uploadImages = async (post) => {
     const imagesBlob = []
-    if (post.images.length > 0) {
-      const images = post.images
-      const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
+    const images = post.images
+    const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
 
-      await Promise.all(
-        images.map(async (image) => {
-          const response = await fetch(image)
-          const blob = await response.blob()
-          const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
+    await Promise.all(
+      images.map(async (image) => {
+        const response = await fetch(image)
+        const blob = await response.blob()
+        const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
 
-          await ref.put(blob).then((result) => {
-            imagesBlob.push(result.metadata.name)
-          })
-          await ref.getDownloadURL(blob).then((result) => {
-            imagesBlob.pop()
-            imagesBlob.push(result)
-          })
+        await ref.put(blob).then((result) => {
+          imagesBlob.push(result.metadata.name)
         })
-      ).then(() => savePost(post, imagesBlob))
-    } else {
-      savePost(post, [])
-    }
+        await ref.getDownloadURL(blob).then((result) => {
+          imagesBlob.pop()
+          imagesBlob.push(result)
+        })
+      })
+    ).then(() => savePost(post, imagesBlob))
   }
   //saving post
   const savePost = (post, images) => {
@@ -398,7 +398,7 @@ const Students = ({ changeProgress, post, edit }) => {
       location: post.location,
       type: post.type,
       domain: post.domain,
-      place: post.place,
+      location: post.location,
       length: post.length,
       title: post.title,
       description: post.description,
@@ -421,7 +421,11 @@ const Students = ({ changeProgress, post, edit }) => {
               edit ? updateUserPost(post, values) : uploadImages(values)
             else {
               //no images in the post
-              edit ? updateUserPost(post, values) : savePost(values, [])
+              edit
+                ? updateUserPost(post, values)
+                : savePost(values, [
+                    "https://firebasestorage.googleapis.com/v0/b/wanted-316010.appspot.com/o/assets%2Fpp.png?alt=media&token=f564d417-d3ce-48f8-a211-3589664c0a03",
+                  ])
             }
             //reset form
             formikActions.resetForm()
@@ -449,7 +453,7 @@ const Students = ({ changeProgress, post, edit }) => {
 
         <AppFormField name="domain" placeholder="Domaine" required />
         <AppFormField name="length" placeholder="Durée" />
-        <LocationSearchBar placeholder="Lieu" name="place" />
+        <LocationSearchBar placeholder="Lieu" name="location" />
         <AppText
           style2={{ color: colors.danger, fontSize: 12, marginLeft: 16 }}
         >
@@ -478,6 +482,11 @@ const Students = ({ changeProgress, post, edit }) => {
           maxLength={10}
         />
         <AppFormField name="email" placeholder="Email" />
+        <AppText
+          style2={{ color: colors.danger, fontSize: 12, marginLeft: 16 }}
+        >
+          Ces informations seront affichées dans l'annonce
+        </AppText>
       </View>
     </MultiForm>
   )
@@ -488,28 +497,25 @@ const Animals = ({ changeProgress, post, edit }) => {
   //uploading the images in the storage
   const uploadImages = async (post) => {
     const imagesBlob = []
-    if (post.images.length > 0) {
-      const images = post.images
-      const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
 
-      await Promise.all(
-        images.map(async (image) => {
-          const response = await fetch(image)
-          const blob = await response.blob()
-          const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
+    const images = post.images
+    const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
 
-          await ref.put(blob).then((result) => {
-            imagesBlob.push(result.metadata.name)
-          })
-          await ref.getDownloadURL(blob).then((result) => {
-            imagesBlob.pop()
-            imagesBlob.push(result)
-          })
+    await Promise.all(
+      images.map(async (image) => {
+        const response = await fetch(image)
+        const blob = await response.blob()
+        const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
+
+        await ref.put(blob).then((result) => {
+          imagesBlob.push(result.metadata.name)
         })
-      ).then(() => savePost(post, imagesBlob))
-    } else {
-      savePost(post, [])
-    }
+        await ref.getDownloadURL(blob).then((result) => {
+          imagesBlob.pop()
+          imagesBlob.push(result)
+        })
+      })
+    ).then(() => savePost(post, imagesBlob))
   }
   //saving post
   const savePost = (post, images) => {
@@ -655,6 +661,11 @@ const Animals = ({ changeProgress, post, edit }) => {
         />
 
         <AppFormField name="email" placeholder="Email" />
+        <AppText
+          style2={{ color: colors.danger, fontSize: 12, marginLeft: 16 }}
+        >
+          Ces informations seront affichées dans l'annonce
+        </AppText>
       </View>
     </MultiForm>
   )

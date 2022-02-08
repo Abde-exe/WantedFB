@@ -50,14 +50,12 @@ const Card2 = ({ post }) => {
           }),
         }}
       >
-        {image ? (
-          <Image
-            style={styles.image}
-            source={{
-              uri: image,
-            }}
-          />
-        ) : null}
+        <Image
+          style={styles.image}
+          source={{
+            uri: image,
+          }}
+        />
       </View>
       <View style={styles.details}>
         <View

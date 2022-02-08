@@ -1,7 +1,6 @@
 import React from "react"
 import { Image, Text, View, StyleSheet } from "react-native"
 import DetailsText2 from "../DetailsText2"
-import dayjs from "dayjs"
 import colors from "../../../config/colors"
 
 const SharingStudents = ({ post }) => {
@@ -11,7 +10,7 @@ const SharingStudents = ({ post }) => {
       type,
       domain,
       length,
-      place,
+      location,
       title,
       description,
       images,
@@ -19,12 +18,15 @@ const SharingStudents = ({ post }) => {
     return (
       <View>
         <View style={{ flexDirection: "row" }}>
-          <Text style={styles.title}>{`Recherche ${type} à`}</Text>
+          <Text style={styles.title}>
+            {`Recherche ${type} à `}
+            {location.name && (
+              <Text style={styles.title}>{location.name.split(",")[0]}</Text>
+            )}
+          </Text>
         </View>
         <View
           style={{
-            //borderWidth: 2,
-            borderColor: "yellow",
             flexDirection: "row",
             height: "40%",
           }}
@@ -32,7 +34,9 @@ const SharingStudents = ({ post }) => {
           {images && (
             <Image
               source={{
-                uri: post.images[0],
+                uri: images[0]
+                  ? images[0]
+                  : "https://firebasestorage.googleapis.com/v0/b/wanted-316010.appspot.com/o/assets%2Fpp.png?alt=media&token=f564d417-d3ce-48f8-a211-3589664c0a03",
               }}
               style={{
                 width: "50%",
@@ -52,7 +56,13 @@ const SharingStudents = ({ post }) => {
             }}
           >
             {name && <Text style={styles.text}>{name}</Text>}
-            {place && <DetailsText2 row text={place} subText="Lieu :" />}
+            {location.name != "" ? (
+              <DetailsText2
+                row
+                text={location.name.split(",")[0]}
+                subText="Lieu :"
+              />
+            ) : null}
             {domain && <DetailsText2 row text={domain} subText="Domaine :" />}
             {length && <DetailsText2 row text={length} subText="Durée :" />}
           </View>
@@ -91,10 +101,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   title: {
+    textAlign: "center",
     fontSize: 20,
     color: colors.danger,
     paddingHorizontal: 8,
     marginBottom: 8,
+    width: "100%",
   },
   text: {
     textAlign: "center",
