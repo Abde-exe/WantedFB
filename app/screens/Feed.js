@@ -57,6 +57,7 @@ const Feed = ({ navigation, route }) => {
       setFilteredPosts(posts)
     }
   }
+
   if (error) {
     return (
       <View

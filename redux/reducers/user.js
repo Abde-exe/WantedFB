@@ -54,7 +54,7 @@ export default user = (state = initialState, action) => {
       break
     case UPDATE_USER_POST:
       const index = state.posts.findIndex(
-        (post) => post.id !== action.payload.id
+        (post) => post.id == action.payload.id
       )
       const newArray = [...state.posts]
       newArray[index] = action.payload

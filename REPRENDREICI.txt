@@ -1,11 +1,9 @@
 Prochain release : 
 
-AJouter un bouter signaler le post
 post pour objet trouvés et perdus
 
 
-lazy loading images 
-Dynamic links https://www.youtube.com/results?search_query=dynamic+links+react+native
+
 update de l'auteur du post en dessous du post sous forme de messages datés
 https://docs.expo.dev/versions/latest/sdk/branch/
 https://reactnavigation.org/docs/5.x/deep-linking/#third-party-integrations

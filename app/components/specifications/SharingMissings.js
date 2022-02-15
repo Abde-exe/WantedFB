@@ -48,10 +48,10 @@ const SharingMissings = ({ post }) => {
                 uri: post.images[0],
               }}
               style={{
-                width: "40%",
+                width: "45%",
                 resizeMode: "cover",
                 borderWidth: 2,
-                borderColor: colors.danger,
+                // borderColor: colors.danger,
               }}
             />
           )}
@@ -59,27 +59,23 @@ const SharingMissings = ({ post }) => {
           <View
             style={{
               //borderWidth: 1,
-              borderColor: "red",
+              // borderColor: "red",
               width: "50%",
               height: "100%",
             }}
           >
-            {title != "" ? <Text style={styles.text}>{title}</Text> : null}
-            {age != "" ? (
-              <DetailsText2 row text={age} subText="Age :" other="ans" />
+            {title ? <Text style={styles.text}>{title}</Text> : null}
+            {age ? (
+              <DetailsText2 row text={age} subText="Age :" other=" ans" />
             ) : null}
-            {corpulence != "" ? (
+            {corpulence ? (
               <DetailsText2 row text={corpulence} subText="Corpulence :" />
             ) : null}
-            {height != "" ? (
+            {height ? (
               <DetailsText2 row text={height} subText="Taille :" other="cm" />
             ) : null}
-            {hair != "" ? (
-              <DetailsText2 row text={hair} subText="Cheveux :" />
-            ) : null}
-            {eyes != "" ? (
-              <DetailsText2 row text={eyes} subText="Yeux :" />
-            ) : null}
+            {hair ? <DetailsText2 row text={hair} subText="Cheveux :" /> : null}
+            {eyes ? <DetailsText2 row text={eyes} subText="Yeux :" /> : null}
           </View>
         </View>
         <View

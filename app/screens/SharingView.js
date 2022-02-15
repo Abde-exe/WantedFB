@@ -18,7 +18,7 @@ import SharingStudents from "../components/specifications/SharingStudents"
 const SharingView = ({ route }) => {
   const viewRef = useRef()
   const [post, setpost] = useState(route.params.post)
-  console.log("post.id", post.id)
+
   const onShareLinkPress = async () => {
     const shareOptions = {
       messageHeader: post.title,

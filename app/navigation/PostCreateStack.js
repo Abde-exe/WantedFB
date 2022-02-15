@@ -2,10 +2,8 @@ import React, { useEffect } from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 import { StackActions } from "@react-navigation/native"
 
-import SharingView from "../screens/SharingView"
 import colors from "../../config/colors"
-import { View, StyleSheet, Pressable } from "react-native"
-import IconButton from "../components/IconButton"
+import { StyleSheet } from "react-native"
 import AppBottomSheet from "./AppBottomSheet"
 import { useSelector } from "react-redux"
 

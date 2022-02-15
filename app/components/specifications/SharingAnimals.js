@@ -41,7 +41,7 @@ const SharingMissings = ({ post }) => {
             height: "40%",
           }}
         >
-          {images ? (
+          {images.length && (
             <Image
               source={{
                 uri: post.images[0],
@@ -53,7 +53,7 @@ const SharingMissings = ({ post }) => {
                 borderColor: colors.danger,
               }}
             />
-          ) : null}
+          )}
 
           <View
             style={{
@@ -64,9 +64,7 @@ const SharingMissings = ({ post }) => {
             }}
           >
             {name ? <Text style={styles.text}>{name}</Text> : null}
-            {age ? (
-              <DetailsText2 row text={age} subText="Age :" other="ans" />
-            ) : null}
+            {age ? <DetailsText2 row text={age} subText="Age :" /> : null}
             {sexe ? <DetailsText2 row text={sexe} subText="Sexe :" /> : null}
             {race ? <DetailsText2 row text={race} subText="Race :" /> : null}
             {other ? (

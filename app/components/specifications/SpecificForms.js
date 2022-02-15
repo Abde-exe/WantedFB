@@ -44,10 +44,7 @@ const validationSchema = {
     other: Yup.string().label("Autre"),
 
     tel: Yup.string().label("Téléphone"),
-    email: Yup.string()
-      .required()
-      .email("Entrez une adresse email valide")
-      .label("Email"),
+    email: Yup.string().email("Entrez une adresse email valide").label("Email"),
   }),
   students: Yup.object().shape({
     name: Yup.string()
@@ -71,7 +68,6 @@ const validationSchema = {
   }),
   animals: Yup.object().shape({
     name: Yup.string().min(3, "Entrez un nom").label("Nom"),
-    age: Yup.number().min(0).max(120).label("Age"),
     location: Yup.object().label("Localisation"),
     date: Yup.date().label("Date"),
     title: Yup.string().required().min(3, "Entrez un titre").label("Titre"),
@@ -116,7 +112,6 @@ const initialValues = {
   },
   animals: {
     name: "",
-    age: "",
     location: { name: "" },
     race: "",
     sexe: "",
@@ -157,13 +152,6 @@ const Missings = ({ changeProgress, post, edit }) => {
   }
   //saving post
   const savePost = (post, images) => {
-    //delete all empty strings
-    for (const key in post) {
-      if (post[key] === "") {
-        delete post[key]
-      }
-    }
-
     let doc = firebase
       .firestore()
       .collection(post.postType)
@@ -186,25 +174,39 @@ const Missings = ({ changeProgress, post, edit }) => {
         dispatch(addUserPost(newpost))
       })
   }
-
+  //editing post
+  const editPost = (post, values) => {
+    firebase
+      .firestore()
+      .collection("missings")
+      .doc(post.id)
+      .update(values)
+      .then(() => {
+        post = { ...post, values }
+        dispatch(updateUserPost(post))
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error)
+      })
+  }
   let postValues = {}
   //existing values ready to be modfied
   if (post) {
     postValues = {
-      images: post.images,
+      images: post.images ? post.images : [],
       title: post.title,
-      description: post.description,
-      age: post.age,
+      description: post.description ? post.description : "",
+      age: post.age ? post.age : "",
       date: post.date.toDate(),
       location: post.location,
-      corpulence: post.corpulence,
-      height: post.height,
-      hair: post.hair,
-      eyes: post.eyes,
-      outfit: post.outfit,
-      other: post.other,
-      email: post.email,
-      tel: post.tel,
+      corpulence: post.corpulence ? post.corpulence : "",
+      height: post.height ? post.height : "",
+      hair: post.hair ? post.hair : "",
+      eyes: post.eyes ? post.eyes : "",
+      outfit: post.outfit ? post.outfit : "",
+      other: post.other ? post.other : "",
+      email: post.email ? post.email : "",
+      tel: post.tel ? post.email : "",
     }
   }
   return (
@@ -216,12 +218,18 @@ const Missings = ({ changeProgress, post, edit }) => {
         try {
           //with images picked
           if (values) {
+            //delete all empty strings
+            for (const key in values) {
+              if (values[key] === "") {
+                delete values[key]
+              }
+            }
             values = { ...values, postType: "missings" }
             if (values.images && values.images.length > 0)
-              edit ? updateUserPost(post, values) : uploadImages(values)
+              edit ? editPost(post, values) : uploadImages(values)
             else {
               //no images in the post
-              edit ? updateUserPost(post, values) : savePost(values, [])
+              edit ? editPost(post, values) : savePost(values, [])
             }
 
             //reset form
@@ -361,13 +369,6 @@ const Students = ({ changeProgress, post, edit }) => {
   }
   //saving post
   const savePost = (post, images) => {
-    //delete all empty strings
-    for (const key in post) {
-      if (post[key] === "") {
-        delete post[key]
-      }
-    }
-
     let doc = firebase
       .firestore()
       .collection(post.postType)
@@ -388,23 +389,35 @@ const Students = ({ changeProgress, post, edit }) => {
         dispatch(addUserPost(newpost))
       })
   }
-
+  //editing post
+  const editPost = (post, values) => {
+    firebase
+      .firestore()
+      .collection("students")
+      .doc(post.id)
+      .update(values)
+      .then(() => {
+        post = { ...post, values }
+        dispatch(updateUserPost(post))
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error)
+      })
+  }
   let postValues = {}
   //existing values ready to be modfied
   if (post) {
     postValues = {
-      name: post.name,
-      age: post.age,
-      location: post.location,
-      type: post.type,
+      name: post.name ? post.name : "",
+      type: post.type ? post.type : "",
       domain: post.domain,
-      location: post.location,
-      length: post.length,
+      location: post.location ? post.location : { name: "" },
+      length: post.length ? post.length : "",
       title: post.title,
-      description: post.description,
-      images: post.images,
-      tel: post.tel,
-      email: post.email,
+      description: post.description ? post.description : "",
+      images: post.images ? post.images : [],
+      email: post.email ? post.email : "",
+      tel: post.tel ? post.email : "",
     }
   }
   return (
@@ -416,13 +429,19 @@ const Students = ({ changeProgress, post, edit }) => {
         try {
           //with images picked
           if (values) {
+            //delete all empty strings
+            for (const key in values) {
+              if (values[key] === "") {
+                delete values[key]
+              }
+            }
             values = { ...values, postType: "students" }
             if (values.images && values.images.length > 0)
-              edit ? updateUserPost(post, values) : uploadImages(values)
+              edit ? editPost(post, values) : uploadImages(values)
             else {
               //no images in the post
               edit
-                ? updateUserPost(post, values)
+                ? editPost(post, values)
                 : savePost(values, [
                     "https://firebasestorage.googleapis.com/v0/b/wanted-316010.appspot.com/o/assets%2Fpp.png?alt=media&token=f564d417-d3ce-48f8-a211-3589664c0a03",
                   ])
@@ -519,13 +538,6 @@ const Animals = ({ changeProgress, post, edit }) => {
   }
   //saving post
   const savePost = (post, images) => {
-    //delete all empty strings
-    for (const key in post) {
-      if (post[key] === "") {
-        delete post[key]
-      }
-    }
-
     let doc = firebase
       .firestore()
       .collection("animals")
@@ -548,22 +560,36 @@ const Animals = ({ changeProgress, post, edit }) => {
         dispatch(addUserPost(newpost))
       })
   }
-
+  //editing post
+  const editPost = (post, values) => {
+    firebase
+      .firestore()
+      .collection("animals")
+      .doc(post.id)
+      .update(values)
+      .then(() => {
+        post = { ...post, values }
+        dispatch(updateUserPost(post))
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error)
+      })
+  }
   let postValues = {}
   //existing values ready to be modfied
   if (post) {
     postValues = {
       images: post.images,
       title: post.title,
-      description: post.description,
-      age: post.age,
+      description: post.description ? post.description : "",
       name: post.name,
       date: post.date.toDate(),
-      location: post.location.name,
-      sexe: post.sexe,
-      race: post.race,
-      email: post.email,
-      tel: post.tel,
+      location: post.location,
+      sexe: post.sexe ? post.sexe : "",
+      race: post.race ? post.race : "",
+      other: post.other ? post.other : "",
+      email: post.email ? post.email : "",
+      tel: post.tel ? post.email : "",
     }
   }
   return (
@@ -575,12 +601,18 @@ const Animals = ({ changeProgress, post, edit }) => {
         try {
           //with images picked
           if (values) {
+            //delete all empty strings
+            for (const key in values) {
+              if (values[key] === "") {
+                delete values[key]
+              }
+            }
             values = { ...values, postType: "animals" }
             if (values.images && values.images.length > 0)
-              edit ? updateUserPost(post, values) : uploadImages(values)
+              edit ? editPost(post, values) : uploadImages(values)
             else {
               //no images in the post
-              edit ? updateUserPost(post, values) : savePost(values, [])
+              edit ? editPost(post, values) : savePost(values, [])
             }
 
             //reset form
@@ -602,7 +634,7 @@ const Animals = ({ changeProgress, post, edit }) => {
         <AppFormField required name="title" placeholder="Titre" />
         <AppFormField
           name="description"
-          placeholder="Message"
+          placeholder="Message ou description"
           multiline
           numberOfLines={3}
         />
@@ -628,13 +660,6 @@ const Animals = ({ changeProgress, post, edit }) => {
       <View>
         <AppText style2={styles.title}>Description</AppText>
         <AppFormField required name="name" placeholder="Nom" />
-        <AppFormField
-          name="age"
-          keyboardType="numeric"
-          maxLength={3}
-          placeholder="Age"
-          width={"22%"}
-        />
 
         <SelectRadio name="sexe" typeValues={["Femelle", "Mâle"]} />
         <AppFormField name="race" placeholder="Race" />
