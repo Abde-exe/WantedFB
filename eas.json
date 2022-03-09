@@ -25,6 +25,12 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "abdessamad.bourhaleb@gmail.com",
+        "ascAppId": "1606514736",
+        "appleTeamId": "KQ8V55SD2A"
+      }
+    }
   }
 }

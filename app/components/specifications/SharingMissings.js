@@ -80,7 +80,7 @@ const SharingMissings = ({ post }) => {
         </View>
         <View
           style={{
-            //borderWidth: 1,
+            paddingTop: 10,
             borderColor: "blue",
             width: "100%",
             height: "40%",

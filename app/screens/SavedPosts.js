@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import Screen from "../components/Screen"
 import Card3 from "../components/Card3"
+import NoResult from "../components/NoResult"
 
 const SavedPosts = () => {
   let posts = useSelector((state) => state.user.savedPosts)
@@ -22,26 +23,18 @@ const SavedPosts = () => {
       // error reading value
     }
   }
-
-  if (posts.length != 0) {
-    return (
-      <Screen>
-        <View>
-          <FlatList
-            data={posts}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <Card3 post={item} />}
-          />
-        </View>
-      </Screen>
-    )
-  } else {
-    return (
+  return (
+    <Screen>
       <View>
-        <Text>Pas encore de post</Text>
+        <FlatList
+          data={posts}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <Card3 post={item} />}
+          ListEmptyComponent={() => <NoResult />}
+        />
       </View>
-    )
-  }
+    </Screen>
+  )
 }
 
 export default SavedPosts

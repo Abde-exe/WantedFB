@@ -19,14 +19,6 @@ const SharingView = ({ route }) => {
   const viewRef = useRef()
   const [post, setpost] = useState(route.params.post)
 
-  const onShareLinkPress = async () => {
-    const shareOptions = {
-      messageHeader: post.title,
-      messageBody: `Checkout my new article!`,
-    }
-    await _branchUniversalObject.showShareSheet(shareOptions)
-  }
-
   const captureViewToImage = async () => {
     try {
       const uri = await captureRef(viewRef, {
@@ -38,16 +30,16 @@ const SharingView = ({ route }) => {
       console.log(error)
     }
   }
-  const handleSave = async () => {
-    const image = await captureViewToImage()
-    const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY)
-    if (status == "granted") {
-      // const asset = await MediaLibrary.createAssetAsync(image)
-      MediaLibrary.createAlbumAsync("Wanted", image)
-    } else {
-      console.log(`oh`)
-    }
-  }
+  // const handleSave = async () => {
+  //   const image = await captureViewToImage()
+  //   const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY)
+  //   if (status == "granted") {
+  //     // const asset = await MediaLibrary.createAssetAsync(image)
+  //     MediaLibrary.createAlbumAsync("Wanted", image)
+  //   } else {
+  //     console.log(`oh`)
+  //   }
+  // }
 
   const getUrlFromFirebase = async (id) => {
     try {
@@ -79,25 +71,26 @@ const SharingView = ({ route }) => {
       console.error(error)
     }
   }
-  const handleShare = async () => {
-    const image = await captureViewToImage()
-    if (!(await Sharing.isAvailableAsync())) {
-      alert(`Uh oh, sharing isn't available on your platform`)
-      return
-    }
+  // const handleShare = async () => {
+  //   const image = await captureViewToImage()
+  //   if (!(await Sharing.isAvailableAsync())) {
+  //     alert(`Uh oh, sharing isn't available on your platform`)
+  //     return
+  //   }
 
-    await Sharing.shareAsync(image)
-  }
+  //   await Sharing.shareAsync(getUrlFromFirebase(post.id))
+  // }
 
   const onShare = async () => {
     const image = await captureViewToImage()
-
+    const link = await getUrlFromFirebase(post.id)
+    const options = {
+      url: image,
+      message: link,
+    }
     try {
       if (post.id) {
-        const result = await Share.share({
-          url: image,
-          message: getUrlFromFirebase(post.id),
-        })
+        const result = await Share.share(options)
 
         if (result.action === Share.sharedAction) {
           if (result.activityType) {
@@ -208,11 +201,7 @@ const SharingView = ({ route }) => {
             color="white"
             text="primary"
           /> */}
-          <AppButton
-            title="Partager"
-            onPress={Platform.OS == "ios" ? onShare : onShare}
-            width={"45%"}
-          />
+          <AppButton title="Partager" onPress={onShare} width={"45%"} />
         </View>
       </View>
     </Screen>

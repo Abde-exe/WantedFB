@@ -7,7 +7,7 @@ import Separator from "../Separator"
 
 const StudentsSection = ({ post }) => {
   const { type, domain, length, place } = post
-  const { title, description, name } = post
+  const { title, description, name, tel, email } = post
   return (
     <View>
       <AppText
@@ -38,7 +38,10 @@ const StudentsSection = ({ post }) => {
         <Separator />
 
         <AppText style={styles.sectionTitle}>Contact</AppText>
-        <View style={styles.section}></View>
+        <View style={styles.section}>
+          {tel ? <DetailsText text={tel} subText={"Téléphone"} /> : null}
+          {email ? <DetailsText text={email} subText={"Email"} /> : null}
+        </View>
       </View>
     </View>
   )

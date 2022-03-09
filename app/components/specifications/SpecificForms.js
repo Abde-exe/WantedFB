@@ -206,7 +206,7 @@ const Missings = ({ changeProgress, post, edit }) => {
       outfit: post.outfit ? post.outfit : "",
       other: post.other ? post.other : "",
       email: post.email ? post.email : "",
-      tel: post.tel ? post.email : "",
+      tel: post.tel ? post.tel : "",
     }
   }
   return (
@@ -417,7 +417,7 @@ const Students = ({ changeProgress, post, edit }) => {
       description: post.description ? post.description : "",
       images: post.images ? post.images : [],
       email: post.email ? post.email : "",
-      tel: post.tel ? post.email : "",
+      tel: post.tel ? post.tel : "",
     }
   }
   return (
@@ -589,7 +589,7 @@ const Animals = ({ changeProgress, post, edit }) => {
       race: post.race ? post.race : "",
       other: post.other ? post.other : "",
       email: post.email ? post.email : "",
-      tel: post.tel ? post.email : "",
+      tel: post.tel ? post.tel : "",
     }
   }
   return (

@@ -5,6 +5,7 @@ import { View, FlatList } from "react-native"
 import Card from "../components/Card"
 import AppTextInput from "../components/AppTextInput"
 import AppText from "../components/AppText"
+import NoResult from "../components/NoResult"
 
 const Search = ({ route }) => {
   const postsList = route.params.filteredPosts
@@ -56,19 +57,15 @@ const Search = ({ route }) => {
         onChangeText={(value) => setSearchText(value)}
         OnPressRightIcon={() => setSearchText("")}
       /> */}
-      {posts.length ? (
-        <>
-          <AppText>{result.length} résultat(s)</AppText>
 
-          <FlatList
-            data={result}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <Card post={item} />}
-          />
-        </>
-      ) : (
-        <AppText>Pas de résultats pour votre recherche malheureusement</AppText>
-      )}
+      <AppText>{result.length} résultat(s)</AppText>
+
+      <FlatList
+        data={result}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <Card post={item} />}
+        ListEmptyComponent={() => <NoResult />}
+      />
     </View>
   )
 }

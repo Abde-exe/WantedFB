@@ -53,9 +53,7 @@ const AnimalsSection = ({ post }) => {
         <AppText style={styles.sectionTitle}>Description</AppText>
         <View style={styles.section}>
           {sexe ? <DetailsText text={sexe} subText={"Sexe"} /> : null}
-          {race ? (
-            <DetailsText text={race} subText={"Race"} other=" cm" />
-          ) : null}
+          {race ? <DetailsText text={race} subText={"Race"} /> : null}
           {other ? <DetailsText text={other} subText={"Autre"} /> : null}
         </View>
         <Separator />

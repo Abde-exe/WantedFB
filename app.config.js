@@ -8,7 +8,7 @@ export default {
     scheme: "wantedapp",
     name: "Wanted | Avis de recherche",
     slug: "WantedApp",
-    version: "1.1.1",
+    version: "1.1.3",
     orientation: "portrait",
     icon: "./assets/icon2.png",
     splash: {
@@ -28,10 +28,15 @@ export default {
       config: {
         branch: { apiKey: "key_live_pc6IfvSS138Ifiq5oMddkialFygK2suQ" },
       },
+      infoPlist: {
+        NSPhotoLibraryUsageDescription:
+          "Autorisez l'accès aux photos pour ajouter des images à votre avis de recherche",
+      },
     },
     android: {
+      //googleServicesFile: "./google-services.json",
       package: "com.wantedapp",
-      versionCode: 11,
+      versionCode: 13,
       adaptiveIcon: {
         foregroundImage: "./assets/icon2.png",
         backgroundColor: "#FFFFFF",

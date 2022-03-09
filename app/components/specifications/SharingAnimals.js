@@ -49,8 +49,6 @@ const SharingMissings = ({ post }) => {
               style={{
                 width: "50%",
                 resizeMode: "cover",
-                borderWidth: 2,
-                borderColor: colors.danger,
               }}
             />
           )}
@@ -58,7 +56,6 @@ const SharingMissings = ({ post }) => {
           <View
             style={{
               //borderWidth: 1,
-              borderColor: "red",
               width: "50%",
               height: "100%",
             }}

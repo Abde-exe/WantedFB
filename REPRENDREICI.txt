@@ -1,5 +1,9 @@
 Prochain release : 
 
+bug à la modification pour animaux et étudiants
+vérifier le partage des posts android et ios
+modifier le site
+
 post pour objet trouvés et perdus
 
 

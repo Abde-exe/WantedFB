@@ -6,6 +6,7 @@ import Screen from "../components/Screen"
 import Card3 from "../components/Card3"
 import AppModal2 from "../components/AppModal2"
 import { deleteUserPost } from "../../redux/actions"
+import NoResult from "../components/NoResult"
 const UserPosts = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [itemToDelete, setitemToDelete] = useState(null)
@@ -57,45 +58,39 @@ const UserPosts = () => {
         })
     })
   }
-  if (posts) {
-    return (
-      <Screen>
-        <View>
-          <AppModal2
-            visible={modalVisible}
-            onClose={setModalVisible}
-            onPress={onDeletePost}
-            text="Confirmer la suppression du post"
-            confirmText="Supprimer"
-          />
-          <FlatList
-            key={(item) => item.id}
-            data={posts}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <Card3
-                post={item}
-                onIconPress={() => {
-                  setModalVisible(true)
-                  setitemToDelete({
-                    id: item.id,
-                    postType: item.postType,
-                    images: item.images,
-                  })
-                }}
-              />
-            )}
-          />
-        </View>
-      </Screen>
-    )
-  } else {
-    return (
+
+  return (
+    <Screen>
       <View>
-        <Text>Pas encore de post</Text>
+        <AppModal2
+          visible={modalVisible}
+          onClose={setModalVisible}
+          onPress={onDeletePost}
+          text="Confirmer la suppression du post"
+          confirmText="Supprimer"
+        />
+        <FlatList
+          key={(item) => item.id}
+          data={posts}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <Card3
+              post={item}
+              onIconPress={() => {
+                setModalVisible(true)
+                setitemToDelete({
+                  id: item.id,
+                  postType: item.postType,
+                  images: item.images,
+                })
+              }}
+            />
+          )}
+          ListEmptyComponent={() => <NoResult />}
+        />
       </View>
-    )
-  }
+    </Screen>
+  )
 }
 
 export default UserPosts

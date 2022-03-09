@@ -8,6 +8,9 @@ import Icon from "../components/Icon"
 import firebase from "firebase"
 
 import { fetchUserPosts, fetchUser } from "../../redux/actions"
+import DogSvg from "../../assets/svgs/DogSvg"
+import StudentSvg from "../../assets/svgs/StudentSvg"
+import MissingSvg from "../../assets/svgs/MissingSvg"
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -73,36 +76,39 @@ const Home = ({ navigation }) => {
             style={styles.view}
             onPress={() => navigation.navigate("Feed", { type: "missings" })}
           >
-            <Icon
+            {/* <Icon
               size={80}
               name="account-child"
               iconColor={colors.secondary}
               backgroundColor="white"
-            />
+            /> */}
+            <MissingSvg />
             <AppText style2={styles.text}>Disparitions</AppText>
           </Pressable>
           <Pressable
             style={styles.view}
             onPress={() => navigation.navigate("Feed", { type: "students" })}
           >
-            <Icon
+            {/* <Icon
               name="school"
               size={80}
               iconColor={colors.secondary}
               backgroundColor="white"
-            />
+            /> */}
+            <StudentSvg />
             <AppText style2={styles.text}>Etudiants</AppText>
           </Pressable>
           <Pressable
             style={styles.view}
             onPress={() => navigation.navigate("Feed", { type: "animals" })}
           >
-            <Icon
+            {/* <Icon
               name="dog"
               size={80}
               iconColor={colors.secondary}
               backgroundColor="white"
-            />
+            /> */}
+            <DogSvg />
             <AppText style2={styles.text}>Animaux</AppText>
           </Pressable>
         </View>
