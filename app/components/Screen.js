@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.white,
-    paddingTop: Constants.statusBarHeight,
+    marginTop: Constants.statusBarHeight,
   },
   view: {
     flex: 1,

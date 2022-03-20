@@ -23,6 +23,7 @@ import {
   Animals,
   Missings,
   Students,
+  Objects
 } from "../components/specifications/SpecificForms"
 
 const PostCreate = ({ navigation, route }) => {
@@ -64,9 +65,9 @@ const PostCreate = ({ navigation, route }) => {
             <Missings changeProgress={changeProgress} />
           ) : route.params.type === "students" ? (
             <Students changeProgress={changeProgress} />
-          ) : (
+          ) :route.params.type === "animals" ?  (
             <Animals changeProgress={changeProgress} />
-          )}
+          ):<Objects changeProgress={changeProgress}/>}
         </ScrollView>
       </SafeAreaView>
     </KeyboardAvoidingView>

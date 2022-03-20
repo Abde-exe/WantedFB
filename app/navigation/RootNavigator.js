@@ -69,7 +69,9 @@ const RootNavigator = () => {
   }
 
   return (
-    <NavigationContainer theme={navigationTheme} linking={linking}>
+    <NavigationContainer theme={navigationTheme} linking={linking} 
+    screenOptions={{headerBackTitle:'' }}
+    >
       <Stack.Navigator
         initialRouteName={loggedIn ? "Root" : "Auth"}
         headerMode="none"

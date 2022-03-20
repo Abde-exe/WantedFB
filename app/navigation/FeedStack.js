@@ -34,7 +34,7 @@ export default function FeedStack({ navigation, route }) {
 
   return (
     <Stack.Navigator
-      screenOptions={{ animationEnabled: true }}
+      screenOptions={{ animationEnabled: true, headerTitle:'' }}
       initialRouteName="Home"
     >
       <Stack.Screen

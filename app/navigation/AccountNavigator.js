@@ -30,7 +30,9 @@ export default function AccountNavigator({ navigation, route }) {
   })
   /////
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+    screenOptions={{sheaderBackTitle:'' }}
+    >
       <Stack.Screen
         name="Account"
         component={Account}

@@ -29,9 +29,9 @@ import { changeSavedPost } from "../../redux/actions"
 import { useSelector, useDispatch } from "react-redux"
 import AppTextInput from "../components/AppTextInput"
 import Separator from "../components/Separator"
-import { Animals } from "../components/specifications/SpecificForms"
 import AppModal2 from "../components/AppModal2"
 import Icon from "../components/Icon"
+import ObjectsSection from "../components/specifications/ObjectsSection"
 const PostDetail = ({ route, navigation }) => {
   const dispatch = useDispatch()
   const [modalVisible, setModalVisible] = useState(false)
@@ -206,7 +206,7 @@ const PostDetail = ({ route, navigation }) => {
             <MaterialCommunityIcons
               name="arrow-left-circle"
               size={30}
-              color={colors.white}
+              color={colors.light}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -222,7 +222,7 @@ const PostDetail = ({ route, navigation }) => {
             <MaterialCommunityIcons
               name={bookmarked ? "bookmark" : "bookmark-outline"}
               size={30}
-              color={colors.white}
+              color={colors.light}
             />
           </TouchableOpacity>
 
@@ -297,9 +297,9 @@ const PostDetail = ({ route, navigation }) => {
             <MissingsSection post={post} />
           ) : post.postType == "students" ? (
             <StudentsSection post={post} />
-          ) : (
+          ) : post.postType == "animals" ?(
             <AnimalsSection post={post} />
-          )}
+          ):<ObjectsSection post={post}/>}
           <Separator />
           <Pressable
             style={styles.reportButton}

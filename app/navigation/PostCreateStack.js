@@ -18,7 +18,7 @@ const PostCreateStack = ({ navigation }) => {
     }
   }, [])
   return (
-    <Stack.Navigator mode="modal" headerMode="none">
+    <Stack.Navigator mode="modal" headerMode="none" >
       <Stack.Screen component={AppBottomSheet} name="AppBottomSheet" />
     </Stack.Navigator>
   )

@@ -9,7 +9,7 @@ import firebase from "firebase"
 
 import { fetchUserPosts, fetchUser } from "../../redux/actions"
 import DogSvg from "../../assets/svgs/DogSvg"
-import StudentSvg from "../../assets/svgs/StudentSvg"
+import ObjectSvg from "../../assets/svgs/ObjectSvg"
 import MissingSvg from "../../assets/svgs/MissingSvg"
 
 const Home = ({ navigation }) => {
@@ -22,7 +22,7 @@ const Home = ({ navigation }) => {
 
   const getUserPosts = async () => {
     let posts = []
-    let postTypes = ["missings", "students", "animals"]
+    let postTypes = ["missings", "students", "animals","objects"]
     await Promise.all(
       postTypes.map(async (element) => {
         await firebase
@@ -76,40 +76,22 @@ const Home = ({ navigation }) => {
             style={styles.view}
             onPress={() => navigation.navigate("Feed", { type: "missings" })}
           >
-            {/* <Icon
-              size={80}
-              name="account-child"
-              iconColor={colors.secondary}
-              backgroundColor="white"
-            /> */}
             <MissingSvg />
-            <AppText style2={styles.text}>Disparitions</AppText>
-          </Pressable>
-          <Pressable
-            style={styles.view}
-            onPress={() => navigation.navigate("Feed", { type: "students" })}
-          >
-            {/* <Icon
-              name="school"
-              size={80}
-              iconColor={colors.secondary}
-              backgroundColor="white"
-            /> */}
-            <StudentSvg />
-            <AppText style2={styles.text}>Etudiants</AppText>
+            <AppText style2={styles.text}>Personnes disparues</AppText>
           </Pressable>
           <Pressable
             style={styles.view}
             onPress={() => navigation.navigate("Feed", { type: "animals" })}
           >
-            {/* <Icon
-              name="dog"
-              size={80}
-              iconColor={colors.secondary}
-              backgroundColor="white"
-            /> */}
             <DogSvg />
-            <AppText style2={styles.text}>Animaux</AppText>
+            <AppText style2={styles.text}>Animaux égarés</AppText>
+          </Pressable>
+          <Pressable
+            style={styles.view}
+            onPress={() => navigation.navigate("Feed", { type: "objects" })}
+          >
+            <ObjectSvg />
+            <AppText style2={styles.text}>Objets perdus</AppText>
           </Pressable>
         </View>
       </View>

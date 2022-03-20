@@ -1,11 +1,9 @@
 Prochain release : 
 
-bug à la modification pour animaux et étudiants
 vérifier le partage des posts android et ios
 modifier le site
-
-post pour objet trouvés et perdus
-
+changement retrouvé etc
+lazy load image
 
 
 update de l'auteur du post en dessous du post sous forme de messages datés
@@ -13,16 +11,5 @@ https://docs.expo.dev/versions/latest/sdk/branch/
 https://reactnavigation.org/docs/5.x/deep-linking/#third-party-integrations
 (systeme de minichat pour vérifier l'honneteté de la personne en lui posant une question
 exemple : de quelle couleur est l'objet perdu ou preuve par photo etc...)
-
-
-# Tester l'appli
-1. Télécharger l'application Expo Go sur [App Store](https://apps.apple.com/fr/app/expo-go/id982107779) ou [Google Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent&gl=FR)
-2. Scanner ce QR Code  ![alt text](https://github.com/Abde-exe/WantedFB/blob/main/qrcode%20.png?raw=true)
-* [OU ICI](https://expo.dev/@abdeebda/WantedApp)
-
-
-Keystore password: 4e019fafab7a4883bf22250a40bc65c5
-  Key alias:         QGFiZGVlYmRhL1dhbnRlZEFwcA==
-  Key password:      d9d114c5a7414d14a62cb3c76eb5442c
 
 

@@ -79,6 +79,16 @@ const validationSchema = {
     tel: Yup.string().label("Téléphone"),
     email: Yup.string().email("Entrez une adresse email valide").label("Email"),
   }),
+  objects: Yup.object().shape({
+    location: Yup.object().label("Localisation"),
+    date: Yup.date().label("Date"),
+    title: Yup.string().required().min(3, "Entrez un titre").label("Titre"),
+    description: Yup.string().label("Description"),
+    images: Yup.array(),
+    tel: Yup.string().label("Téléphone"),
+    email: Yup.string().email("Entrez une adresse email valide").label("Email"),
+    state:Yup.string().required("Indiquez si c'est un objet perdu ou trouvé").label("Satut")
+  }),
 }
 const initialValues = {
   missings: {
@@ -123,6 +133,16 @@ const initialValues = {
     email: "",
     images: [],
   },
+  objects: {
+    location: { name: "" },
+    title: "",
+    date: new Date(),
+    description: "",
+    tel: "",
+    email: "",
+    images: [],
+    state:""
+  },
 }
 
 const Missings = ({ changeProgress, post, edit }) => {
@@ -159,7 +179,7 @@ const Missings = ({ changeProgress, post, edit }) => {
         ...post,
         createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
         images: images,
-        state: "disparu(e)",
+        state: "Disparu(e)",
         userID: firebase.auth().currentUser.uid,
       })
       .then((result) => {
@@ -168,7 +188,7 @@ const Missings = ({ changeProgress, post, edit }) => {
           id: result.id,
           createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
           images: images,
-          state: "disparu(e)",
+          state: "Disparu(e)",
           userID: firebase.auth().currentUser.uid,
         }
         dispatch(addUserPost(newpost))
@@ -545,7 +565,7 @@ const Animals = ({ changeProgress, post, edit }) => {
         ...post,
         createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
         images: images,
-        state: "disparu(e)",
+        state: "Disparu(e)",
         userID: firebase.auth().currentUser.uid,
       })
       .then((result) => {
@@ -554,7 +574,7 @@ const Animals = ({ changeProgress, post, edit }) => {
           id: result.id,
           createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
           images: images,
-          state: "disparu(e)",
+          state: "Disparu(e)",
           userID: firebase.auth().currentUser.uid,
         }
         dispatch(addUserPost(newpost))
@@ -695,7 +715,173 @@ const Animals = ({ changeProgress, post, edit }) => {
     </MultiForm>
   )
 }
-export { Missings, Students, Animals }
+const Objects = ({ changeProgress, post, edit }) => {
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
+  //uploading the images in the storage
+  const uploadImages = async (post) => {
+    const imagesBlob = []
+
+    const images = post.images
+    const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
+
+    await Promise.all(
+      images.map(async (image) => {
+        const response = await fetch(image)
+        const blob = await response.blob()
+        const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
+
+        await ref.put(blob).then((result) => {
+          imagesBlob.push(result.metadata.name)
+        })
+        await ref.getDownloadURL(blob).then((result) => {
+          imagesBlob.pop()
+          imagesBlob.push(result)
+        })
+      })
+    ).then(() => savePost(post, imagesBlob))
+  }
+  //saving post
+  const savePost = (post, images) => {
+    let doc = firebase
+      .firestore()
+      .collection("objects")
+      .add({
+        ...post,
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+        images: images,
+        state: post.state,
+        userID: firebase.auth().currentUser.uid,
+      })
+      .then((result) => {
+        const newpost = {
+          ...post,
+          id: result.id,
+          createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+          images: images,
+          state: post.state,
+          userID: firebase.auth().currentUser.uid,
+        }
+        dispatch(addUserPost(newpost))
+      })
+  }
+  //editing post
+  const editPost = (post, values) => {
+    firebase
+      .firestore()
+      .collection("objects")
+      .doc(post.id)
+      .update(values)
+      .then(() => {
+        post = { ...post, values }
+        dispatch(updateUserPost(post))
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error)
+      })
+  }
+  let postValues = {}
+  //existing values ready to be modfied
+  if (post) {
+    postValues = {
+      images: post.images,
+      title: post.title,
+      description: post.description ? post.description : "",
+      date: post.date.toDate(),
+      location: post.location,
+      state:post.state,
+      email: post.email ? post.email : "",
+      tel: post.tel ? post.tel : "",
+    }
+  }
+  return (
+    <MultiForm
+      validationSchema={validationSchema.objects}
+      progress={changeProgress}
+      initialValues={post ? postValues : initialValues.objects}
+      onSubmit={(values, formikActions) => {
+        try {
+          //with images picked
+          if (values) {
+            //delete all empty strings
+            for (const key in values) {
+              if (values[key] === "") {
+                delete values[key]
+              }
+            }
+            values = { ...values, postType: "objects" }
+            if (values.images && values.images.length > 0)
+              edit ? editPost(post, values) : uploadImages(values)
+            else {
+              //no images in the post
+              edit ? editPost(post, values) : savePost(values, [])
+            }
+
+            //reset form
+            formikActions.resetForm()
+
+            navigation.navigate("SharingView", { post: values })
+          }
+        } catch (error) {
+          console.log(`error`, error)
+        }
+      }}
+    >
+      {
+        //Form 1
+      }
+      <View>
+        <AppText style2={styles.title}>Signalement</AppText>
+        <ImagePicker name="images" required={true} />
+        <SelectRadio name="state" typeValues={["Perdu", "Trouvé"]} />
+        <AppFormField required name="title" placeholder="Titre" />
+        <AppFormField
+          name="description"
+          placeholder="Message ou description"
+          multiline
+          numberOfLines={3}
+        />
+        <LocationSearchBar
+          placeholder="Dernière localisation"
+          name="location"
+          required
+        />
+        <DateInput
+          name="date"
+          placeholder="Date de la perte"
+          icon="calendar-today"
+        />
+        <AppText
+          style2={{ color: colors.danger, fontSize: 12, marginLeft: 16 }}
+        >
+          Les champs en rouge sonts requis
+        </AppText>
+      </View>
+      {
+        //Form 2
+      }
+      <View>
+        <AppText style2={styles.title}>Contact</AppText>
+
+        <AppFormField
+          width={"40%"}
+          name="tel"
+          placeholder="Téléphone"
+          keyboardType="numeric"
+          maxLength={10}
+        />
+
+        <AppFormField name="email" placeholder="Email" />
+        <AppText
+          style2={{ color: colors.danger, fontSize: 12, marginLeft: 16 }}
+        >
+          Ces informations seront affichées dans l'annonce
+        </AppText>
+      </View>
+    </MultiForm>
+  )
+}
+export { Missings, Students, Animals, Objects}
 const styles = StyleSheet.create({
   title: {
     color: colors.secondary,

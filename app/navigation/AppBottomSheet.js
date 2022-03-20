@@ -48,22 +48,9 @@ const AppBottomSheet = () => {
               iconColor={colors.secondary}
               backgroundColor="white"
             />
-            <AppText style2={styles.text}>Disparitions</AppText>
+            <AppText style2={styles.text}>Personnes</AppText>
           </Pressable>
-          <Pressable
-            style={styles.view}
-            onPress={() =>
-              navigation.navigate("PostCreate", { type: "students" })
-            }
-          >
-            <Icon
-              name="school"
-              size={40}
-              iconColor={colors.secondary}
-              backgroundColor="white"
-            />
-            <AppText style2={styles.text}>Etudiants</AppText>
-          </Pressable>
+          
           <Pressable
             style={styles.view}
             onPress={() =>
@@ -77,6 +64,20 @@ const AppBottomSheet = () => {
               backgroundColor="white"
             />
             <AppText style2={styles.text}>Animaux</AppText>
+          </Pressable>
+          <Pressable
+            style={styles.view}
+            onPress={() =>
+              navigation.navigate("PostCreate", { type: "objects" })
+            }
+          >
+            <Icon
+              name="cellphone-android"
+              size={40}
+              iconColor={colors.secondary}
+              backgroundColor="white"
+            />
+            <AppText style2={styles.text}>Objets</AppText>
           </Pressable>
         </BottomSheetView>
       </BottomSheet>

@@ -38,18 +38,6 @@ const Card3 = ({ post, onIconPress }) => {
       onPress={() => navigation.navigate("PostDetail", post)}
     >
       <View
-        style={{
-          ...Platform.select({
-            ios: {
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.2,
-            },
-            android: {
-              elevation: 5,
-            },
-          }),
-        }}
       >
         {images[0] && (
           <Image
@@ -125,7 +113,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1 / 1,
     borderTopLeftRadius: 15,
     borderBottomLeftRadius: 15,
-    borderWidth: 1,
+   
   },
   title: {
     fontSize: 14,

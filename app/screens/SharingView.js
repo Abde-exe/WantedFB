@@ -12,6 +12,7 @@ import IconButton from "../components/IconButton"
 import SharingMissings from "../components/specifications/SharingMissings"
 import SharingAnimals from "../components/specifications/SharingAnimals"
 import SharingStudents from "../components/specifications/SharingStudents"
+import SharingObjects from "../components/specifications/SharingObjects"
 
 //listen for links
 
@@ -124,9 +125,9 @@ const SharingView = ({ route }) => {
               <SharingMissings post={post} />
             ) : post.postType === "students" ? (
               <SharingStudents post={post} />
-            ) : (
+            ) : post.postType === "animals" ? (
               <SharingAnimals post={post} />
-            )}
+            ):<SharingObjects post={post}/>}
           </View>
           <View
             style={{

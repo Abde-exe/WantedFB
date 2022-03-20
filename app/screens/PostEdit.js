@@ -20,6 +20,7 @@ import IconButton from "../components/IconButton"
 import {
   Animals,
   Missings,
+  Objects,
   Students,
 } from "../components/specifications/SpecificForms"
 
@@ -69,9 +70,9 @@ const PostEdit = ({ navigation, route }) => {
             <Missings changeProgress={changeProgress} post={post} edit={true} />
           ) : post.postType == "students" ? (
             <Students changeProgress={changeProgress} post={post} edit={true} />
-          ) : (
+          ) : post.postType == "animals" ? (
             <Animals changeProgress={changeProgress} post={post} edit={true} />
-          )}
+          ): <Objects changeProgress={changeProgress} post={post} edit={true}/>}
         </ScrollView>
       </SafeAreaView>
     </KeyboardAvoidingView>
