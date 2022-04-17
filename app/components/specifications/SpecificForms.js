@@ -1,19 +1,19 @@
-import React from "react"
-import { View, StyleSheet } from "react-native"
-import * as Yup from "yup"
-import { useNavigation } from "@react-navigation/core"
-import { v4 as uuidv4 } from "uuid"
-import firebase from "firebase"
-import { addUserPost } from "../../../redux/actions"
-import AppText from "../AppText"
-import MultiForm from "../forms/MultiForm"
-import ImagePicker from "../forms/ImagePicker"
-import { AppFormField, LocationSearchBar } from "../forms"
-import DateInput from "../DateInput"
-import SelectRadio from "../forms/SelectRadio"
-import colors from "../../../config/colors"
-import { updateUserPost } from "../../../redux/actions/index"
-import { useDispatch } from "react-redux"
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import * as Yup from "yup";
+import { useNavigation } from "@react-navigation/core";
+import { v4 as uuidv4 } from "uuid";
+import firebase from "firebase";
+import { addUserPost } from "../../../redux/actions";
+import AppText from "../AppText";
+import MultiForm from "../forms/MultiForm";
+import ImagePicker from "../forms/ImagePicker";
+import { AppFormField, LocationSearchBar } from "../forms";
+import DateInput from "../DateInput";
+import SelectRadio from "../forms/SelectRadio";
+import colors from "../../../config/colors";
+import { updateUserPost } from "../../../redux/actions/index";
+import { useDispatch } from "react-redux";
 const validationSchema = {
   missings: Yup.object().shape({
     images: Yup.array().min(1, "Sélectionnez au moins 1 image"),
@@ -29,10 +29,8 @@ const validationSchema = {
     location: Yup.object()
       .required("Veuillez entrer une localisation")
       .label("Localisation"),
-    //
 
     description: Yup.string().label("Description"),
-
     corpulence: Yup.string().label("Corpulence"),
     height: Yup.number()
       .min(100, "Entrez une valeur entre 100 et 220 ans")
@@ -45,6 +43,10 @@ const validationSchema = {
 
     tel: Yup.string().label("Téléphone"),
     email: Yup.string().email("Entrez une adresse email valide").label("Email"),
+    facebook: Yup.string().label("Facebook"),
+    snapchat: Yup.string().label("Snapchat"),
+    twitter: Yup.string().label("Twitter"),
+    instagram: Yup.string().label("Instagram"),
   }),
   students: Yup.object().shape({
     name: Yup.string()
@@ -65,6 +67,10 @@ const validationSchema = {
     images: Yup.array(),
     tel: Yup.string().label("Téléphone"),
     email: Yup.string().email("Entrez une adresse email valide").label("Email"),
+    facebook: Yup.string().label("Facebook"),
+    snapchat: Yup.string().label("Snapchat"),
+    twitter: Yup.string().label("Twitter"),
+    instagram: Yup.string().label("Instagram"),
   }),
   animals: Yup.object().shape({
     name: Yup.string().min(3, "Entrez un nom").label("Nom"),
@@ -78,18 +84,28 @@ const validationSchema = {
     images: Yup.array(),
     tel: Yup.string().label("Téléphone"),
     email: Yup.string().email("Entrez une adresse email valide").label("Email"),
+    facebook: Yup.string().label("Facebook"),
+    snapchat: Yup.string().label("Snapchat"),
+    twitter: Yup.string().label("Twitter"),
+    instagram: Yup.string().label("Instagram"),
   }),
   objects: Yup.object().shape({
     location: Yup.object().label("Localisation"),
     date: Yup.date().label("Date"),
     title: Yup.string().required().min(3, "Entrez un titre").label("Titre"),
     description: Yup.string().label("Description"),
+    state: Yup.string()
+      .required("Indiquez si c'est un objet perdu ou trouvé")
+      .label("Satut"),
     images: Yup.array(),
     tel: Yup.string().label("Téléphone"),
     email: Yup.string().email("Entrez une adresse email valide").label("Email"),
-    state:Yup.string().required("Indiquez si c'est un objet perdu ou trouvé").label("Satut")
+    facebook: Yup.string().label("Facebook"),
+    snapchat: Yup.string().label("Snapchat"),
+    twitter: Yup.string().label("Twitter"),
+    instagram: Yup.string().label("Instagram"),
   }),
-}
+};
 const initialValues = {
   missings: {
     images: [],
@@ -106,6 +122,10 @@ const initialValues = {
     other: "",
     email: "",
     tel: "",
+    facebook: "",
+    instagram: "",
+    twitter: "",
+    snapchat: "",
   },
   students: {
     name: "",
@@ -119,6 +139,10 @@ const initialValues = {
     title: "",
     description: "",
     images: [],
+    facebook: "",
+    instagram: "",
+    twitter: "",
+    snapchat: "",
   },
   animals: {
     name: "",
@@ -132,6 +156,10 @@ const initialValues = {
     tel: "",
     email: "",
     images: [],
+    facebook: "",
+    instagram: "",
+    twitter: "",
+    snapchat: "",
   },
   objects: {
     location: { name: "" },
@@ -141,42 +169,59 @@ const initialValues = {
     tel: "",
     email: "",
     images: [],
-    state:""
+    state: "",
+    facebook: "",
+    instagram: "",
+    twitter: "",
+    snapchat: "",
   },
-}
+};
 
 const Missings = ({ changeProgress, post, edit }) => {
-  const navigation = useNavigation()
-  const dispatch = useDispatch()
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   //uploading the images in the storage
-  const uploadImages = async (post) => {
-    const imagesBlob = []
-    const images = post.images
-    const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
+  const uploadImages = async (values, postToEdit) => {
+    let images = values.images;
+    const childPath = `${values.postType}/${
+      firebase.auth().currentUser.uid
+    }/${uuidv4()}.png`;
 
     await Promise.all(
       images.map(async (image) => {
-        const response = await fetch(image)
-        const blob = await response.blob()
-        const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
+        if (image.includes("https")) {
+          const response = await fetch(image);
+          const blob = await response.blob();
+          const ref = firebase.storage().ref().child(childPath);
 
-        await ref.put(blob).then((result) => {
-          imagesBlob.push(result.metadata.name)
-        })
-        await ref.getDownloadURL(blob).then((result) => {
-          imagesBlob.pop()
-          imagesBlob.push(result)
-        })
+          await ref.put(blob).then((result) => {
+            images.push(result.metadata.name);
+          });
+          await ref.getDownloadURL(blob).then((result) => {
+            images.pop();
+            images.push(result);
+          });
+        }
       })
-    ).then(() => savePost(post, imagesBlob))
-  }
+    ).then(() => {
+      images = images.filter((im) => im.includes("https"));
+      edit ? editPost(postToEdit, values, images) : savePost(values, images);
+    });
+  };
   //saving post
-  const savePost = (post, images) => {
+  const savePost = (values, images) => {
+    //delete all empty strings
+    for (const key in values) {
+      if (values[key] === "") {
+        delete values[key];
+      }
+    }
     let doc = firebase
       .firestore()
-      .collection(post.postType)
+      .collection(values.postType)
       .add({
-        ...post,
+        ...values,
         createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
         images: images,
         state: "Disparu(e)",
@@ -184,32 +229,39 @@ const Missings = ({ changeProgress, post, edit }) => {
       })
       .then((result) => {
         const newpost = {
-          ...post,
+          ...values,
           id: result.id,
           createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
           images: images,
           state: "Disparu(e)",
           userID: firebase.auth().currentUser.uid,
-        }
-        dispatch(addUserPost(newpost))
-      })
-  }
+        };
+        dispatch(addUserPost(newpost));
+      });
+  };
   //editing post
-  const editPost = (post, values) => {
+  const editPost = (postToEdit, values, images) => {
+    values = { ...values, images };
+    //delete all empty strings
+    for (const key in values) {
+      if (values[key] === "") {
+        delete values[key];
+      }
+    }
     firebase
       .firestore()
       .collection("missings")
-      .doc(post.id)
+      .doc(postToEdit.id)
       .update(values)
       .then(() => {
-        post = { ...post, values }
-        dispatch(updateUserPost(post))
+        postToEdit = { ...postToEdit, values };
+        dispatch(updateUserPost(post));
       })
       .catch((error) => {
-        console.error("Error removing document: ", error)
-      })
-  }
-  let postValues = {}
+        console.error("Error removing document: ", error);
+      });
+  };
+  let postValues = {};
   //existing values ready to be modfied
   if (post) {
     postValues = {
@@ -227,7 +279,11 @@ const Missings = ({ changeProgress, post, edit }) => {
       other: post.other ? post.other : "",
       email: post.email ? post.email : "",
       tel: post.tel ? post.tel : "",
-    }
+      facebook: post.facebook ? post.facebook : "",
+      snapchat: post.snapchat ? post.snapchat : "",
+      twitter: post.twitter ? post.twitter : "",
+      instagram: post.instagram ? post.instagram : "",
+    };
   }
   return (
     <MultiForm
@@ -235,31 +291,26 @@ const Missings = ({ changeProgress, post, edit }) => {
       progress={changeProgress}
       initialValues={post ? postValues : initialValues.missings}
       onSubmit={(values, formikActions) => {
-        try {
-          //with images picked
-          if (values) {
-            //delete all empty strings
-            for (const key in values) {
-              if (values[key] === "") {
-                delete values[key]
-              }
-            }
-            values = { ...values, postType: "missings" }
-            if (values.images && values.images.length > 0)
-              edit ? editPost(post, values) : uploadImages(values)
-            else {
-              //no images in the post
-              edit ? editPost(post, values) : savePost(values, [])
-            }
+        console.log("images", values);
 
-            //reset form
-            formikActions.resetForm()
+        // try {
+        //   values = { ...values, postType: "missings" };
+        //   //no images
+        //   if (!values.images) {
+        //     edit ? editPost(values, post) : savePost(values);
+        //   }
+        //   if (edit) uploadImages(values, post);
+        //   else {
+        //     uploadImages(values);
+        //   }
 
-            navigation.navigate("SharingView", { post: values })
-          }
-        } catch (error) {
-          console.log(`error`, error)
-        }
+        //   //reset form
+        //   formikActions.resetForm();
+
+        //   navigation.navigate("SharingView", { post: values });
+        // } catch (error) {
+        //   console.log(`error`, error);
+        // }
       }}
     >
       {
@@ -343,15 +394,53 @@ const Missings = ({ changeProgress, post, edit }) => {
       <View>
         <AppText style2={styles.title}>Contact</AppText>
 
-        <AppFormField
-          width={"40%"}
-          name="tel"
-          placeholder="Téléphone"
-          keyboardType="numeric"
-          maxLength={10}
-        />
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            flex: 1,
+            paddingVertical: 16,
+          }}
+        >
+          <AppFormField
+            width={"40%"}
+            name="tel"
+            placeholder="Téléphone"
+            keyboardType="numeric"
+            maxLength={10}
+          />
+          <AppFormField
+            name="email"
+            placeholder="Email"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="facebook"
+            placeholder="Facebook"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="twitter"
+            placeholder="Twitter"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="instagram"
+            placeholder="Instagram"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="snapchat"
+            placeholder="Snapchat"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+        </View>
 
-        <AppFormField name="email" placeholder="Email" />
         <AppText
           style2={{ color: colors.danger, fontSize: 12, marginLeft: 16 }}
         >
@@ -359,72 +448,92 @@ const Missings = ({ changeProgress, post, edit }) => {
         </AppText>
       </View>
     </MultiForm>
-  )
-}
+  );
+};
 
 const Students = ({ changeProgress, post, edit }) => {
-  const navigation = useNavigation()
-  const dispatch = useDispatch()
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   //uploading the images in the storage
-  const uploadImages = async (post) => {
-    const imagesBlob = []
-    const images = post.images
-    const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
+  //uploading the images in the storage
+  const uploadImages = async (values, postToEdit) => {
+    let images = values.images;
+    const childPath = `${values.postType}/${
+      firebase.auth().currentUser.uid
+    }/${uuidv4()}.png`;
 
     await Promise.all(
       images.map(async (image) => {
-        const response = await fetch(image)
-        const blob = await response.blob()
-        const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
+        if (image.includes("https")) {
+          const response = await fetch(image);
+          const blob = await response.blob();
+          const ref = firebase.storage().ref().child(childPath);
 
-        await ref.put(blob).then((result) => {
-          imagesBlob.push(result.metadata.name)
-        })
-        await ref.getDownloadURL(blob).then((result) => {
-          imagesBlob.pop()
-          imagesBlob.push(result)
-        })
+          await ref.put(blob).then((result) => {
+            images.push(result.metadata.name);
+          });
+          await ref.getDownloadURL(blob).then((result) => {
+            images.pop();
+            images.push(result);
+          });
+        }
       })
-    ).then(() => savePost(post, imagesBlob))
-  }
+    ).then(() => {
+      images = images.filter((im) => im.includes("https"));
+      edit ? editPost(postToEdit, values, images) : savePost(values, images);
+    });
+  };
   //saving post
-  const savePost = (post, images) => {
+  const savePost = (values, images) => {
+    //delete all empty strings
+    for (const key in values) {
+      if (values[key] === "") {
+        delete values[key];
+      }
+    }
     let doc = firebase
       .firestore()
-      .collection(post.postType)
+      .collection(values.postType)
       .add({
-        ...post,
+        ...values,
         createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
         images: images,
         userID: firebase.auth().currentUser.uid,
       })
       .then((result) => {
         const newpost = {
-          ...post,
+          ...values,
           id: result.id,
           createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
           images: images,
           userID: firebase.auth().currentUser.uid,
-        }
-        dispatch(addUserPost(newpost))
-      })
-  }
+        };
+        dispatch(addUserPost(newpost));
+      });
+  };
   //editing post
-  const editPost = (post, values) => {
+  const editPost = (postToEdit, values, images) => {
+    values = { ...values, images };
+    //delete all empty strings
+    for (const key in values) {
+      if (values[key] === "") {
+        delete values[key];
+      }
+    }
     firebase
       .firestore()
       .collection("students")
-      .doc(post.id)
+      .doc(postToEdit.id)
       .update(values)
       .then(() => {
-        post = { ...post, values }
-        dispatch(updateUserPost(post))
+        postToEdit = { ...postToEdit, values };
+        dispatch(updateUserPost(post));
       })
       .catch((error) => {
-        console.error("Error removing document: ", error)
-      })
-  }
-  let postValues = {}
+        console.error("Error removing document: ", error);
+      });
+  };
+  let postValues = {};
   //existing values ready to be modfied
   if (post) {
     postValues = {
@@ -438,7 +547,11 @@ const Students = ({ changeProgress, post, edit }) => {
       images: post.images ? post.images : [],
       email: post.email ? post.email : "",
       tel: post.tel ? post.tel : "",
-    }
+      facebook: post.facebook ? post.facebook : "",
+      snapchat: post.snapchat ? post.snapchat : "",
+      twitter: post.twitter ? post.twitter : "",
+      instagram: post.instagram ? post.instagram : "",
+    };
   }
   return (
     <MultiForm
@@ -447,31 +560,28 @@ const Students = ({ changeProgress, post, edit }) => {
       progress={changeProgress}
       onSubmit={(values, formikActions) => {
         try {
-          //with images picked
-          if (values) {
-            //delete all empty strings
-            for (const key in values) {
-              if (values[key] === "") {
-                delete values[key]
-              }
-            }
-            values = { ...values, postType: "students" }
-            if (values.images && values.images.length > 0)
-              edit ? editPost(post, values) : uploadImages(values)
-            else {
-              //no images in the post
-              edit
-                ? editPost(post, values)
-                : savePost(values, [
-                    "https://firebasestorage.googleapis.com/v0/b/wanted-316010.appspot.com/o/assets%2Fpp.png?alt=media&token=f564d417-d3ce-48f8-a211-3589664c0a03",
-                  ])
-            }
-            //reset form
-            formikActions.resetForm()
-            navigation.navigate("SharingView", { post: values })
+          values = { ...values, postType: "students" };
+          //no images
+          if (!values.images) {
+            edit
+              ? editPost(values, post)
+              : savePost(
+                  values[
+                    "https://firebasestorage.googleapis.com/v0/b/wanted-316010.appspot.com/o/assets%2Fpp.png?alt=media&token=f564d417-d3ce-48f8-a211-3589664c0a03"
+                  ]
+                );
           }
+          if (edit) uploadImages(values, post);
+          else {
+            uploadImages(values);
+          }
+
+          //reset form
+          formikActions.resetForm();
+
+          navigation.navigate("SharingView", { post: values });
         } catch (error) {
-          console.log(`error`, error)
+          console.log(`error`, error);
         }
       }}
     >
@@ -506,21 +616,52 @@ const Students = ({ changeProgress, post, edit }) => {
         <AppText style2={styles.title}>Détails</AppText>
         <ImagePicker name="images" />
 
-        <AppFormField
-          required
-          name="name"
-          placeholder="Nom, prénom..."
-          icon="account"
-        />
-
-        <AppFormField
-          width={"40%"}
-          name="tel"
-          placeholder="Téléphone"
-          keyboardType="numeric"
-          maxLength={10}
-        />
-        <AppFormField name="email" placeholder="Email" />
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            flex: 1,
+            paddingVertical: 16,
+          }}
+        >
+          <AppFormField
+            width={"40%"}
+            name="tel"
+            placeholder="Téléphone"
+            keyboardType="numeric"
+            maxLength={10}
+          />
+          <AppFormField
+            name="email"
+            placeholder="Email"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="facebook"
+            placeholder="Facebook"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="twitter"
+            placeholder="Twitter"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="instagram"
+            placeholder="Instagram"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="snapchat"
+            placeholder="Snapchat"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+        </View>
         <AppText
           style2={{ color: colors.danger, fontSize: 12, marginLeft: 16 }}
         >
@@ -528,41 +669,54 @@ const Students = ({ changeProgress, post, edit }) => {
         </AppText>
       </View>
     </MultiForm>
-  )
-}
+  );
+};
 const Animals = ({ changeProgress, post, edit }) => {
-  const navigation = useNavigation()
-  const dispatch = useDispatch()
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   //uploading the images in the storage
-  const uploadImages = async (post) => {
-    const imagesBlob = []
-
-    const images = post.images
-    const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
+  //uploading the images in the storage
+  const uploadImages = async (values, postToEdit) => {
+    let images = values.images;
+    console.log("images", images);
+    const childPath = `${values.postType}/${
+      firebase.auth().currentUser.uid
+    }/${uuidv4()}.png`;
 
     await Promise.all(
       images.map(async (image) => {
-        const response = await fetch(image)
-        const blob = await response.blob()
-        const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
+        if (image.includes("https")) {
+          const response = await fetch(image);
+          const blob = await response.blob();
+          const ref = firebase.storage().ref().child(childPath);
 
-        await ref.put(blob).then((result) => {
-          imagesBlob.push(result.metadata.name)
-        })
-        await ref.getDownloadURL(blob).then((result) => {
-          imagesBlob.pop()
-          imagesBlob.push(result)
-        })
+          await ref.put(blob).then((result) => {
+            images.push(result.metadata.name);
+          });
+          await ref.getDownloadURL(blob).then((result) => {
+            images.pop();
+            images.push(result);
+          });
+        }
       })
-    ).then(() => savePost(post, imagesBlob))
-  }
+    ).then(() => {
+      images = images.filter((im) => im.includes("https"));
+      edit ? editPost(postToEdit, values, images) : savePost(values, images);
+    });
+  };
   //saving post
-  const savePost = (post, images) => {
+  const savePost = (values, images) => {
+    //delete all empty strings
+    for (const key in values) {
+      if (values[key] === "") {
+        delete values[key];
+      }
+    }
     let doc = firebase
       .firestore()
-      .collection("animals")
+      .collection(values.postType)
       .add({
-        ...post,
+        ...values,
         createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
         images: images,
         state: "Disparu(e)",
@@ -570,32 +724,39 @@ const Animals = ({ changeProgress, post, edit }) => {
       })
       .then((result) => {
         const newpost = {
-          ...post,
+          ...values,
           id: result.id,
           createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
           images: images,
           state: "Disparu(e)",
           userID: firebase.auth().currentUser.uid,
-        }
-        dispatch(addUserPost(newpost))
-      })
-  }
+        };
+        dispatch(addUserPost(newpost));
+      });
+  };
   //editing post
-  const editPost = (post, values) => {
+  const editPost = (postToEdit, values, images) => {
+    values = { ...values, images };
+    //delete all empty strings
+    for (const key in values) {
+      if (values[key] === "") {
+        delete values[key];
+      }
+    }
     firebase
       .firestore()
       .collection("animals")
-      .doc(post.id)
+      .doc(postToEdit.id)
       .update(values)
       .then(() => {
-        post = { ...post, values }
-        dispatch(updateUserPost(post))
+        postToEdit = { ...postToEdit, values };
+        dispatch(updateUserPost(post));
       })
       .catch((error) => {
-        console.error("Error removing document: ", error)
-      })
-  }
-  let postValues = {}
+        console.error("Error removing document: ", error);
+      });
+  };
+  let postValues = {};
   //existing values ready to be modfied
   if (post) {
     postValues = {
@@ -610,7 +771,11 @@ const Animals = ({ changeProgress, post, edit }) => {
       other: post.other ? post.other : "",
       email: post.email ? post.email : "",
       tel: post.tel ? post.tel : "",
-    }
+      facebook: post.facebook ? post.facebook : "",
+      snapchat: post.snapchat ? post.snapchat : "",
+      twitter: post.twitter ? post.twitter : "",
+      instagram: post.instagram ? post.instagram : "",
+    };
   }
   return (
     <MultiForm
@@ -619,29 +784,22 @@ const Animals = ({ changeProgress, post, edit }) => {
       initialValues={post ? postValues : initialValues.animals}
       onSubmit={(values, formikActions) => {
         try {
-          //with images picked
-          if (values) {
-            //delete all empty strings
-            for (const key in values) {
-              if (values[key] === "") {
-                delete values[key]
-              }
-            }
-            values = { ...values, postType: "animals" }
-            if (values.images && values.images.length > 0)
-              edit ? editPost(post, values) : uploadImages(values)
-            else {
-              //no images in the post
-              edit ? editPost(post, values) : savePost(values, [])
-            }
-
-            //reset form
-            formikActions.resetForm()
-
-            navigation.navigate("SharingView", { post: values })
+          values = { ...values, postType: "animals" };
+          //no images
+          if (!values.images) {
+            edit ? editPost(values, post) : savePost(values);
           }
+          if (edit) uploadImages(values, post);
+          else {
+            uploadImages(values);
+          }
+
+          //reset form
+          formikActions.resetForm();
+
+          navigation.navigate("SharingView", { post: values });
         } catch (error) {
-          console.log(`error`, error)
+          console.log(`error`, error);
         }
       }}
     >
@@ -697,15 +855,52 @@ const Animals = ({ changeProgress, post, edit }) => {
       <View>
         <AppText style2={styles.title}>Contact</AppText>
 
-        <AppFormField
-          width={"40%"}
-          name="tel"
-          placeholder="Téléphone"
-          keyboardType="numeric"
-          maxLength={10}
-        />
-
-        <AppFormField name="email" placeholder="Email" />
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            flex: 1,
+            paddingVertical: 16,
+          }}
+        >
+          <AppFormField
+            width={"40%"}
+            name="tel"
+            placeholder="Téléphone"
+            keyboardType="numeric"
+            maxLength={10}
+          />
+          <AppFormField
+            name="email"
+            placeholder="Email"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="facebook"
+            placeholder="Facebook"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="twitter"
+            placeholder="Twitter"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="instagram"
+            placeholder="Instagram"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="snapchat"
+            placeholder="Snapchat"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+        </View>
         <AppText
           style2={{ color: colors.danger, fontSize: 12, marginLeft: 16 }}
         >
@@ -713,74 +908,92 @@ const Animals = ({ changeProgress, post, edit }) => {
         </AppText>
       </View>
     </MultiForm>
-  )
-}
+  );
+};
 const Objects = ({ changeProgress, post, edit }) => {
-  const navigation = useNavigation()
-  const dispatch = useDispatch()
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   //uploading the images in the storage
-  const uploadImages = async (post) => {
-    const imagesBlob = []
-
-    const images = post.images
-    const childPath = `${post.postType}/${firebase.auth().currentUser.uid}`
+  const uploadImages = async (values, postToEdit) => {
+    let images = values.images;
+    const childPath = `${values.postType}/${
+      firebase.auth().currentUser.uid
+    }/${uuidv4()}.png`;
 
     await Promise.all(
       images.map(async (image) => {
-        const response = await fetch(image)
-        const blob = await response.blob()
-        const ref = firebase.storage().ref(childPath).child(`${uuidv4()}.png`)
+        if (image.includes("https")) {
+          const response = await fetch(image);
+          const blob = await response.blob();
+          const ref = firebase.storage().ref().child(childPath);
 
-        await ref.put(blob).then((result) => {
-          imagesBlob.push(result.metadata.name)
-        })
-        await ref.getDownloadURL(blob).then((result) => {
-          imagesBlob.pop()
-          imagesBlob.push(result)
-        })
+          await ref.put(blob).then((result) => {
+            images.push(result.metadata.name);
+          });
+          await ref.getDownloadURL(blob).then((result) => {
+            images.pop();
+            images.push(result);
+          });
+        }
       })
-    ).then(() => savePost(post, imagesBlob))
-  }
+    ).then(() => {
+      images = images.filter((im) => im.includes("https"));
+      edit ? editPost(postToEdit, values, images) : savePost(values, images);
+    });
+  };
   //saving post
-  const savePost = (post, images) => {
+  const savePost = (values, images) => {
+    //delete all empty strings
+    for (const key in values) {
+      if (values[key] === "") {
+        delete values[key];
+      }
+    }
     let doc = firebase
       .firestore()
-      .collection("objects")
+      .collection(values.postType)
       .add({
-        ...post,
+        ...values,
         createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
         images: images,
-        state: post.state,
+        state: values.state,
         userID: firebase.auth().currentUser.uid,
       })
       .then((result) => {
         const newpost = {
-          ...post,
+          ...values,
           id: result.id,
           createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
           images: images,
-          state: post.state,
+          state: values.state,
           userID: firebase.auth().currentUser.uid,
-        }
-        dispatch(addUserPost(newpost))
-      })
-  }
+        };
+        dispatch(addUserPost(newpost));
+      });
+  };
   //editing post
-  const editPost = (post, values) => {
+  const editPost = (postToEdit, values, images) => {
+    values = { ...values, images };
+    //delete all empty strings
+    for (const key in values) {
+      if (values[key] === "") {
+        delete values[key];
+      }
+    }
     firebase
       .firestore()
       .collection("objects")
-      .doc(post.id)
+      .doc(postToEdit.id)
       .update(values)
       .then(() => {
-        post = { ...post, values }
-        dispatch(updateUserPost(post))
+        postToEdit = { ...postToEdit, values };
+        dispatch(updateUserPost(post));
       })
       .catch((error) => {
-        console.error("Error removing document: ", error)
-      })
-  }
-  let postValues = {}
+        console.error("Error removing document: ", error);
+      });
+  };
+  let postValues = {};
   //existing values ready to be modfied
   if (post) {
     postValues = {
@@ -789,10 +1002,14 @@ const Objects = ({ changeProgress, post, edit }) => {
       description: post.description ? post.description : "",
       date: post.date.toDate(),
       location: post.location,
-      state:post.state,
+      state: post.state,
       email: post.email ? post.email : "",
       tel: post.tel ? post.tel : "",
-    }
+      facebook: post.facebook ? post.facebook : "",
+      snapchat: post.snapchat ? post.snapchat : "",
+      twitter: post.twitter ? post.twitter : "",
+      instagram: post.instagram ? post.instagram : "",
+    };
   }
   return (
     <MultiForm
@@ -800,30 +1017,25 @@ const Objects = ({ changeProgress, post, edit }) => {
       progress={changeProgress}
       initialValues={post ? postValues : initialValues.objects}
       onSubmit={(values, formikActions) => {
+        console.log("ivalues.mages", values.images);
+
         try {
-          //with images picked
-          if (values) {
-            //delete all empty strings
-            for (const key in values) {
-              if (values[key] === "") {
-                delete values[key]
-              }
-            }
-            values = { ...values, postType: "objects" }
-            if (values.images && values.images.length > 0)
-              edit ? editPost(post, values) : uploadImages(values)
-            else {
-              //no images in the post
-              edit ? editPost(post, values) : savePost(values, [])
-            }
-
-            //reset form
-            formikActions.resetForm()
-
-            navigation.navigate("SharingView", { post: values })
+          values = { ...values, postType: "objects" };
+          //no images
+          if (values.images.length > 0) {
+            edit ? editPost(values, post) : savePost(values);
           }
+          if (edit) uploadImages(values, post);
+          else {
+            uploadImages(values);
+          }
+
+          //reset form
+          formikActions.resetForm();
+
+          navigation.navigate("SharingView", { post: values });
         } catch (error) {
-          console.log(`error`, error)
+          console.log(`error`, error);
         }
       }}
     >
@@ -863,15 +1075,52 @@ const Objects = ({ changeProgress, post, edit }) => {
       <View>
         <AppText style2={styles.title}>Contact</AppText>
 
-        <AppFormField
-          width={"40%"}
-          name="tel"
-          placeholder="Téléphone"
-          keyboardType="numeric"
-          maxLength={10}
-        />
-
-        <AppFormField name="email" placeholder="Email" />
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            flex: 1,
+            paddingVertical: 16,
+          }}
+        >
+          <AppFormField
+            width={"40%"}
+            name="tel"
+            placeholder="Téléphone"
+            keyboardType="numeric"
+            maxLength={10}
+          />
+          <AppFormField
+            name="email"
+            placeholder="Email"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="facebook"
+            placeholder="Facebook"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="twitter"
+            placeholder="Twitter"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="instagram"
+            placeholder="Instagram"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+          <AppFormField
+            name="snapchat"
+            placeholder="Snapchat"
+            width={"40%"}
+            autoCapitalize="none"
+          />
+        </View>
         <AppText
           style2={{ color: colors.danger, fontSize: 12, marginLeft: 16 }}
         >
@@ -879,9 +1128,9 @@ const Objects = ({ changeProgress, post, edit }) => {
         </AppText>
       </View>
     </MultiForm>
-  )
-}
-export { Missings, Students, Animals, Objects}
+  );
+};
+export { Missings, Students, Animals, Objects };
 const styles = StyleSheet.create({
   title: {
     color: colors.secondary,
@@ -890,4 +1139,4 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginVertical: 15,
   },
-})
+});

@@ -51,13 +51,12 @@ const SharingObjects = ({ post }) => {
 
           
         </View>
+        {/* Description section */}
         <View
           style={{
-            paddingTop: 10,
-            paddingLeft:10,
+            //borderWidth: 1,
             borderColor: "blue",
-            width: "100%",
-            height: "40%",
+            minHeight:'20%'
           }}
         >
           {title ? <Text style={styles.text}>{title}</Text> : null}
@@ -88,14 +87,12 @@ const styles = StyleSheet.create({
     color: colors.danger,
     paddingHorizontal: 8,
     marginBottom: 8,
-    flexWrap: "wrap",
   },
   text: {
-    textAlign: "left",
+    textAlign: "center",
     fontSize: 24,
     fontWeight: "bold",
     marginLeft: 4,
-    flexWrap: "wrap",
   },
   subText: {
     fontSize: 18,

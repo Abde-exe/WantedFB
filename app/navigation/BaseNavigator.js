@@ -14,7 +14,7 @@ const BaseNavigator = ({ navigation }) => {
   return (
     <Stack.Navigator
       initialRouteName="AppTab"
-      screenOptions={{ animationEnabled: false,headerBackTitle:'' }}
+      screenOptions={{ animationEnabled: false,headerBackTitle:'Retour' }}
       mode="modal"
     >
       <Stack.Screen

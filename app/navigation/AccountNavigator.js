@@ -22,7 +22,9 @@ export default function AccountNavigator({ navigation, route }) {
   //hide the bottom tabBar only for PostDetail or SharingView screens
   React.useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route)
-    if (routeName === "PostEdit") {
+    if (routeName === "PostDetail" ||
+    routeName === "SharingView" ||
+    routeName === "PostEdit") {
       navigation.setOptions({ tabBarVisible: false })
     } else {
       navigation.setOptions({ tabBarVisible: true })
@@ -31,7 +33,7 @@ export default function AccountNavigator({ navigation, route }) {
   /////
   return (
     <Stack.Navigator
-    screenOptions={{sheaderBackTitle:'' }}
+    screenOptions={{headerBackTitle:'Retour' }}
     >
       <Stack.Screen
         name="Account"
@@ -43,11 +45,12 @@ export default function AccountNavigator({ navigation, route }) {
         name="UserPosts"
         component={UserPosts}
         options={{ title: "Mes posts" }}
-      />
+      /> 
       <Stack.Screen
         name="PostDetail"
         component={PostDetail}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, tabBarVisible: false }}
+
       />
       <Stack.Screen name="SavedPosts" component={SavedPosts} />
       <Stack.Screen name="Report" component={Report} />

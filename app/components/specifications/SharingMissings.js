@@ -1,8 +1,8 @@
-import React from "react"
-import { Image, Text, View, StyleSheet } from "react-native"
-import DetailsText2 from "../DetailsText2"
-import dayjs from "dayjs"
-import colors from "../../../config/colors"
+import React from "react";
+import { Image, Text, View, StyleSheet } from "react-native";
+import DetailsText2 from "../DetailsText2";
+import dayjs from "dayjs";
+import colors from "../../../config/colors";
 
 const SharingMissings = ({ post }) => {
   if (post) {
@@ -19,9 +19,9 @@ const SharingMissings = ({ post }) => {
       eyes,
       outfit,
       other,
-    } = post
-    var date2 = ""
-    date.seconds ? (date2 = date.toDate()) : (date2 = date)
+    } = post;
+    var date2 = "";
+    date.seconds ? (date2 = date.toDate()) : (date2 = date);
     return (
       <View>
         <View style={{ flexDirection: "row" }}>
@@ -36,10 +36,10 @@ const SharingMissings = ({ post }) => {
         </View>
         <View
           style={{
-            //borderWidth: 2,
+            // borderWidth: 2,
             borderColor: "yellow",
             flexDirection: "row",
-            height: "40%",
+            //height: "50%",
           }}
         >
           {images && (
@@ -48,10 +48,10 @@ const SharingMissings = ({ post }) => {
                 uri: post.images[0],
               }}
               style={{
-                width: "45%",
+                marginTop: 8,
+                width: "50%",
+                aspectRatio: 1,
                 resizeMode: "cover",
-                borderWidth: 2,
-                // borderColor: colors.danger,
               }}
             />
           )}
@@ -59,7 +59,7 @@ const SharingMissings = ({ post }) => {
           <View
             style={{
               //borderWidth: 1,
-              // borderColor: "red",
+              borderColor: "red",
               width: "50%",
               height: "100%",
             }}
@@ -78,12 +78,12 @@ const SharingMissings = ({ post }) => {
             {eyes ? <DetailsText2 row text={eyes} subText="Yeux :" /> : null}
           </View>
         </View>
+        {/* Description section */}
         <View
           style={{
-            paddingTop: 10,
-            borderColor: "blue",
-            width: "100%",
-            height: "40%",
+            //borderWidth: 1,
+            //backgroundColor: "blue",
+            paddingTop: 16,
           }}
         >
           {description ? (
@@ -101,11 +101,11 @@ const SharingMissings = ({ post }) => {
           ) : null}
         </View>
       </View>
-    )
+    );
   }
-}
+};
 
-export default SharingMissings
+export default SharingMissings;
 
 const styles = StyleSheet.create({
   container: {
@@ -120,18 +120,16 @@ const styles = StyleSheet.create({
     color: colors.danger,
     paddingHorizontal: 8,
     marginBottom: 8,
-    flexWrap: "wrap",
   },
   text: {
-    textAlign: "left",
+    textAlign: "center",
     fontSize: 24,
     fontWeight: "bold",
     marginLeft: 4,
-    flexWrap: "wrap",
   },
   subText: {
     fontSize: 18,
     marginLeft: 4,
     marginTop: 4,
   },
-})
+});

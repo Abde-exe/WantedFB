@@ -1,7 +1,7 @@
-import React from "react"
-import { Pressable, StyleSheet, View } from "react-native"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
-import colors from "../../config/colors"
+import React from "react";
+import { Pressable, StyleSheet, View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import colors from "../../config/colors";
 
 const IconButton = ({
   color = colors.medium,
@@ -28,12 +28,11 @@ const IconButton = ({
                 height: size,
                 borderRadius: size,
                 backgroundColor: "transparent",
-                justifyContent: "center",
                 alignItems: "center",
                 opacity: 0.5,
               },
               style2,
-            ]
+            ];
           }
 
           return [
@@ -42,16 +41,16 @@ const IconButton = ({
               alignItems: "center",
             },
             style2,
-          ]
+          ];
         }}
         onPress={onPress}
       >
         <MaterialCommunityIcons name={name} size={size} color={color} />
       </Pressable>
     </View>
-  )
-}
+  );
+};
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
 
-export default IconButton
+export default IconButton;

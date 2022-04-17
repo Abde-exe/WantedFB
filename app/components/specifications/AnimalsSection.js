@@ -7,14 +7,32 @@ import colors from "../../../config/colors"
 import AppText from "../AppText"
 import DetailsText from "../DetailsText"
 import Separator from "../Separator"
+import IconButton from "../IconButton"
+import { openURL } from "expo-linking"
 
 const AnimalsSection = ({ post }) => {
   const { title, age, date, location, description, name } = post
   const { sexe, race, other } = post
-  const { tel, email } = post
+  const { tel, email, facebook, instagram, snapchat, twitter } = post
   var date2 = new Date(1970, 0, 1)
   date2.setSeconds(date.seconds)
 
+  const openSocial=(media)=>{
+switch(media){
+  case "instagram":
+    openURL(`https://www.instagram.com/${instagram}`)
+    break;
+  case "twitter":
+    openURL(`https://www.twitter.com/${twitter}`)
+    break;
+  case  "facebook":
+    openURL(`https://www.facebook.com/${facebook}`)
+    break;
+    case  "snapchat":
+    openURL(`https://www.snapchat.com/add/${snapchat}`)
+    break;
+}
+  }
   return (
     <View>
       <AppText
@@ -62,6 +80,15 @@ const AnimalsSection = ({ post }) => {
         <View style={styles.section}>
           {tel ? <DetailsText text={tel} subText={"Téléphone"} /> : null}
           {email ? <DetailsText text={email} subText={"Email"} /> : null}
+          <View style={{flexDirection:"row", width:'100%',justifyContent:'space-around',paddingVertical:16}}>
+
+          {facebook ? <IconButton name={"facebook"} size={32} onPress={()=>openSocial("facebook")}/> : null}
+          {instagram ? <IconButton name={"instagram"} size={32}onPress={()=>openSocial("instagram")}/> : null}
+          {twitter ? <IconButton name={"twitter"} size={32}onPress={()=>openSocial("twitter")}/> : null}
+          {snapchat ? <IconButton name={"snapchat"} size={32}onPress={()=>openSocial("snapchat")}/> : null}
+          </View>
+          
+          
         </View>
       </View>
     </View>

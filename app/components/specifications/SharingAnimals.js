@@ -22,7 +22,8 @@ const SharingAnimals = ({ post }) => {
     var date2 = ""
     date.seconds ? (date2 = date.toDate()) : (date2 = date)
     return (
-      <View>
+      <View >
+        {/* Main section*/}
         <View style={{ flexDirection: "row" }}>
           {date2 ? (
             <Text style={styles.title}>
@@ -33,12 +34,13 @@ const SharingAnimals = ({ post }) => {
             </Text>
           ) : null}
         </View>
+        {/* Image */}
         <View
           style={{
             //borderWidth: 2,
             borderColor: "yellow",
             flexDirection: "row",
-            height: "40%",
+            minHeight: "50%",
           }}
         >
           {images.length && (
@@ -47,7 +49,9 @@ const SharingAnimals = ({ post }) => {
                 uri: post.images[0],
               }}
               style={{
+                marginTop:8,
                 width: "50%",
+                aspectRatio:1,
                 resizeMode: "cover",
               }}
             />
@@ -69,12 +73,12 @@ const SharingAnimals = ({ post }) => {
             ) : null}
           </View>
         </View>
+        {/* Description section */}
         <View
           style={{
             //borderWidth: 1,
             borderColor: "blue",
-            width: "100%",
-            height: "40%",
+            minHeight:'20%'
           }}
         >
           {title ? <Text style={styles.text}>{title}</Text> : null}
