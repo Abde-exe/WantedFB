@@ -11,9 +11,8 @@ J'ai alors eu l'idée d'une application qui permettrait de faciliter la créatio
 
 ## Principe
 
-Utilisation de base : Wanted est une application mobile qui permet de créer un avis de recherche pour personnes disparues sous un format universel qui peut être partagé sur n'importe quel réseau social et donc accessible au maximum de personnes. La situation de la personne disparue peut donc être mise à jour sur le même post si elle a été retrouvée.
-
-Utilisation secondaire : L'appli permet également de mettre des recherches de stage, alternance, job pour les étudiants.
+Utilisation de base : Wanted est une application mobile qui permet de créer un avis de recherche pour personnes disparues ou animaux égarés sous un format universel qui peut être partagé sur n'importe quel réseau social et donc accessible au maximum de personnes. La situation de la personne disparue peut donc être mise à jour sur le même post si elle a été retrouvée. 
+L'appli permet également de créer des avis de recherches pour les objets perdus ou trouvés.
 
 
 
@@ -75,6 +74,7 @@ L'application est disponible sur le Play Store et sur l'App Store d'Apple
 
 Google Play Store :
 https://play.google.com/store/apps/details?id=com.wantedapp
+
 Apple App Store :
 https://apps.apple.com/app/id1606514736
 
