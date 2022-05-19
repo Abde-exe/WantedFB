@@ -1,8 +1,9 @@
-import React from "react";
-import { Image, Text, View, StyleSheet } from "react-native";
-import DetailsText2 from "../DetailsText2";
-import dayjs from "dayjs";
-import colors from "../../../config/colors";
+import React from 'react';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import { Image, Text, View, StyleSheet } from 'react-native';
+import DetailsText2 from '../DetailsText2';
+import dayjs from 'dayjs';
+import colors from '../../../config/colors';
 
 const SharingMissings = ({ post }) => {
   if (post) {
@@ -20,16 +21,16 @@ const SharingMissings = ({ post }) => {
       outfit,
       other,
     } = post;
-    var date2 = "";
+    var date2 = '';
     date.seconds ? (date2 = date.toDate()) : (date2 = date);
     return (
       <View>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: 'row' }}>
           {date2 && (
             <Text style={styles.title}>
-              {`Disparu(e) depuis le ${dayjs(date2).format("D/M")} à `}
+              {`Disparu(e) depuis le ${dayjs(date2).format('D/M')} à `}
               {location.name && (
-                <Text style={styles.title}>{location.name.split(",")[0]}</Text>
+                <Text style={styles.title}>{location.name.split(',')[0]}</Text>
               )}
             </Text>
           )}
@@ -37,8 +38,8 @@ const SharingMissings = ({ post }) => {
         <View
           style={{
             // borderWidth: 2,
-            borderColor: "yellow",
-            flexDirection: "row",
+            borderColor: 'yellow',
+            flexDirection: 'row',
             //height: "50%",
           }}
         >
@@ -49,9 +50,9 @@ const SharingMissings = ({ post }) => {
               }}
               style={{
                 marginTop: 8,
-                width: "50%",
+                width: '50%',
                 aspectRatio: 1,
-                resizeMode: "cover",
+                resizeMode: 'cover',
               }}
             />
           )}
@@ -59,9 +60,9 @@ const SharingMissings = ({ post }) => {
           <View
             style={{
               //borderWidth: 1,
-              borderColor: "red",
-              width: "50%",
-              height: "100%",
+              borderColor: 'red',
+              width: '50%',
+              height: '100%',
             }}
           >
             {title ? <Text style={styles.text}>{title}</Text> : null}
@@ -109,26 +110,26 @@ export default SharingMissings;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     //borderWidth: 1,
     padding: 8,
     margin: 8,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   title: {
-    fontSize: 20,
+    fontSize: RFValue(18),
     color: colors.danger,
     paddingHorizontal: 8,
     marginBottom: 8,
   },
   text: {
-    textAlign: "center",
-    fontSize: 24,
-    fontWeight: "bold",
+    textAlign: 'center',
+    fontSize: RFValue(16),
+    fontWeight: 'bold',
     marginLeft: 4,
   },
   subText: {
-    fontSize: 18,
+    fontSize: RFValue(14),
     marginLeft: 4,
     marginTop: 4,
   },

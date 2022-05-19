@@ -1,7 +1,6 @@
 Prochain release : 
 
 vérifier le partage des posts android et ios
-modifier le site
 changement retrouvé etc
 lazy load image
 

@@ -1,23 +1,23 @@
-import React, { useState } from "react"
-import { StyleSheet, Text, View } from "react-native"
-import colors from "../../config/colors"
-import AppText from "./AppText"
-import AppTextInput from "./AppTextInput"
-import IconButton from "./IconButton"
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import colors from '../../config/colors';
+import AppText from './AppText';
+import AppTextInput from './AppTextInput';
+import IconButton from './IconButton';
 
 const Messages = () => {
   const messages = [
     {
-      date: "12/01",
+      date: '12/01',
       message:
         "I'm trying to get data from an array and using map function to render content. Look at",
     },
     {
-      date: "12/01",
+      date: '12/01',
       message: "Don't forget to return the mapped array , like:",
     },
-  ]
-  const [message, setMessage] = useState("")
+  ];
+  const [message, setMessage] = useState('');
 
   const renderMessages = () => {
     return messages.map((data) => {
@@ -25,37 +25,37 @@ const Messages = () => {
         <View
           key={data.message}
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
+            flexDirection: 'row',
+            justifyContent: 'space-between',
             paddingHorizontal: 16,
             marginTop: 8,
             paddingVertical: 8,
           }}
         >
-          <Text style={{ fontWeight: "400", color: colors.medium }}>
+          <Text style={{ fontWeight: '400', color: colors.accent }}>
             {data.date}
           </Text>
-          <AppText style2={{ width: "70%" }}>{data.message}</AppText>
+          <AppText style2={{ width: '70%' }}>{data.message}</AppText>
           <IconButton name="close" size={20} />
         </View>
-      )
-    })
-  }
+      );
+    });
+  };
   return (
     <View style={{ flex: 1 }}>
       <AppText>Mettre à jour</AppText>
       {renderMessages()}
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
           marginHorizontal: 16,
         }}
       >
         <AppTextInput
           placeholder="Test"
-          width={"80%"}
+          width={'80%'}
           onChangeText={(value) => setMessage(value)}
         />
         <IconButton
@@ -63,14 +63,14 @@ const Messages = () => {
           size={35}
           color={colors.secondary}
           onPress={() =>
-            console.log(messages.push({ date: "12/01", message: message }))
+            console.log(messages.push({ date: '12/01', message: message }))
           }
         />
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default Messages
+export default Messages;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

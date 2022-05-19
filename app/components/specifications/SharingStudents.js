@@ -1,34 +1,28 @@
-import React from "react"
-import { Image, Text, View, StyleSheet } from "react-native"
-import DetailsText2 from "../DetailsText2"
-import colors from "../../../config/colors"
+import React from 'react';
+import { Image, Text, View, StyleSheet } from 'react-native';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+
+import DetailsText2 from '../DetailsText2';
+import colors from '../../../config/colors';
 
 const SharingStudents = ({ post }) => {
   if (post) {
-    const {
-      name,
-      type,
-      domain,
-      length,
-      location,
-      title,
-      description,
-      images,
-    } = post
+    const { name, type, domain, length, location, title, description, images } =
+      post;
     return (
       <View>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: 'row' }}>
           <Text style={styles.title}>
             {`Recherche ${type} à `}
             {location.name && (
-              <Text style={styles.title}>{location.name.split(",")[0]}</Text>
+              <Text style={styles.title}>{location.name.split(',')[0]}</Text>
             )}
           </Text>
         </View>
         <View
           style={{
-            flexDirection: "row",
-            height: "40%",
+            flexDirection: 'row',
+            height: '40%',
           }}
         >
           {images && (
@@ -36,11 +30,11 @@ const SharingStudents = ({ post }) => {
               source={{
                 uri: images[0]
                   ? images[0]
-                  : "https://firebasestorage.googleapis.com/v0/b/wanted-316010.appspot.com/o/assets%2Fpp.png?alt=media&token=f564d417-d3ce-48f8-a211-3589664c0a03",
+                  : 'https://firebasestorage.googleapis.com/v0/b/wanted-316010.appspot.com/o/assets%2Fpp.png?alt=media&token=f564d417-d3ce-48f8-a211-3589664c0a03',
               }}
               style={{
-                width: "50%",
-                resizeMode: "cover",
+                width: '50%',
+                resizeMode: 'cover',
               }}
             />
           )}
@@ -48,15 +42,15 @@ const SharingStudents = ({ post }) => {
           <View
             style={{
               //borderWidth: 1,
-              width: "50%",
-              height: "100%",
+              width: '50%',
+              height: '100%',
             }}
           >
             {name && <Text style={styles.text}>{name}</Text>}
-            {location.name != "" ? (
+            {location.name != '' ? (
               <DetailsText2
                 row
-                text={location.name.split(",")[0]}
+                text={location.name.split(',')[0]}
                 subText="Lieu :"
               />
             ) : null}
@@ -67,9 +61,9 @@ const SharingStudents = ({ post }) => {
         <View
           style={{
             //borderWidth: 1,
-            borderColor: "blue",
-            width: "100%",
-            height: "40%",
+            borderColor: 'blue',
+            width: '100%',
+            height: '40%',
           }}
         >
           {title && (
@@ -83,36 +77,35 @@ const SharingStudents = ({ post }) => {
           )}
         </View>
       </View>
-    )
+    );
   }
-}
+};
 
-export default SharingStudents
+export default SharingStudents;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     //borderWidth: 1,
     padding: 8,
     margin: 8,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   title: {
-    textAlign: "center",
-    fontSize: 20,
+    fontSize: RFValue(18),
     color: colors.danger,
     paddingHorizontal: 8,
     marginBottom: 8,
-    width: "100%",
   },
   text: {
-    textAlign: "center",
-    fontSize: 24,
-    fontWeight: "bold",
+    textAlign: 'center',
+    fontSize: RFValue(16),
+    fontWeight: 'bold',
+    marginLeft: 4,
   },
   subText: {
-    fontSize: 18,
+    fontSize: RFValue(14),
     marginLeft: 4,
     marginTop: 4,
   },
-})
+});

@@ -1,8 +1,10 @@
-import React from "react"
-import { Image, Text, View, StyleSheet } from "react-native"
-import DetailsText2 from "../DetailsText2"
-import dayjs from "dayjs"
-import colors from "../../../config/colors"
+import React from 'react';
+import { Image, Text, View, StyleSheet } from 'react-native';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+
+import DetailsText2 from '../DetailsText2';
+import dayjs from 'dayjs';
+import colors from '../../../config/colors';
 
 const SharingAnimals = ({ post }) => {
   if (post) {
@@ -17,19 +19,19 @@ const SharingAnimals = ({ post }) => {
       race,
       sexe,
       other,
-    } = post
-    console.log(`date`, post)
-    var date2 = ""
-    date.seconds ? (date2 = date.toDate()) : (date2 = date)
+    } = post;
+    console.log(`date`, post);
+    var date2 = '';
+    date.seconds ? (date2 = date.toDate()) : (date2 = date);
     return (
-      <View >
+      <View>
         {/* Main section*/}
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: 'row' }}>
           {date2 ? (
             <Text style={styles.title}>
-              {`Disparu(e) depuis le ${dayjs(date2).format("D/M")} à `}
+              {`Disparu(e) depuis le ${dayjs(date2).format('D/M')} à `}
               {location ? (
-                <Text style={styles.title}>{location.name.split(",")[0]}</Text>
+                <Text style={styles.title}>{location.name.split(',')[0]}</Text>
               ) : null}
             </Text>
           ) : null}
@@ -38,9 +40,9 @@ const SharingAnimals = ({ post }) => {
         <View
           style={{
             //borderWidth: 2,
-            borderColor: "yellow",
-            flexDirection: "row",
-            minHeight: "50%",
+            borderColor: 'yellow',
+            flexDirection: 'row',
+            minHeight: '50%',
           }}
         >
           {images.length && (
@@ -49,10 +51,10 @@ const SharingAnimals = ({ post }) => {
                 uri: post.images[0],
               }}
               style={{
-                marginTop:8,
-                width: "50%",
-                aspectRatio:1,
-                resizeMode: "cover",
+                marginTop: 8,
+                width: '50%',
+                aspectRatio: 1,
+                resizeMode: 'cover',
               }}
             />
           )}
@@ -60,8 +62,8 @@ const SharingAnimals = ({ post }) => {
           <View
             style={{
               //borderWidth: 1,
-              width: "50%",
-              height: "100%",
+              width: '50%',
+              height: '100%',
             }}
           >
             {name ? <Text style={styles.text}>{name}</Text> : null}
@@ -77,8 +79,8 @@ const SharingAnimals = ({ post }) => {
         <View
           style={{
             //borderWidth: 1,
-            borderColor: "blue",
-            minHeight:'20%'
+            borderColor: 'blue',
+            minHeight: '20%',
           }}
         >
           {title ? <Text style={styles.text}>{title}</Text> : null}
@@ -90,35 +92,35 @@ const SharingAnimals = ({ post }) => {
           ) : null}
         </View>
       </View>
-    )
+    );
   }
-}
+};
 
-export default SharingAnimals
+export default SharingAnimals;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     //borderWidth: 1,
     padding: 8,
     margin: 8,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   title: {
-    fontSize: 20,
+    fontSize: RFValue(18),
     color: colors.danger,
     paddingHorizontal: 8,
     marginBottom: 8,
   },
   text: {
-    textAlign: "center",
-    fontSize: 24,
-    fontWeight: "bold",
+    textAlign: 'center',
+    fontSize: RFValue(16),
+    fontWeight: 'bold',
     marginLeft: 4,
   },
   subText: {
-    fontSize: 18,
+    fontSize: RFValue(14),
     marginLeft: 4,
     marginTop: 4,
   },
-})
+});

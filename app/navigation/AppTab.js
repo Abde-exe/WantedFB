@@ -1,17 +1,15 @@
-import React from "react"
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import colors from "../../config/colors"
-import NewPostButton from "./NewPostButton"
-import FeedStack from "./FeedStack"
-import AccountNavigator from "./AccountNavigator"
-import PostCreateStack from "./PostCreateStack"
-import { View, StyleSheet } from "react-native"
-import AppBottomSheet from "./AppBottomSheet"
-import { useSelector } from "react-redux"
+import colors from '../../config/colors';
 
-const Tab = createBottomTabNavigator()
+import FeedStack from './FeedStack';
+import AccountNavigator from './AccountNavigator';
+import PostCreateStack from './PostCreateStack';
+import { View, StyleSheet } from 'react-native';
+
+const Tab = createBottomTabNavigator();
 
 const AppTab = ({ navigation }) => {
   return (
@@ -19,14 +17,14 @@ const AppTab = ({ navigation }) => {
       <Tab.Navigator
         headerMode="none"
         tabBarOptions={{
-          activeBackgroundColor: "white",
+          activeBackgroundColor: 'white',
           activeTintColor: colors.primary,
           inactiveTintColor: colors.medium,
           showLabel: false,
         }}
       >
         <Tab.Screen
-          name={"FeedStack"}
+          name={'FeedStack'}
           component={FeedStack}
           options={{
             tabBarIcon: ({ size, color }) => (
@@ -35,7 +33,7 @@ const AppTab = ({ navigation }) => {
           }}
         />
         <Tab.Screen
-          name={"PostCreateStack"}
+          name={'PostCreateStack'}
           component={PostCreateStack}
           options={{
             //tabBarVisible: false,
@@ -80,8 +78,8 @@ const AppTab = ({ navigation }) => {
         />
       </Tab.Navigator>
     </>
-  )
-}
+  );
+};
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
@@ -90,8 +88,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderColor: colors.white,
     borderWidth: 6,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-})
-export default AppTab
+});
+export default AppTab;

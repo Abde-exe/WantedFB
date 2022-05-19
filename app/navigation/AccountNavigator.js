@@ -1,56 +1,55 @@
-import React from "react"
-import { StyleSheet, Text, View } from "react-native"
-import { createStackNavigator } from "@react-navigation/stack"
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
 import {
   getFocusedRouteNameFromRoute,
   StackActions,
-} from "@react-navigation/native"
+} from '@react-navigation/native';
 
-import Account from "../screens/Account"
-import Messages from "../screens/Messages"
-import UserPosts from "../screens/UserPosts"
-import PostEdit from "../screens/PostEdit"
-import PostDetail from "../screens/PostDetail"
-import SavedPosts from "../screens/SavedPosts"
-import IconButton from "../components/IconButton"
-import colors from "../../config/colors"
-import Report from "../screens/Report"
-import SharingView from "../screens/SharingView"
+import Account from '../screens/Account';
+import Messages from '../screens/Messages';
+import UserPosts from '../screens/UserPosts';
+import PostEdit from '../screens/PostEdit';
+import PostDetail from '../screens/PostDetail';
+import SavedPosts from '../screens/SavedPosts';
+import IconButton from '../components/IconButton';
+import colors from '../../config/colors';
+import Report from '../screens/Report';
+import SharingView from '../screens/SharingView';
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
 export default function AccountNavigator({ navigation, route }) {
   //hide the bottom tabBar only for PostDetail or SharingView screens
   React.useLayoutEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route)
-    if (routeName === "PostDetail" ||
-    routeName === "SharingView" ||
-    routeName === "PostEdit") {
-      navigation.setOptions({ tabBarVisible: false })
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (
+      routeName === 'PostDetail' ||
+      routeName === 'SharingView' ||
+      routeName === 'PostEdit'
+    ) {
+      navigation.setOptions({ tabBarVisible: false });
     } else {
-      navigation.setOptions({ tabBarVisible: true })
+      navigation.setOptions({ tabBarVisible: true });
     }
-  })
+  });
   /////
   return (
-    <Stack.Navigator
-    screenOptions={{headerBackTitle:'Retour' }}
-    >
+    <Stack.Navigator screenOptions={{ headerBackTitle: 'Retour' }}>
       <Stack.Screen
         name="Account"
         component={Account}
-        options={{ title: "Profil" }}
+        options={{ title: 'Profil' }}
       />
       <Stack.Screen name="Messages" component={Messages} />
       <Stack.Screen
         name="UserPosts"
         component={UserPosts}
-        options={{ title: "Mes posts" }}
-      /> 
+        options={{ title: 'Mes posts' }}
+      />
       <Stack.Screen
         name="PostDetail"
         component={PostDetail}
         options={{ headerShown: false, tabBarVisible: false }}
-
       />
       <Stack.Screen name="SavedPosts" component={SavedPosts} />
       <Stack.Screen name="Report" component={Report} />
@@ -65,7 +64,7 @@ export default function AccountNavigator({ navigation, route }) {
                 onPress={() => navigation.dispatch(StackActions.popToTop())}
                 name="close-circle"
                 size={30}
-                color={colors.medium}
+                color={colors.accent}
               />
             </View>
           ),
@@ -82,14 +81,14 @@ export default function AccountNavigator({ navigation, route }) {
                 onPress={() => navigation.dispatch(StackActions.popToTop())}
                 name="close-circle"
                 size={30}
-                color={colors.medium}
+                color={colors.accent}
               />
             </View>
           ),
         }}
       />
     </Stack.Navigator>
-  )
+  );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

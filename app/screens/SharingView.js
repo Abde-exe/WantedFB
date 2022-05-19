@@ -1,86 +1,113 @@
-import React, { useState, useEffect, useRef } from "react";
-import { View, Text, Image, StyleSheet, Share, Platform } from "react-native";
-import { captureRef } from "react-native-view-shot";
-import * as Permissions from "expo-permissions";
-import * as MediaLibrary from "expo-media-library";
-import * as Sharing from "expo-sharing";
-import colors from "../../config/colors";
-import AppButton from "../components/AppButton";
-import DetailsText2 from "../components/DetailsText2";
-import Screen from "../components/Screen";
-import IconButton from "../components/IconButton";
-import SharingMissings from "../components/specifications/SharingMissings";
-import SharingAnimals from "../components/specifications/SharingAnimals";
-import SharingStudents from "../components/specifications/SharingStudents";
-import SharingObjects from "../components/specifications/SharingObjects";
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, Image, StyleSheet, Share, Platform } from 'react-native';
+import { captureRef } from 'react-native-view-shot';
+import * as MediaLibrary from 'expo-media-library';
+import * as Sharing from 'expo-sharing';
+
+import colors from '../../config/colors';
+import AppButton from '../components/AppButton';
+import DetailsText2 from '../components/DetailsText2';
+import IconButton from '../components/IconButton';
+import SharingMissings from '../components/specifications/SharingMissings';
+import SharingAnimals from '../components/specifications/SharingAnimals';
+import SharingStudents from '../components/specifications/SharingStudents';
+import SharingObjects from '../components/specifications/SharingObjects';
 
 //listen for links
 
 const SharingView = ({ route }) => {
   const viewRef = useRef();
   const [post, setpost] = useState(route.params.post);
+  const [libraryPermission, setlibraryPermission] = useState();
 
   const captureViewToImage = async () => {
     try {
       const uri = await captureRef(viewRef, {
-        format: "png",
-        quality: 0.7,
+        format: 'png',
+        quality: 1,
       });
       return uri;
     } catch (error) {
       console.log(error);
     }
   };
-  // const handleSave = async () => {
-  //   const image = await captureViewToImage()
-  //   const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY)
-  //   if (status == "granted") {
-  //     // const asset = await MediaLibrary.createAssetAsync(image)
-  //     MediaLibrary.createAlbumAsync("Wanted", image)
-  //   } else {
-  //     console.log(`oh`)
-  //   }
-  // }
+  const handleSave = async () => {
+    const image = await captureViewToImage();
+    const permissionStatus = await MediaLibrary.requestPermissionsAsync();
+    setlibraryPermission(permissionStatus.status === 'granted');
 
-  const getUrlFromFirebase = async (id) => {
-    try {
-      const response = await fetch(
-        "https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyCeoQjaosVPYf8xS0QxiqIOL_od4exQf8s",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: {
-            dynamicLinkInfo: {
-              domainUriPrefix: "https://wantedapp3.page.link",
-              link: `https://abdedev.fr/posts/${id}`,
-              androidInfo: {
-                androidPackageName: "com.wantedapp",
-              },
-              iosInfo: {
-                iosBundleId: "com.wantedapp",
-              },
-            },
-          },
-        }
-      );
-      const json = await response.json();
-      return json.shortLink;
-    } catch (error) {
-      console.error(error);
+    if (permissionStatus === undefined) {
+      return alert('Demande de permission');
+    } else {
+      MediaLibrary.saveToLibraryAsync(image).then(() => {
+        alert("L'avis de recherche a été téléchargée avec succès");
+      });
     }
   };
-  // const handleShare = async () => {
-  //   const image = await captureViewToImage()
-  //   if (!(await Sharing.isAvailableAsync())) {
-  //     alert(`Uh oh, sharing isn't available on your platform`)
-  //     return
-  //   }
 
-  //   await Sharing.shareAsync(getUrlFromFirebase(post.id))
-  // }
+  const onShare2 = async () => {
+    const id = route.params.post.id;
+    console.log('id', id);
+    try {
+      const payload = {
+        dynamicLinkInfo: {
+          domainUriPrefix: 'https://wantedapp3.page.link/wa',
+          link: `https://wanted-316010.web.app/posts/${id}`,
+          androidInfo: {
+            androidPackageName: 'com.wantedapp',
+          },
+          iosInfo: {
+            iosBundleId: 'com.wantedapp',
+          },
+          socialMetaTagInfo: {
+            socialTitle: 'Testing the title',
+            socialDescription:
+              'Testing the description.This will open up user9screen.',
+            socialImageLink:
+              'https://pbs.twimg.com/profile_images/1521372142159503362/eXjEdQ4l_400x400.png',
+          },
+        },
+      };
+      const url =
+        'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyCeoQjaosVPYf8xS0QxiqIOL_od4exQf8s';
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+      const json = await response.json();
+      const result = await Share.share({
+        message: 'voilà un message',
+        url: json.shortLink,
+        title: `Checkout my profile:${id}`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activity Type
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      console.log('error', error);
+
+      //ToastAndroid.show('Error', ToastAndroid.LONG);
+    }
+  };
+  const handleShare = async () => {
+    const image = await captureViewToImage();
+    if (!(await Sharing.isAvailableAsync())) {
+      alert(`Uh oh, sharing isn't available on your platform`);
+      return;
+    }
+
+    await Sharing.shareAsync(getUrlFromFirebase(post.id));
+  };
 
   const onShare = async () => {
     const image = await captureViewToImage();
@@ -108,157 +135,153 @@ const SharingView = ({ route }) => {
     }
   };
   return (
-    <Screen>
-      <View
-        style={{
-          flex: 1,
-          paddingHorizontal: 8,
-          paddingBottom: 50,
-          backgroundColor: colors.light,
-        }}
-      >
-        <View style={styles.container} ref={viewRef}>
-          <View style={{ flexDirection: "row", flex: 1 }}>
-            {post.postType === "missings" ? (
-              <SharingMissings post={post} />
-            ) : post.postType === "students" ? (
-              <SharingStudents post={post} />
-            ) : post.postType === "animals" ? (
-              <SharingAnimals post={post} />
-            ) : (
-              <SharingObjects post={post} />
-            )}
-          </View>
-          <View
-            style={{
-              //  borderWidth: 2,
-              borderColor: "green",
-              // backgroundColor:"orange",
-              flexDirection: "row",
-              flexWrap: "wrap",
-            }}
-          >
-            {post.email ? (
-              <View style={styles.iconContainer}>
-                <IconButton
-                  name={"email"}
-                  size={20}
-                  color={colors.medium}
-                  style2={styles.icon}
-                />
-                <DetailsText2 text={post.email} />
-              </View>
-            ) : null}
-            {post.tel ? (
-              <View style={styles.iconContainer}>
-                <IconButton
-                  name={"phone"}
-                  size={20}
-                  color={colors.medium}
-                  style2={styles.icon}
-                />
-                <DetailsText2 text={post.tel} />
-              </View>
-            ) : null}
-            {post.twitter ? (
-              <View style={styles.iconContainer}>
-                <IconButton
-                  name={"twitter"}
-                  size={20}
-                  color={colors.medium}
-                  style2={styles.icon}
-                />
-                <DetailsText2 text={post.twitter} />
-              </View>
-            ) : null}
-            {post.instagram ? (
-              <View style={styles.iconContainer}>
-                <IconButton
-                  name={"instagram"}
-                  size={20}
-                  style2={styles.icon}
-                  color={colors.medium}
-                />
-                <DetailsText2 text={post.instagram} />
-              </View>
-            ) : null}
-            {post.facebook ? (
-              <View style={styles.iconContainer}>
-                <IconButton
-                  name={"facebook"}
-                  size={20}
-                  color={colors.medium}
-                  style2={styles.icon}
-                />
-                <DetailsText2 text={post.facebook} />
-              </View>
-            ) : null}
-            {post.snapchat ? (
-              <View style={styles.iconContainer}>
-                <IconButton
-                  name={"snapchat"}
-                  size={20}
-                  color={colors.medium}
-                  style2={styles.icon}
-                />
-                <DetailsText2 text={post.snapchat} />
-              </View>
-            ) : null}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                source={require("../../assets/icon.png")}
-                style={{ height: 30, width: 30 }}
-              />
-              <Text
-                style={{
-                  color: colors.secondary,
-                  fontSize: 12,
-                }}
-              >
-                Créé avec l'appli Wanted
-              </Text>
-            </View>
-          </View>
+    <View
+      style={{
+        flex: 1,
+        paddingHorizontal: 8,
+        paddingBottom: 50,
+        backgroundColor: colors.light,
+      }}
+    >
+      <View style={styles.container} ref={viewRef}>
+        <View style={{ flexDirection: 'row', flex: 1 }}>
+          {post.postType === 'missings' ? (
+            <SharingMissings post={post} />
+          ) : post.postType === 'students' ? (
+            <SharingStudents post={post} />
+          ) : post.postType === 'animals' ? (
+            <SharingAnimals post={post} />
+          ) : (
+            <SharingObjects post={post} />
+          )}
         </View>
         <View
           style={{
-            flexDirection: "row",
-            position: "absolute",
-            bottom: 12,
-            zIndex: 100,
-            alignSelf: "center",
-            width: "100%",
-            justifyContent: "space-around",
+            //  borderWidth: 2,
+            // backgroundColor:"orange",
+            flexDirection: 'row',
+            flexWrap: 'wrap',
           }}
         >
-          {/* <AppButton
-            title="Télécharger"
-            onPress={handleSave}
-            width={"50%"}
-            color="white"
-            text="primary"
-          /> */}
-          <AppButton title="Partager" onPress={onShare} width={"45%"} />
+          {post.email ? (
+            <View style={styles.iconContainer}>
+              <IconButton
+                name={'email'}
+                size={20}
+                color={colors.medium}
+                style2={styles.icon}
+              />
+              <DetailsText2 text={post.email} />
+            </View>
+          ) : null}
+          {post.tel ? (
+            <View style={styles.iconContainer}>
+              <IconButton
+                name={'phone'}
+                size={20}
+                color={colors.medium}
+                style2={styles.icon}
+              />
+              <DetailsText2 text={post.tel} />
+            </View>
+          ) : null}
+          {post.twitter ? (
+            <View style={styles.iconContainer}>
+              <IconButton
+                name={'twitter'}
+                size={20}
+                color={colors.medium}
+                style2={styles.icon}
+              />
+              <DetailsText2 text={post.twitter} />
+            </View>
+          ) : null}
+          {post.instagram ? (
+            <View style={styles.iconContainer}>
+              <IconButton
+                name={'instagram'}
+                size={20}
+                style2={styles.icon}
+                color={colors.medium}
+              />
+              <DetailsText2 text={post.instagram} />
+            </View>
+          ) : null}
+          {post.facebook ? (
+            <View style={styles.iconContainer}>
+              <IconButton
+                name={'facebook'}
+                size={20}
+                color={colors.medium}
+                style2={styles.icon}
+              />
+              <DetailsText2 text={post.facebook} />
+            </View>
+          ) : null}
+          {post.snapchat ? (
+            <View style={styles.iconContainer}>
+              <IconButton
+                name={'snapchat'}
+                size={20}
+                color={colors.medium}
+                style2={styles.icon}
+              />
+              <DetailsText2 text={post.snapchat} />
+            </View>
+          ) : null}
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <Image
+              source={require('../../assets/icon.png')}
+              style={{ height: 30, width: 30 }}
+            />
+            <Text
+              style={{
+                color: colors.secondary,
+                fontSize: 12,
+              }}
+            >
+              Créé avec l'appli Wanted
+            </Text>
+          </View>
         </View>
       </View>
-    </Screen>
+      <View
+        style={{
+          flexDirection: 'row',
+          zIndex: 100,
+          alignSelf: 'center',
+          width: '100%',
+          justifyContent: 'space-around',
+        }}
+      >
+        <AppButton
+          title="Télécharger"
+          onPress={handleSave}
+          width={'50%'}
+          color="white"
+          text="primary"
+        />
+        <AppButton
+          title="Partager"
+          onPress={Platform.OS === 'ios' ? onShare2 : onShare2}
+          width={'45%'}
+        />
+      </View>
+    </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    // borderWidth: 1,
-    borderColor: colors.black,
     padding: 8,
-    margin: 8,
-    minHeight: "50%",
-    height: "80%",
-    justifyContent: "space-around",
+    minHeight: '50%',
+    height: '90%',
+    justifyContent: 'space-around',
   },
   title: {
     fontSize: 20,
@@ -266,9 +289,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   text: {
-    textAlign: "center",
-    fontSize: 24,
-    fontWeight: "bold",
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
     marginLeft: 4,
   },
   subText: {
@@ -278,8 +301,8 @@ const styles = StyleSheet.create({
   },
   icon: { marginRight: -10, marginTop: 7 },
   iconContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 

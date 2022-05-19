@@ -1,10 +1,10 @@
-import React from "react";
-import { Pressable, StyleSheet, View } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import colors from "../../config/colors";
+import React from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import colors from '../../config/colors';
 
 const IconButton = ({
-  color = colors.medium,
+  color = colors.accent,
   size,
   onPress,
   name,
@@ -27,8 +27,8 @@ const IconButton = ({
                 width: size,
                 height: size,
                 borderRadius: size,
-                backgroundColor: "transparent",
-                alignItems: "center",
+                backgroundColor: 'transparent',
+                alignItems: 'center',
                 opacity: 0.5,
               },
               style2,
@@ -37,8 +37,8 @@ const IconButton = ({
 
           return [
             {
-              justifyContent: "center",
-              alignItems: "center",
+              justifyContent: 'center',
+              alignItems: 'center',
             },
             style2,
           ];

@@ -1,32 +1,42 @@
-import "dotenv/config"
+import 'dotenv/config';
 
 export default {
   expo: {
-    description: "description",
-    primaryColor: "#015EFF",
-    privacy: "public",
-    scheme: "wantedapp",
-    name: "Wanted | Avis de recherche",
-    slug: "WantedApp",
-    version: "1.1.3",
-    orientation: "portrait",
-    icon: "./assets/icon2.png",
+    description: 'description',
+    primaryColor: '#015EFF',
+    privacy: 'public',
+    scheme: 'wantedapp',
+    name: 'Wanted | Avis de recherche',
+    slug: 'WantedApp',
+    version: '1.2.0',
+    orientation: 'portrait',
+    icon: './assets/icon2.png',
     splash: {
-      image: "./assets/splash.png",
-      resizeMode: "contain",
-      backgroundColor: "#FFFFFF",
+      image: './assets/splash.png',
+      resizeMode: 'contain',
+      backgroundColor: '#FFFFFF',
     },
     updates: {
       fallbackToCacheTimeout: 0,
     },
-    assetBundlePatterns: ["assets/**/*"],
+    plugins: [
+      [
+        'expo-media-library',
+        {
+          photosPermission: 'Allow accessing media library to add a picture',
+          savePhotosPermission: 'Allow saving photo to media library',
+          isAccessMediaLocationEnabled: 'true',
+        },
+      ],
+    ],
+    assetBundlePatterns: ['assets/**/*'],
     ios: {
-      associatedDomains: ["applinks:abdedev.fr"],
+      associatedDomains: ['applinks:abdedev.fr'],
       usesAppleSignIn: true,
       supportsTablet: true,
-      bundleIdentifier: "com.wantedapp",
+      bundleIdentifier: 'com.wantedapp',
       config: {
-        branch: { apiKey: "key_live_pc6IfvSS138Ifiq5oMddkialFygK2suQ" },
+        branch: { apiKey: 'key_live_pc6IfvSS138Ifiq5oMddkialFygK2suQ' },
       },
       infoPlist: {
         NSPhotoLibraryUsageDescription:
@@ -35,32 +45,32 @@ export default {
     },
     android: {
       //googleServicesFile: "./google-services.json",
-      package: "com.wantedapp",
-      versionCode: 13,
+      package: 'com.wantedapp',
+      versionCode: 14,
       adaptiveIcon: {
-        foregroundImage: "./assets/icon2.png",
-        backgroundColor: "#FFFFFF",
+        foregroundImage: './assets/icon2.png',
+        backgroundColor: '#FFFFFF',
       },
       intentFilters: [
         {
           autoVerify: true,
-          action: "VIEW",
+          action: 'VIEW',
           data: [
             {
-              scheme: "https",
-              host: "abdedev.fr",
-              pathPrefix: "/posts",
+              scheme: 'https',
+              host: 'wantedapp3.page.link/wa',
+              pathPrefix: '/',
             },
           ],
-          category: ["BROWSABLE", "DEFAULT"],
+          category: ['BROWSABLE', 'DEFAULT'],
         },
       ],
       config: {
-        branch: { apiKey: "key_live_pc6IfvSS138Ifiq5oMddkialFygK2suQ" },
+        branch: { apiKey: 'key_live_pc6IfvSS138Ifiq5oMddkialFygK2suQ' },
       },
     },
     web: {
-      favicon: "./assets/icon2.png",
+      favicon: './assets/icon2.png',
     },
     extra: {
       apiKey: process.env.API_KEY,
@@ -71,4 +81,4 @@ export default {
       appId: process.env.APP_ID,
     },
   },
-}
+};
