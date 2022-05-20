@@ -18,7 +18,11 @@ import SharingObjects from '../components/specifications/SharingObjects';
 const SharingView = ({ route }) => {
   const viewRef = useRef();
   const [post, setpost] = useState(route.params.post);
+  const [capture, setcapture] = useState();
   const [libraryPermission, setlibraryPermission] = useState();
+  useEffect(() => {
+    setcapture(captureViewToImage);
+  }, []);
 
   const captureViewToImage = async () => {
     try {
@@ -46,12 +50,12 @@ const SharingView = ({ route }) => {
   };
 
   const onShare2 = async () => {
-    const id = route.params.post.id;
-    console.log('id', id);
+    const { id, title, description } = post;
+
     try {
       const payload = {
         dynamicLinkInfo: {
-          domainUriPrefix: 'https://wantedapp3.page.link/wa',
+          domainUriPrefix: 'https://wantedapp3.page.link',
           link: `https://wanted-316010.web.app/posts/${id}`,
           androidInfo: {
             androidPackageName: 'com.wantedapp',
@@ -60,16 +64,15 @@ const SharingView = ({ route }) => {
             iosBundleId: 'com.wantedapp',
           },
           socialMetaTagInfo: {
-            socialTitle: 'Testing the title',
-            socialDescription:
-              'Testing the description.This will open up user9screen.',
-            socialImageLink:
-              'https://pbs.twimg.com/profile_images/1521372142159503362/eXjEdQ4l_400x400.png',
+            socialTitle: title,
+            socialDescription: description,
+            socialImageLink: post.images[0],
           },
         },
       };
       const url =
-        'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyCeoQjaosVPYf8xS0QxiqIOL_od4exQf8s';
+        'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyD-ed3d_ZwYatoMBJr_FjlJXYzw1DFmnw0';
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -80,10 +83,12 @@ const SharingView = ({ route }) => {
       });
       const json = await response.json();
       const result = await Share.share({
-        message: 'voilà un message',
+        message: json.shortLink,
         url: json.shortLink,
-        title: `Checkout my profile:${id}`,
+        title: title,
       });
+      console.log('first--------------------------------');
+      console.log('response', json);
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
           // shared with activity type of result.activity Type

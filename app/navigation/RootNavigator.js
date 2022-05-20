@@ -25,9 +25,8 @@ const RootNavigator = () => {
     });
   }, []);
 
-  const prefix = Linking.makeUrl('/');
   const linking = {
-    prefixes: ['https://wanted-316010.web.app/', prefix],
+    prefixes: ['https://wanted-316010.web.app'],
     config: {
       screens: {
         Root: {

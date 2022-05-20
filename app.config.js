@@ -8,7 +8,7 @@ export default {
     scheme: 'wantedapp',
     name: 'Wanted | Avis de recherche',
     slug: 'WantedApp',
-    version: '1.2.0',
+    version: '1.2.2',
     orientation: 'portrait',
     icon: './assets/icon2.png',
     splash: {
@@ -31,7 +31,7 @@ export default {
     ],
     assetBundlePatterns: ['assets/**/*'],
     ios: {
-      associatedDomains: ['applinks:abdedev.fr'],
+      associatedDomains: ['applinks:wanted-316010.web.app'],
       usesAppleSignIn: true,
       supportsTablet: true,
       bundleIdentifier: 'com.wantedapp',
@@ -46,7 +46,7 @@ export default {
     android: {
       //googleServicesFile: "./google-services.json",
       package: 'com.wantedapp',
-      versionCode: 14,
+      versionCode: 16,
       adaptiveIcon: {
         foregroundImage: './assets/icon2.png',
         backgroundColor: '#FFFFFF',
@@ -58,7 +58,7 @@ export default {
           data: [
             {
               scheme: 'https',
-              host: 'wantedapp3.page.link/wa',
+              host: 'https://wantedapp3.page.link/k29C',
               pathPrefix: '/',
             },
           ],

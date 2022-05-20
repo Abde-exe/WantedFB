@@ -328,26 +328,16 @@ const PostDetail = ({ route, navigation }) => {
             backgroundColor: colors.light,
           }}
         >
-          {post.userID == currentUser.uid ? (
-            <AppButton
-              title="Modifier"
-              onPress={() => navigation.navigate('PostEdit', { post: post })}
-            />
-          ) : (
-            postUser && (
-              <AppButton
-                title="Contacter"
-                onPress={() => setModalVisible(true)}
-              />
-            )
-          )}
+          <AppButton title="Partager" onPress={onShare} />
         </View>
         {/* Share Button Floating */}
-        <FloatButton
-          onPress={onShare}
-          icon={'share-variant'}
-          color={colors.secondary}
-        />
+        {post.userID == currentUser.uid ? (
+          <FloatButton
+            onPress={() => navigation.navigate('PostEdit', { post: post })}
+            icon={'circle-edit-outline'}
+            color={colors.secondary}
+          />
+        ) : null}
       </Screen>
     );
   }

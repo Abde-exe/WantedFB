@@ -90,7 +90,7 @@ const SharingMissings = ({ post }) => {
           {description ? (
             <DetailsText2
               style={styles.subText}
-              text={description.substring(0, 240)}
+              text={description.substring(0, 400)}
             ></DetailsText2>
           ) : null}
 
