@@ -8,7 +8,7 @@ export default {
     scheme: 'wantedapp',
     name: 'Wanted | Avis de recherche',
     slug: 'WantedApp',
-    version: '1.2.2',
+    version: '1.2.5',
     orientation: 'portrait',
     icon: './assets/icon2.png',
     splash: {
@@ -23,15 +23,17 @@ export default {
       [
         'expo-media-library',
         {
-          photosPermission: 'Allow accessing media library to add a picture',
-          savePhotosPermission: 'Allow saving photo to media library',
+          photosPermission:
+            'Allow accessing media library to add details to your post with a picture',
+          savePhotosPermission:
+            'Allow saving your post as an image to media library',
           isAccessMediaLocationEnabled: 'true',
         },
       ],
     ],
     assetBundlePatterns: ['assets/**/*'],
     ios: {
-      associatedDomains: ['applinks:wanted-316010.web.app'],
+      associatedDomains: ['applinks:wantedapp.page.link'],
       usesAppleSignIn: true,
       supportsTablet: true,
       bundleIdentifier: 'com.wantedapp',
@@ -40,13 +42,13 @@ export default {
       },
       infoPlist: {
         NSPhotoLibraryUsageDescription:
-          "Autorisez l'accès aux photos pour ajouter des images à votre avis de recherche",
+          'Allow accessing media library to add details to your post with a picture',
       },
     },
     android: {
       //googleServicesFile: "./google-services.json",
       package: 'com.wantedapp',
-      versionCode: 16,
+      versionCode: 19,
       adaptiveIcon: {
         foregroundImage: './assets/icon2.png',
         backgroundColor: '#FFFFFF',
@@ -58,8 +60,8 @@ export default {
           data: [
             {
               scheme: 'https',
-              host: 'https://wantedapp3.page.link/k29C',
-              pathPrefix: '/',
+              host: 'wanted-316010.web.app',
+              pathPrefix: '/posts',
             },
           ],
           category: ['BROWSABLE', 'DEFAULT'],

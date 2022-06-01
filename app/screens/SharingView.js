@@ -55,13 +55,15 @@ const SharingView = ({ route }) => {
     try {
       const payload = {
         dynamicLinkInfo: {
-          domainUriPrefix: 'https://wantedapp3.page.link',
+          domainUriPrefix: 'https://wantedapp.page.link',
           link: `https://wanted-316010.web.app/posts/${id}`,
           androidInfo: {
             androidPackageName: 'com.wantedapp',
           },
+
           iosInfo: {
             iosBundleId: 'com.wantedapp',
+            iosAppStoreId: '1606514736',
           },
           socialMetaTagInfo: {
             socialTitle: title,
@@ -82,6 +84,7 @@ const SharingView = ({ route }) => {
         body: JSON.stringify(payload),
       });
       const json = await response.json();
+      console.log('json', json);
       const result = await Share.share({
         message: json.shortLink,
         url: json.shortLink,
