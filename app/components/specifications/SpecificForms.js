@@ -990,12 +990,10 @@ const Objects = ({ changeProgress, post, edit }) => {
       progress={changeProgress}
       initialValues={post ? postValues : initialValues.objects}
       onSubmit={(values, formikActions) => {
-        console.log('ivalues.mages', values.images);
-
         try {
           values = { ...values, postType: 'objects' };
           //no images
-          if (values.images.length > 0) {
+          if (!values.images.length) {
             edit ? editPost(values, post) : savePost(values);
           }
           if (edit) uploadImages(values, post);

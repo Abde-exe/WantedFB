@@ -12,17 +12,16 @@ import SharingMissings from '../components/specifications/SharingMissings';
 import SharingAnimals from '../components/specifications/SharingAnimals';
 import SharingStudents from '../components/specifications/SharingStudents';
 import SharingObjects from '../components/specifications/SharingObjects';
+import { Alert } from 'react-native-web';
 
 //listen for links
 
 const SharingView = ({ route }) => {
   const viewRef = useRef();
   const [post, setpost] = useState(route.params.post);
+  const [id, setid] = useState(route.params.id);
   const [capture, setcapture] = useState();
   const [libraryPermission, setlibraryPermission] = useState();
-  useEffect(() => {
-    setcapture(captureViewToImage);
-  }, []);
 
   const captureViewToImage = async () => {
     try {
@@ -30,6 +29,7 @@ const SharingView = ({ route }) => {
         format: 'png',
         quality: 1,
       });
+      setcapture(uri);
       return uri;
     } catch (error) {
       console.log(error);
@@ -44,13 +44,15 @@ const SharingView = ({ route }) => {
       return alert('Demande de permission');
     } else {
       MediaLibrary.saveToLibraryAsync(image).then(() => {
-        alert("L'avis de recherche a été téléchargée avec succès");
+        alert(
+          "L'avis de recherche a été téléchargée dans la galerie avec succès"
+        );
       });
     }
   };
 
   const onShare2 = async () => {
-    const { id, title, description } = post;
+    const { id, title, description, images } = post;
 
     try {
       const payload = {
@@ -68,7 +70,7 @@ const SharingView = ({ route }) => {
           socialMetaTagInfo: {
             socialTitle: title,
             socialDescription: description,
-            socialImageLink: post.images[0],
+            socialImageLink: images[0],
           },
         },
       };
@@ -84,14 +86,13 @@ const SharingView = ({ route }) => {
         body: JSON.stringify(payload),
       });
       const json = await response.json();
-      console.log('json', json);
+     
       const result = await Share.share({
         message: json.shortLink,
         url: json.shortLink,
         title: title,
       });
-      console.log('first--------------------------------');
-      console.log('response', json);
+     
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
           // shared with activity type of result.activity Type

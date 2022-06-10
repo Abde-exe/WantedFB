@@ -11,7 +11,7 @@ const ForgotPassword = ({ navigation }) => {
   const [email, setemail] = useState("")
 
   const sendMail = (email) => {
-    console.log(`email`, email)
+    
 
     firebase
       .auth()
@@ -40,7 +40,7 @@ const ForgotPassword = ({ navigation }) => {
       console.log(`newpassword`, newpassword)
       Auth.forgotPasswordSubmit(email, code, newpassword)
         .then((data) => {
-          console.log(data)
+          
           navigation.popToTop()
         })
         .catch((err) => console.log(err))

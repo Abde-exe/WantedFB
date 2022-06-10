@@ -117,9 +117,6 @@ const PostDetail = ({ route, navigation }) => {
     setCarousel(arr);
   };
 
-  const onShare = () => {
-    navigation.navigate('SharingView', { post });
-  };
   const onReport = () => {
     try {
       firebase
@@ -328,7 +325,10 @@ const PostDetail = ({ route, navigation }) => {
             backgroundColor: colors.light,
           }}
         >
-          <AppButton title="Partager" onPress={onShare} />
+          <AppButton
+            title="Partager"
+            onPress={() => navigation.navigate('SharingView', { post })}
+          />
         </View>
         {/* Share Button Floating */}
         {post.userID == currentUser.uid ? (

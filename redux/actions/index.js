@@ -8,43 +8,42 @@ import {
   SAVE_POST,
   ADD_USER_POST,
   USER_LOGOUT,
-} from "../constants"
+} from '../constants';
 
 export const logInAnon = (user) => {
-  return (dispatch) => dispatch({ type: "USER_LOGIN_ANON", payload: user })
-}
+  return (dispatch) => dispatch({ type: 'USER_LOGIN_ANON', payload: user });
+};
 export const logoutUser = () => {
-  return (dispatch) => dispatch({ type: USER_LOGOUT })
-}
+  return (dispatch) => dispatch({ type: USER_LOGOUT });
+};
 export const fetchUserPosts = (posts) => {
   try {
     return (dispatch) => {
-      dispatch({ type: FETCH_USER_POSTS, payload: posts })
-    }
+      dispatch({ type: FETCH_USER_POSTS, payload: posts });
+    };
   } catch (e) {
-    console.log(`error`, e)
+    console.log(`error`, e);
   }
-}
+};
 export const addUserPost = (post) => (dispatch) => {
-  console.log(`post.name`, post.name)
-  dispatch({ type: ADD_USER_POST, payload: post })
-}
+  console.log(`post.name`, post.name);
+  dispatch({ type: ADD_USER_POST, payload: post });
+};
 export const fetchUser = (user) => (dispatch) => {
-  console.log("test")
   dispatch({
     type: USER_FETCH,
     payload: user,
-  })
-}
+  });
+};
 
 export const deleteUserPost = (id) => (dispatch) => {
-  dispatch({ type: DELETE_USER_POST, payload: id })
-}
+  dispatch({ type: DELETE_USER_POST, payload: id });
+};
 export const updateUserPost = (post) => (dispatch) => {
-  dispatch({ type: UPDATE_USER_POST, payload: post })
-}
+  dispatch({ type: UPDATE_USER_POST, payload: post });
+};
 export const changeSavedPost = (post, saved) => {
   return (dispatch) => {
-    dispatch({ type: SAVE_POST, payload: { post, saved } })
-  }
-}
+    dispatch({ type: SAVE_POST, payload: { post, saved } });
+  };
+};

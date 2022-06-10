@@ -20,7 +20,6 @@ const SharingAnimals = ({ post }) => {
       sexe,
       other,
     } = post;
-    console.log(`date`, post);
     var date2 = '';
     date.seconds ? (date2 = date.toDate()) : (date2 = date);
     return (

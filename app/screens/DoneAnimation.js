@@ -3,7 +3,6 @@ import { StyleSheet, View } from "react-native"
 import LottieView from "lottie-react-native"
 import { StackActions } from "@react-navigation/native"
 const DoneAnimation = ({ navigation, route }) => {
-  console.log(`route.params.post`, route.params.values)
 
   return (
     <View style={styles.animationContainer}>
