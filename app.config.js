@@ -8,7 +8,7 @@ export default {
     scheme: 'wantedapp',
     name: 'Wanted | Avis de recherche',
     slug: 'WantedApp',
-    version: '1.3.5',
+    version: '1.3.7',
     orientation: 'portrait',
     icon: './assets/icon2.png',
     splash: {
@@ -48,7 +48,7 @@ export default {
     android: {
       //googleServicesFile: "./google-services.json",
       package: 'com.wantedapp',
-      versionCode: 23,
+      versionCode: 25,
       adaptiveIcon: {
         foregroundImage: './assets/icon2.png',
         backgroundColor: '#FFFFFF',
