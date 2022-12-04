@@ -8,7 +8,7 @@ export default {
     scheme: 'wantedapp',
     name: 'Wanted | Avis de recherche',
     slug: 'WantedApp',
-    version: '1.3.7',
+    version: '1.4.0',
     orientation: 'portrait',
     icon: './assets/icon2.png',
     splash: {
@@ -48,7 +48,7 @@ export default {
     android: {
       //googleServicesFile: "./google-services.json",
       package: 'com.wantedapp',
-      versionCode: 25,
+      versionCode: 26,
       adaptiveIcon: {
         foregroundImage: './assets/icon2.png',
         backgroundColor: '#FFFFFF',
@@ -81,6 +81,9 @@ export default {
       storageBucket: process.env.STORAGE_BUCKET,
       messagingSenderId: process.env.MESSAGING_SENDER_ID,
       appId: process.env.APP_ID,
+      eas: {
+        projectId: process.env.EAS_PROJECT_ID,
+      },
     },
   },
 };

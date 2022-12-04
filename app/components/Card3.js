@@ -128,6 +128,6 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 12,
     fontWeight: 'normal',
-    color: colors.danger,
+    color: colors.secondary,
   },
 });
